@@ -5,5 +5,5 @@ return {
   { "windwp/nvim-autopairs",      event = "InsertEnter",                   config = true },
   { "kylechui/nvim-surround",     event = { "BufReadPost", "BufNewFile" }, config = true },
   { 'b0o/schemastore.nvim' },
-  { 'LunarVim/breadcrumbs.nvim',  dependencies = 'SmiteshP/nvim-navic',    config = true },
+  { 'LunarVim/breadcrumbs.nvim',  event = 'VeryLazy',                      dependencies = 'SmiteshP/nvim-navic', config = true },
 }

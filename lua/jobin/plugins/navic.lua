@@ -1,6 +1,9 @@
 return {
   "SmiteshP/nvim-navic",
   event = 'VeryLazy',
+  dependencies = {
+    'neovim/nvim-lspconfig',
+  },
   config = function()
     local icons = require "jobin.config.icons"
     require("nvim-navic").setup {
@@ -9,9 +12,8 @@ return {
       lsp = {
         auto_attach = true,
       },
-      click = true,
       separator = " " .. icons.ui.ChevronRight .. " ",
-      depth_limit = 0,
+      depth_limit = 5,
       depth_limit_indicator = "..",
     }
   end,

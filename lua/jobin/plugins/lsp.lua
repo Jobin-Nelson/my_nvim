@@ -8,6 +8,7 @@ return {
     'folke/neodev.nvim',
   },
   config = function()
+    local navic = require('nvim-navic')
     local on_attach = function(client, bufnr)
       local nmap = function(keys, func, desc)
         vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
@@ -42,6 +43,7 @@ return {
         vim.lsp.buf.format()
       end, { desc = 'Format current buffer with LSP' })
 
+      navic.attach(client, bufnr)
       -- if client.supports_method 'textDocument/inlayHint' then
       --   vim.lsp.inlay_hint.enable(bufnr, true)
       -- end
