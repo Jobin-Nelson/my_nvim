@@ -2,7 +2,7 @@ return {
   'neovim/nvim-lspconfig',
   event = { 'BufReadPost', 'BufNewFile' },
   dependencies = {
-    { 'williamboman/mason.nvim', cmd = 'Mason', config = true },
+    { 'williamboman/mason.nvim', cmd = 'Mason', opts = { ui = { border = 'rounded' } } },
     'williamboman/mason-lspconfig.nvim',
     { 'j-hui/fidget.nvim',       opts = {} },
     'folke/neodev.nvim',
@@ -43,28 +43,41 @@ return {
       end, { desc = 'Format current buffer with LSP' })
     end
 
-
-    -- vim.cmd [[autocmd! ColorScheme * highlight NormalFloat guibg=#1f2335]]
-    -- vim.cmd [[autocmd! ColorScheme * highlight FloatBorder guifg=white guibg=#1f2335]]
-
-    local border = {
-          {"╭", "FloatBorder"},
-          {"─", "FloatBorder"},
-          {"╮", "FloatBorder"},
-          {"│", "FloatBorder"},
-          {"╯", "FloatBorder"},
-          {"─", "FloatBorder"},
-          {"╰", "FloatBorder"},
-          {"│", "FloatBorder"},
+    -- Diagnostics icons
+    local icons = require('jobin.config.icons')
+    local default_diagnostic_config = {
+      signs = {
+        active = true,
+        values = {
+          { name = "DiagnosticSignError", text = icons.diagnostics.BoldError },
+          { name = "DiagnosticSignWarn", text = icons.diagnostics.BoldWarning },
+          { name = "DiagnosticSignHint", text = icons.diagnostics.BoldHint },
+          { name = "DiagnosticSignInfo", text = icons.diagnostics.BoldInformation },
+        },
+      },
+      -- virtual_text = false,
+      -- update_in_insert = false,
+      underline = true,
+      severity_sort = true,
+      float = {
+        focusable = true,
+        style = "minimal",
+        border = "rounded",
+        source = "always",
+        header = "",
+        prefix = "",
+      },
     }
-    -- To instead override globally
-    local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
-    ---@diagnostic disable-next-line: duplicate-set-field
-    function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
-      opts = opts or {}
-      opts.border = opts.border or border
-      return orig_util_open_floating_preview(contents, syntax, opts, ...)
+
+    vim.diagnostic.config(default_diagnostic_config)
+
+    for _, sign in ipairs(vim.tbl_get(vim.diagnostic.config(), "signs", "values") or {}) do
+      vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
     end
+
+    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
+    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
+    require("lspconfig.ui.windows").default_options.border = "rounded"
 
     local servers = {
       bashls = {},
@@ -88,16 +101,17 @@ return {
     -- Setup neovim lua configuration
     require('neodev').setup()
 
-    -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-
     -- Ensure the servers above are installed
     local mason_lspconfig = require 'mason-lspconfig'
 
     mason_lspconfig.setup {
       ensure_installed = vim.tbl_keys(servers),
     }
+
+    -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+
 
     mason_lspconfig.setup_handlers {
       function(server_name)
@@ -111,12 +125,5 @@ return {
       end,
     }
 
-    require('lspconfig.ui.windows').default_options.border = 'single'
-
-    local signs = { Error = " ", Warn = " ", Hint = "󰌵 ", Info = "󰋼 " }
-    for type, icon in pairs(signs) do
-      local hl = "DiagnosticSign" .. type
-      vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-    end
   end
 }

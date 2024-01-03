@@ -1,13 +1,16 @@
 return {
   {
 	  'nvim-treesitter/nvim-treesitter',
-	  event = { 'VeryLazy' },
+	  event = { 'BufReadPre', 'BufNewFile' },
 	  dependencies = {
 		  'nvim-treesitter/nvim-treesitter-textobjects',
 	  },
 	  build = ':TSUpdate',
 	  config = function()
 		  require('nvim-treesitter.configs').setup({
+        -- ignore_install = {},
+        -- sync_install = false,
+        -- auto_install = false,
 			  ensure_installed = {
 				  'rust',
           'go',
@@ -31,9 +34,12 @@ return {
 			  },
 			  highlight = {
 				  enable = true,
-				  additional_vim_regex_highlighting = { 'org' },
+				  additional_vim_regex_highlighting = false,
 			  },
-			  indent = { enable = true, disable = { 'python' } },
+			  indent = {
+			    enable = true,
+			    -- disable = { 'python' }
+			  },
 			  incremental_selection = {
 				  enable = true,
 				  -- keymaps = {

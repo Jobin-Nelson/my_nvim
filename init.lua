@@ -1,6 +1,3 @@
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
-
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system {
@@ -20,7 +17,11 @@ require('lazy').setup({
   { import = 'jobin.plugins'},
 }, {
   install = {
-    colorscheme = {'catppuccin'},
+    colorscheme = {'catppuccin', 'habamax'},
+  },
+  change_detection = {
+    enabled = true,
+    notify = false,
   },
   checker = {
     enabled = true,
@@ -29,13 +30,16 @@ require('lazy').setup({
 	defaults = {
 		lazy = true,
 	},
+  ui = {
+    border = 'rounded',
+  },
 	performance = {
 		rtp = {
 			disabled_plugins = {
 				"gzip",
 				"matchit",
 				-- "matchparen",
-				-- "netrwPlugin",
+				"netrwPlugin",
 				"tarPlugin",
 				"tohtml",
 				"tutor",

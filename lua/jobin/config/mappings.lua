@@ -1,6 +1,11 @@
 local map = vim.keymap.set
 
+-- Leader
 map({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
+
+-- Basic
 map('n', '<leader>e', '<cmd>Lexplore 30<cr>', { desc = 'Open Explorer (cwd)' })
 map('n', '<leader>E', '<cmd>silent! Lexplore %:h<cr>', { desc = 'Open Explorer (file)' })
 -- map('n', '<leader>e', '<cmd>lua require("nvim-tree.api").tree.toggle({find_file=true})<cr>', { desc = 'Open Explorer' })
