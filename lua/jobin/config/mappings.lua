@@ -6,11 +6,12 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Basic
-map('n', '<leader>e', '<cmd>Lexplore 30<cr>', { desc = 'Open Explorer (cwd)' })
-map('n', '<leader>E', '<cmd>silent! Lexplore %:h<cr>', { desc = 'Open Explorer (file)' })
--- map('n', '<leader>e', '<cmd>lua require("nvim-tree.api").tree.toggle({find_file=true})<cr>', { desc = 'Open Explorer' })
-map('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-map('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+-- map('n', '<leader>e', '<cmd>Lexplore 30<cr>', { desc = 'Open Explorer (cwd)' })
+-- map('n', '<leader>E', '<cmd>silent! Lexplore %:h<cr>', { desc = 'Open Explorer (file)' })
+-- map('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+-- map('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+map('n', 'k', "gk", { silent = true })
+map('n', 'j', "gj", { silent = true })
 map('v', '<', '<gv', { silent = true, desc = 'Indent Inward' })
 map('v', '>', '>gv', { silent = true, desc = 'Indent Outward' })
 map('v', 'P', '"_dP', { silent = true, desc = 'Paste without yanking' })
@@ -47,30 +48,6 @@ map('n', '<leader>gc', '<cmd>lua require("telescope.builtin").git_commits()<cr>'
 map('v', '<leader>gc', '<cmd>lua require("telescope.builtin").git_bcommits_range()<cr>', { desc = 'Git Range Commits' })
 
 -- Telescope
-map('n', '<leader>f<cr>', '<cmd>lua require("telescope.builtin").resume()<cr>', { desc = 'Find Oldfiles' })
-map('n', '<leader>fB', '<cmd>lua require("telescope.builtin").builtin()<cr>', { desc = 'Find Builtins' })
-map('n', '<leader>fo', '<cmd>lua require("telescope.builtin").oldfiles()<cr>', { desc = 'Find Oldfiles' })
-map('n', '<leader>fb', '<cmd>lua require("telescope.builtin").buffers()<cr>', { desc = 'Find Buffers' })
-map('n', '<leader>ff', '<cmd>lua require("telescope.builtin").find_files()<cr>', { desc = 'Find Files' })
-map('n', '<leader>fF', '<cmd>lua require("telescope.builtin").find_files({no_ignore=true,hidden=true})<cr>', { desc = 'Find Files' })
-map('n', '<leader>fh', '<cmd>lua require("telescope.builtin").help_tags()<cr>', { desc = 'Find Help' })
-map('n', '<leader>fc', '<cmd>lua require("telescope.builtin").grep_string()<cr>', { desc = 'Find word under Cursor' })
-map('n', '<leader>fw', '<cmd>lua require("telescope.builtin").live_grep()<cr>', { desc = 'Find words' })
-map('n', '<leader>fC', '<cmd>lua require("telescope.builtin").commands()<cr>', { desc = 'Find Commands' })
-map('n', '<leader>fk', '<cmd>lua require("telescope.builtin").keymaps()<cr>', { desc = 'Find Keymaps' })
-map('n', "<leader>f'", '<cmd>lua require("telescope.builtin").marks()<cr>', { desc = 'Find Marks' })
-map('n', "<leader>fm", '<cmd>lua require("telescope.builtin").man_pages()<cr>', { desc = 'Find Man Pages' })
-map('n', '<leader>ft', '<cmd>lua require("telescope.builtin").colorscheme()<cr>', { desc = 'Find Themes' })
-map('n', '<leader>fD', '<cmd>lua require("telescope.builtin").diagnostics()<cr>', { desc = 'Find Diagnostics' })
-map('n', '<leader>fe', '<cmd>Telescope emoji<cr>', { desc = 'Find Emoji' })
-map('n', '<leader>fa', '<cmd>lua require("jobin.config.custom.my_pickers").find_config()<cr>', { desc = 'Find Config' })
-map('n', '<leader>fd', '<cmd>lua require("jobin.config.custom.my_pickers").find_dotfiles()<cr>', { desc = 'Find Dotfiles' })
-map('n', '<leader>fz', '<cmd>lua require("jobin.config.custom.my_pickers").find_zoxide()<cr>', { desc = 'Find Zoxide' })
-map('n', '<leader>fss', '<cmd>lua require("jobin.config.custom.my_pickers").find_second_brain_files()<cr>', { desc = 'Find Second brain files' })
-map('n', '<leader>fsi', '<cmd>lua require("jobin.config.custom.my_pickers").insert_second_brain_template()<cr>', { desc = 'Insert Second brain Templates' })
-map('n', '<leader>fO', '<cmd>lua require("jobin.config.custom.my_pickers").find_org_files()<cr>', { desc = 'Find Org files' })
-map('n', '<leader>fp', '<cmd>lua require("jobin.config.custom.my_pickers").find_projects()<cr>', { desc = 'Find Projects' })
-map('n', '<leader>fj', '<cmd>lua require("jobin.config.custom.my_pickers").find_journal()<cr>', { desc = 'Find Journal' })
 
 -- Packages
 map('n', '<leader>ps', '<cmd>Lazy<cr>', { desc = 'Plugin Status' })

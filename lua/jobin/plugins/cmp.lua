@@ -8,10 +8,14 @@ return {
     'hrsh7th/cmp-nvim-lsp',
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-path",
+    "hrsh7th/cmp-emoji",
   },
   config = function()
+    vim.api.nvim_set_hl(0, "CmpItemKindEmoji", { fg = "#FDE030" })
+
     local cmp = require 'cmp'
     local luasnip = require 'luasnip'
+    local icons = require 'jobin.config.icons'
 
     cmp.setup {
       snippet = {
@@ -63,14 +67,32 @@ return {
           end
         end, { 'i', 's' }),
       },
+      formatting = {
+        fields = { "kind", "abbr", "menu" },
+        format = function(entry, vim_item)
+          vim_item.kind = icons.kind[vim_item.kind]
+          vim_item.menu = ({
+            nvim_lsp = "",
+            luasnip = "",
+            buffer = "",
+            path = "",
+            emoji = "",
+          })[entry.source.name]
+          if entry.source.name == "emoji" then
+            vim_item.kind = icons.misc.Smiley
+            vim_item.kind_hl_group = "CmpItemKindEmoji"
+          end
+
+          return vim_item
+        end,
+      },
       sources = {
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
         { name = 'buffer' },
         { name = 'path' },
-        { name = 'orgmode' },
+        { name = "emoji" },
       },
     }
   end
 }
-

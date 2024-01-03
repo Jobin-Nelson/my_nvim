@@ -8,7 +8,7 @@ return {
     'folke/neodev.nvim',
   },
   config = function()
-    local on_attach = function(_, bufnr)
+    local on_attach = function(client, bufnr)
       local nmap = function(keys, func, desc)
         vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
       end
@@ -41,6 +41,10 @@ return {
       vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
         vim.lsp.buf.format()
       end, { desc = 'Format current buffer with LSP' })
+
+      -- if client.supports_method 'textDocument/inlayHint' then
+      --   vim.lsp.inlay_hint.enable(bufnr, true)
+      -- end
     end
 
     -- Diagnostics icons
@@ -50,9 +54,9 @@ return {
         active = true,
         values = {
           { name = "DiagnosticSignError", text = icons.diagnostics.BoldError },
-          { name = "DiagnosticSignWarn", text = icons.diagnostics.BoldWarning },
-          { name = "DiagnosticSignHint", text = icons.diagnostics.BoldHint },
-          { name = "DiagnosticSignInfo", text = icons.diagnostics.BoldInformation },
+          { name = "DiagnosticSignWarn",  text = icons.diagnostics.BoldWarning },
+          { name = "DiagnosticSignHint",  text = icons.diagnostics.BoldHint },
+          { name = "DiagnosticSignInfo",  text = icons.diagnostics.BoldInformation },
         },
       },
       -- virtual_text = false,
@@ -96,6 +100,13 @@ return {
           telemetry = { enable = false },
         },
       },
+      jsonls = {
+        settings = {
+          json = {
+            schemas = require('schemastore').json.schemas(),
+          }
+        }
+      },
     }
 
     -- Setup neovim lua configuration
@@ -124,6 +135,5 @@ return {
         }
       end,
     }
-
   end
 }
