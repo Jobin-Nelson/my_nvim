@@ -74,6 +74,8 @@ return {
     DebugConsole = "",
     Calendar = "",
     Check = "",
+    FoldClosed = "",
+    FoldOpened = "",
     ChevronRight = "",
     ChevronShortDown = "",
     ChevronShortLeft = "",
