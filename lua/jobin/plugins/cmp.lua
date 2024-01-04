@@ -52,20 +52,20 @@ return {
             fallback()
           end
         end, { 'i', 's' }),
-        ['<A-l>'] = cmp.mapping(function(fallback)
-          if luasnip.choice_active() then
-            luasnip.change_choice(1)
-          else
-            fallback()
-          end
-        end, { 'i', 's' }),
-        ['<A-h>'] = cmp.mapping(function(fallback)
-          if luasnip.choice_active() then
-            luasnip.change_choice(-1)
-          else
-            fallback()
-          end
-        end, { 'i', 's' }),
+        -- ['<A-l>'] = cmp.mapping(function(fallback)
+        --   if luasnip.choice_active() then
+        --     luasnip.change_choice(1)
+        --   else
+        --     fallback()
+        --   end
+        -- end, { 'i', 's' }),
+        -- ['<A-h>'] = cmp.mapping(function(fallback)
+        --   if luasnip.choice_active() then
+        --     luasnip.change_choice(-1)
+        --   else
+        --     fallback()
+        --   end
+        -- end, { 'i', 's' }),
       },
       formatting = {
         fields = { "kind", "abbr", "menu" },
