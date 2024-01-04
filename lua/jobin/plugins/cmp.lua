@@ -92,6 +92,7 @@ return {
         { name = 'buffer' },
         { name = 'path' },
         { name = "emoji" },
+        { name = "orgmode" },
       },
     }
   end
