@@ -26,9 +26,6 @@ map('n', ']b', '<cmd>bnext<cr>', { desc = 'Previous Buffer' })
 map('n', '<leader>bo', '<cmd>update <bar> %bdelete <bar> edit# <bar> bdelete #<CR>', { desc = 'Delete Other buffers' })
 map('n', '<leader>bh', '<cmd>lua require("jobin.config.custom.utils").delete_hidden_buffers()<cr>', { desc = 'Delete Hidden buffers' })
 map('n', '<leader>bk', '<cmd>call delete(expand("%:p")) <bar> bdelete!<cr>', { desc = 'Buffer Kill' })
--- map('n', '<leader>bd', '<cmd>BufferLinePickClose<cr>', { desc = 'Buffer Delete' })
--- map('n', '<leader>br', '<cmd>BufferLineCloseRight<cr>', { desc = 'Buffer close Right' })
--- map('n', '<leader>bl', '<cmd>BufferLineCloseLeft<cr>', { desc = 'Buffer close Left' })
 map('n', '<leader>b/', '<cmd>lua require("telescope.builtin").current_buffer_fuzzy_find()<cr>', { desc = 'Buffer Search' })
 
 -- Git
@@ -45,6 +42,7 @@ map('n', '<leader>pm', '<cmd>Mason<cr>', { desc = 'Mason Installer' })
 -- map('t', '<A-h>', '<C-\\><C-n><cmd>ToggleTerm direction=horizontal<cr>', { desc = 'ToggleTerm Horizontal' })
 -- map('t', '<A-v>', '<C-\\><C-n><cmd>ToggleTerm direction=vertical<cr>', { desc = 'ToggleTerm Vertical' })
 map('t', '<C-w>', '<C-\\><C-n><C-w>', { desc = 'Terminal window command' })
+map({'n', 't'}, '<A-h>', '<cmd>lua require("jobin.config.custom.utils").term_toggle()<cr>', { desc = 'Toggle Horizontal Term' })
 
 -- UI
 map('n', '<leader>ui', '<cmd>lua require("jobin.config.custom.ui").set_indent()<cr>', { desc = 'Set Indent' })
@@ -64,4 +62,3 @@ map('n', '<leader>jc', '<cmd>lua require("jobin.config.custom.utils").cd_git_roo
 map('n', '<leader>jr', '<cmd>lua require("jobin.config.custom.utils").rename_file()<cr>', { desc = 'Rename File' })
 map('n', '<leader>jm', '<cmd>lua require("jobin.config.custom.my_pickers").move_file()<cr>', { desc = 'Move File' })
 map('n', '<leader>jl', '<cmd>lua require("jobin.config.custom.utils").leet()<cr>', { desc = 'Leetcode Daily' })
-map({'n', 't'}, '<A-h>', '<cmd>lua require("jobin.config.custom.utils").term_toggle()<cr>', { desc = 'Toggle Horizontal Term' })
