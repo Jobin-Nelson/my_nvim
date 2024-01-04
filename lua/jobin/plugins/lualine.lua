@@ -45,6 +45,12 @@ return {
         component_separators = { left = "", right = "" },
         section_separators = { left = "", right = "" },
         ignore_focus = { "NvimTree" },
+        disabled_filetypes = {
+          statusline = {
+            'TelescopePrompt',
+            'alpha',
+          }
+        }
       },
       sections = {
         lualine_a = { "mode" },

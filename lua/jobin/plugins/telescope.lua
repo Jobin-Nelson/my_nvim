@@ -30,6 +30,7 @@ return {
       map('n', "<leader>fm", '<cmd>lua require("telescope.builtin").man_pages()<cr>', { desc = 'Find Man Pages' })
       map('n', '<leader>ft', '<cmd>lua require("telescope.builtin").colorscheme()<cr>', { desc = 'Find Themes' })
       map('n', '<leader>fD', '<cmd>lua require("telescope.builtin").diagnostics()<cr>', { desc = 'Find Diagnostics' })
+      -- custom
       map('n', '<leader>fa', '<cmd>lua require("jobin.config.custom.my_pickers").find_config()<cr>', { desc = 'Find Config' })
       map('n', '<leader>fd', '<cmd>lua require("jobin.config.custom.my_pickers").find_dotfiles()<cr>', { desc = 'Find Dotfiles' })
       map('n', '<leader>fz', '<cmd>lua require("jobin.config.custom.my_pickers").find_zoxide()<cr>', { desc = 'Find Zoxide' })
@@ -38,6 +39,11 @@ return {
       map('n', '<leader>fO', '<cmd>lua require("jobin.config.custom.my_pickers").find_org_files()<cr>', { desc = 'Find Org files' })
       map('n', '<leader>fp', '<cmd>lua require("jobin.config.custom.my_pickers").find_projects()<cr>', { desc = 'Find Projects' })
       map('n', '<leader>fj', '<cmd>lua require("jobin.config.custom.my_pickers").find_journal()<cr>', { desc = 'Find Journal' })
+      -- git
+      map('n', '<leader>gb', '<cmd>lua require("telescope.builtin").git_branches()<cr>', { desc = 'Git Branches' })
+      map('n', '<leader>gt', '<cmd>lua require("telescope.builtin").git_status()<cr>', { desc = 'Git Status' })
+      map('n', '<leader>gc', '<cmd>lua require("telescope.builtin").git_commits()<cr>', { desc = 'Git Commits' })
+      map('v', '<leader>gc', '<cmd>lua require("telescope.builtin").git_bcommits_range()<cr>', { desc = 'Git Range Commits' })
 
       -- setup
       local actions = require('telescope.actions')
