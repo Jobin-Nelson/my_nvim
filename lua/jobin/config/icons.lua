@@ -53,6 +53,7 @@ return {
     Branch = "",
   },
   ui = {
+    Neovim = " ",
     ArrowCircleDown = "",
     ArrowCircleLeft = "",
     ArrowCircleRight = "",
