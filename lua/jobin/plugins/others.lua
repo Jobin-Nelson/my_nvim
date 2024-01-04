@@ -8,4 +8,5 @@ return {
   { 'NvChad/nvim-colorizer.lua',  event = 'VeryLazy',                      config = true },
   { 'stevearc/dressing.nvim',     event = 'VeryLazy',                      config = true },
   { 'LunarVim/breadcrumbs.nvim',  event = 'VeryLazy',                      dependencies = 'SmiteshP/nvim-navic', config = true },
+  { 'akinsho/toggleterm.nvim',    cmd = 'ToggleTerm',                      config = true },
 }
