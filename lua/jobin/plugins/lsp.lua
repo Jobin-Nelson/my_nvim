@@ -123,6 +123,11 @@ return {
 
     -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
     local capabilities = vim.lsp.protocol.make_client_capabilities()
+    -- for ufo
+    capabilities.textDocument.foldingRange = {
+      dynamicRegistration = false,
+      lineFoldingOnly = true,
+    }
     capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 
