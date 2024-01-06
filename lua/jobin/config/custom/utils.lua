@@ -97,7 +97,7 @@ end
 
 ---@param cwd? string
 ---@return string|nil
-function M.get_git_root(cwd)
+local function get_git_root(cwd)
   local cmd = { 'git', 'rev-parse', '--show-toplevel' }
   if cwd then
     table.insert(cmd, 2, '-C')
@@ -110,11 +110,16 @@ function M.get_git_root(cwd)
   return output[1]
 end
 
-function M.cd_git_root()
+---@return stirng|nil
+function M.get_git_root_buf()
   local parent = vim.fs.dirname(vim.api.nvim_buf_get_name(0))
-  local git_root = M.get_git_root(parent)
+  return get_git_root(parent)
+end
+
+function M.cd_git_root()
+  local git_root = get_git_root_buf(parent)
   if not git_root then
-    print('Not a git repo: ' .. parent or vim.loop.cwd())
+    print('Not a git repo: ' .. parent)
     return
   end
   if git_root == vim.loop.cwd() then
@@ -122,7 +127,7 @@ function M.cd_git_root()
     return
   end
   if vim.loop.fs_stat(git_root) then
-    vim.cmd.cd(git_root)
+    vim.cmd('lcd ' .. git_root)
     print('Directory changed to ' .. git_root)
   else
     error(git_root .. ' not accessible')

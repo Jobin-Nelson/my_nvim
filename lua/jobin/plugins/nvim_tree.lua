@@ -6,8 +6,8 @@ return {
   },
   config = function()
     -- mappings
-    vim.keymap.set('n', '<leader>e', '<cmd>lua require("nvim-tree.api").tree.toggle({find_file=true})<cr>', { desc = 'Open Explorer' })
-    vim.keymap.set('n', '<leader>E', '<cmd>lua require("nvim-tree.api").tree.toggle()<cr>', { desc = 'Open Explorer (cwd)' })
+    vim.keymap.set('n', '<leader>e', '<cmd>lua require("nvim-tree.api").tree.toggle({find_file=true, path=require("jobin.config.custom.utils").get_git_root_buf() or vim.fn.expand("%:p:h")})<cr>', { desc = 'Open Explorer' })
+    vim.keymap.set('n', '<leader>E', '<cmd>lua require("nvim-tree.api").tree.toggle({file_file=true, path=vim.loop.cwd()})<cr>', { desc = 'Open Explorer (cwd)' })
 
     -- setup
     local function on_attach(bufnr)
@@ -24,9 +24,10 @@ return {
     end
     require('nvim-tree').setup({
       on_attach = on_attach,
+      sync_root_with_cwd = true,
       update_focused_file = {
         enable = true,
-        update_root = true,
+        update_root = false,
       }
     })
   end,
