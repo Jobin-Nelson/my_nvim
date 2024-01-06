@@ -18,9 +18,9 @@ return {
         'alpha',
       },
       segments = {
-        { text = { builtin.foldfunc, ' ' }, click = 'v:lua.ScFa' },
+        { text = { builtin.foldfunc, ' ' }, click = 'v:lua.ScFa', hl = 'Comment' },
         { text = { "%s" },                 click = "v:lua.ScSa" },
-        { text = { builtin.lnumfunc, " " }, click = "v:lua.ScLa" },
+        { text = { builtin.lnumfunc, ' ' }, click = "v:lua.ScLa" },
       }
     }
     require('statuscol').setup(cfg)
