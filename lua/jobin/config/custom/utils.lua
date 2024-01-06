@@ -110,16 +110,16 @@ local function get_git_root(cwd)
   return output[1]
 end
 
----@return stirng|nil
+---@return string|nil
 function M.get_git_root_buf()
   local parent = vim.fs.dirname(vim.api.nvim_buf_get_name(0))
   return get_git_root(parent)
 end
 
 function M.cd_git_root()
-  local git_root = get_git_root_buf(parent)
+  local git_root = M.get_git_root_buf()
   if not git_root then
-    print('Not a git repo: ' .. parent)
+    print('Not a git repo: ' .. vim.fn.expand('%:p:h'))
     return
   end
   if git_root == vim.loop.cwd() then
@@ -158,7 +158,14 @@ function M.term_toggle()
     vim.cmd('botright new | term')
     vim.opt_local.number = false
     vim.opt_local.relativenumber = false
-    vim.g.custom_terminal_bufnr = vim.api.nvim_get_current_buf()
+    local custom_terminal_bufnr = vim.api.nvim_get_current_buf()
+    vim.g.custom_terminal_bufnr = custom_terminal_bufnr
+    vim.api.nvim_create_autocmd("BufEnter", {
+      buffer = custom_terminal_bufnr,
+      callback = function()
+        vim.cmd.startinsert()
+      end,
+    })
     return
   end
 

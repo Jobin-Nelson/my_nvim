@@ -10,9 +10,11 @@ return {
     local cfg = {
       setopt = true,
       relculright = true,
+      bt_ignore = {
+        'terminal',
+      },
       ft_ignore = {
         'toggleterm',
-        'terminal',
         'alpha',
       },
       segments = {
