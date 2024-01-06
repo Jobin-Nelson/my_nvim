@@ -10,6 +10,11 @@ return {
     local cfg = {
       setopt = true,
       relculright = true,
+      ft_ignore = {
+        'toggleterm',
+        'terminal',
+        'alpha',
+      },
       segments = {
         { text = { builtin.foldfunc, ' ' }, click = 'v:lua.ScFa' },
         { text = { "%s" },                 click = "v:lua.ScSa" },

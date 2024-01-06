@@ -85,6 +85,7 @@ return {
     vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
     require("lspconfig.ui.windows").default_options.border = "rounded"
 
+    -- Servers
     local servers = {
       bashls = {},
       clangd = {},
@@ -98,7 +99,19 @@ return {
       },
       lua_ls = {
         Lua = {
-          workspace = { checkThirdParty = false },
+          diagnostics = {
+            globals = { "vim" },
+          },
+          runtime = {
+            version = "LuaJIT",
+          },
+          workspace = {
+            checkThirdParty = false,
+            library = {
+              [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+              [vim.fn.expand('config') .. '/lua'] = true,
+            },
+          },
           telemetry = { enable = false },
         },
       },
