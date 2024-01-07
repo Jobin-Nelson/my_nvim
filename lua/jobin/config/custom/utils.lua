@@ -160,6 +160,7 @@ function M.term_toggle()
     vim.opt_local.relativenumber = false
     local custom_terminal_bufnr = vim.api.nvim_get_current_buf()
     vim.g.custom_terminal_bufnr = custom_terminal_bufnr
+    -- to enter insert mode when switching buffers
     vim.api.nvim_create_autocmd("BufEnter", {
       buffer = custom_terminal_bufnr,
       callback = function()

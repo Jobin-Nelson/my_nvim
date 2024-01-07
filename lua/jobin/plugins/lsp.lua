@@ -39,14 +39,14 @@ return {
       nmap('<leader>lf', vim.lsp.buf.format, 'Lsp Format buffer')
 
       -- Create a command `:Format` local to the LSP buffer
-      vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-        vim.lsp.buf.format()
-      end, { desc = 'Format current buffer with LSP' })
+      -- vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
+      --   vim.lsp.buf.format()
+      -- end, { desc = 'Format current buffer with LSP' })
 
-      navic.attach(client, bufnr)
       -- if client.supports_method 'textDocument/inlayHint' then
       --   vim.lsp.inlay_hint.enable(bufnr, true)
       -- end
+      navic.attach(client, bufnr)
     end
 
     -- Diagnostics icons
@@ -61,8 +61,8 @@ return {
           { name = "DiagnosticSignInfo",  text = icons.diagnostics.BoldInformation },
         },
       },
-      -- virtual_text = false,
-      -- update_in_insert = false,
+      virtual_text = false,
+      update_in_insert = false,
       underline = true,
       severity_sort = true,
       float = {
@@ -120,7 +120,16 @@ return {
           json = {
             schemas = require('schemastore').json.schemas(),
           }
-        }
+        },
+        setup = {
+          commands = {
+            Format = {
+              function()
+                vim.lsp.buf.range_formatting({}, { 0, 0 }, { vim.fn.line "$", 0 })
+              end,
+            },
+          },
+        },
       },
     }
 
