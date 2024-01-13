@@ -16,10 +16,11 @@ return {
       ft_ignore = {
         'toggleterm',
         'alpha',
+        'NvimTree',
       },
       segments = {
         { text = { builtin.foldfunc, ' ' }, click = 'v:lua.ScFa', hl = 'Comment' },
-        { text = { "%s" },                 click = "v:lua.ScSa" },
+        { text = { "%s" },                  click = "v:lua.ScSa" },
         { text = { builtin.lnumfunc, ' ' }, click = "v:lua.ScLa" },
       }
     }
@@ -75,7 +76,7 @@ return {
       git = '',
       org = '',
     }
----@diagnostic disable-next-line: missing-fields
+    ---@diagnostic disable-next-line: missing-fields
     require('ufo').setup({
       fold_virt_text_handler = handler,
       open_fold_hl_timeout = 150,
