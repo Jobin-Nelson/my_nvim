@@ -26,13 +26,10 @@ end
 M.scratch_buffer = function()
   if vim.g.scratch_nr then
     local buf_nr = vim.g.scratch_nr
-    local win_ids = vim.fn.win_findbuf(buf_nr)
-    if win_ids then
-      for _, win_id in ipairs(win_ids) do
-        if vim.api.nvim_win_is_valid(win_id) then
-          vim.api.nvim_set_current_win(win_id)
-          return
-        end
+    for _, win_id in ipairs(vim.fn.win_findbuf(buf_nr)) do
+      if vim.api.nvim_win_is_valid(win_id) then
+        vim.api.nvim_set_current_win(win_id)
+        return
       end
     end
     vim.cmd("vert sbuffer " .. buf_nr)
@@ -60,10 +57,8 @@ M.rename_file = function(target_dir)
     vim.cmd('keepalt edit ' .. new_filename)
     local new_bufnr = vim.api.nvim_get_current_buf()
 
-    for _, win_id in ipairs(vim.api.nvim_list_wins()) do
-      if vim.api.nvim_win_get_buf(win_id) == original_bufnr then
-        vim.api.nvim_win_set_buf(win_id, new_bufnr)
-      end
+    for _, win_id in ipairs(vim.fn.win_findbuf(original_bufnr)) do
+      vim.api.nvim_win_set_buf(win_id, new_bufnr)
     end
     if vim.fn.bufexists(original_bufnr) then
       vim.api.nvim_buf_delete(original_bufnr, {})
