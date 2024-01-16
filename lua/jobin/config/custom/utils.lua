@@ -46,21 +46,29 @@ M.scratch_buffer = function()
   vim.api.nvim_win_set_buf(0, buf_nr)
 end
 
----@param target_dir string
+---@param target_dir string|nil
 M.rename_file = function(target_dir)
   local original_filename = vim.api.nvim_buf_get_name(0)
+  local original_bufnr = vim.api.nvim_get_current_buf()
+
   local function move_file(new_filename)
     if new_filename == "" or new_filename == nil then
       return
     end
 
-    vim.cmd("update | saveas ++p " .. new_filename)
----@diagnostic disable-next-line: param-type-mismatch
-    local alternate_bufnr = vim.fn.bufnr("#")
-    if vim.fn.bufexists(alternate_bufnr) then
-      vim.api.nvim_buf_delete(alternate_bufnr, {})
+    os.rename(original_filename, new_filename)
+    vim.cmd('keepalt edit ' .. new_filename)
+    local new_bufnr = vim.api.nvim_get_current_buf()
+
+    for _, win_id in ipairs(vim.api.nvim_list_wins()) do
+      if vim.api.nvim_win_get_buf(win_id) == original_bufnr then
+        vim.api.nvim_win_set_buf(win_id, new_bufnr)
+      end
     end
-    vim.fn.delete(original_filename)
+    if vim.fn.bufexists(original_bufnr) then
+      vim.api.nvim_buf_delete(original_bufnr, {})
+    end
+
     print("Renamed to " .. new_filename)
   end
 
@@ -71,7 +79,7 @@ M.rename_file = function(target_dir)
     move_file(target_dir)
   else
     vim.ui.input({
-      prompt =  "Rename: ",
+      prompt = "Rename: ",
       default = original_filename,
       completion = "file",
     }, move_file)
@@ -147,7 +155,7 @@ function M.leet()
     return
   end
   local leet_file = string.match(output, "(%S+)%s*$")
-  vim.cmd('tabedit ' ..leet_file)
+  vim.cmd('tabedit ' .. leet_file)
 end
 
 function M.term_toggle()
