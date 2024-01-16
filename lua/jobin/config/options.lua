@@ -19,6 +19,7 @@ vim.o.conceallevel = 2
 vim.o.signcolumn = 'yes'
 vim.o.laststatus = 3
 -- vim.o.winbar = '%=%m %t'
+vim.o.winbar = "%t  %{%v:lua.require'nvim-navic'.get_location()%}"
 vim.o.splitbelow = true
 vim.o.splitright = true
 vim.o.tabstop = 2
