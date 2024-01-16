@@ -75,6 +75,7 @@ return {
       alpha = '',
       git = '',
       org = '',
+      markdown = '',
     }
     ---@diagnostic disable-next-line: missing-fields
     require('ufo').setup({

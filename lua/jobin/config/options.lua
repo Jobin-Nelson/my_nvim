@@ -49,6 +49,7 @@ vim.opt.formatoptions = vim.opt.formatoptions
   + "n" -- Indent past the formatlistpat, not underneath it.
   + "j" -- Auto-remove comments if possible.
   - "2" -- I'm not in gradeschool anymore
+vim.g.markdown_folding = 1
 vim.g.git_worktrees = {
   {
     toplevel = vim.env.HOME,
