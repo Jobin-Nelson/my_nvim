@@ -184,7 +184,28 @@ function M.term_toggle()
   vim.cmd('botright sb' .. term_bufnr)
 end
 
--- vim.keymap.set('n', '<leader>rt', M.rename_buffer)
+function M.better_bufdelete()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local next_bufnr = nil
+
+  ---@diagnostic disable-next-line: param-type-mismatch
+  for nr = 1, vim.fn.bufnr('$') do
+    if is_valid_buf(nr) then
+      next_bufnr = nr
+      break
+    end
+  end
+
+  next_bufnr = next_bufnr or vim.api.nvim_create_buf(true, false)
+
+  for _, win_id in ipairs(vim.fn.win_findbuf(bufnr)) do
+    vim.api.nvim_win_set_buf(win_id, next_bufnr)
+  end
+
+  vim.api.nvim_buf_delete(bufnr, {})
+end
+
+-- vim.keymap.set('n', '<leader>rt', M.better_bufdelete)
 -- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 
 return M
