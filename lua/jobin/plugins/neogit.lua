@@ -9,6 +9,6 @@ return {
   config = function()
     vim.keymap.set('n', '<leader>gg', '<cmd>Neogit<cr>', {desc = 'Open Neogit'})
 
-    require('neogit').setup()
+    require('neogit').setup({})
   end,
 }

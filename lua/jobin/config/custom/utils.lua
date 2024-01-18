@@ -4,8 +4,8 @@
 local M = {}
 
 local function is_valid_buf(buf)
-  return vim.api.nvim_buf_is_loaded(buf)
-  -- return vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buflisted
+  -- return vim.api.nvim_buf_is_loaded(buf)
+  return vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buflisted
 end
 
 M.delete_hidden_buffers = function()
@@ -189,7 +189,6 @@ function M.better_bufdelete()
   local bufnr = vim.api.nvim_get_current_buf()
   local next_bufnr = nil
 
-  ---@diagnostic disable-next-line: param-type-mismatch
   for _, nr in ipairs(vim.api.nvim_list_bufs()) do
     if is_valid_buf(nr) and next_bufnr ~= bufnr then
       next_bufnr = nr
