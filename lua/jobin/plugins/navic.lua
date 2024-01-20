@@ -8,6 +8,7 @@ return {
     local icons = require "jobin.config.icons"
     require("nvim-navic").setup {
       icons = icons.kind,
+      lazy_update_context = true,
       highlight = true,
       lsp = {
         auto_attach = true,

@@ -16,13 +16,23 @@ function M.set_indent()
     vim.bo.tabstop = new_indent
     vim.bo.softtabstop = new_indent
     vim.bo.shiftwidth = new_indent
-    print("Indent set to " .. new_indent)
+    vim.notify("Indent set to " .. new_indent)
   end)
 end
 
 function M.toggle_spell()
   vim.wo.spell = not vim.wo.spell
-  print("Spell set to " .. bool2str(vim.wo.spell))
+  vim.notify("Spell set to " .. bool2str(vim.wo.spell))
+end
+
+function M.toggle_diagnostics()
+  if vim.diagnostic.is_disabled() then
+    vim.diagnostic.enable()
+    vim.notify('Diagnostics Enabled')
+  else
+    vim.diagnostic.disable()
+    vim.notify('Diagnostics Disabled')
+  end
 end
 
 return M

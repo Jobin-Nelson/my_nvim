@@ -40,6 +40,10 @@ map('n', '<leader>pm', '<cmd>Mason<cr>', { desc = 'Mason Installer' })
 map('n', '<leader>ur', '<cmd>nohlsearch <bar> diffupdate <bar> normal! <C-L><CR>', { desc = 'UI Refresh' })
 map('n', '<leader>ui', '<cmd>lua require("jobin.config.custom.ui").set_indent()<cr>', { desc = 'Set Indent' })
 map('n', '<leader>us', '<cmd>lua require("jobin.config.custom.ui").toggle_spell()<cr>', { desc = 'Toggle Spell' })
+map('n', '<leader>ud', '<cmd>lua require("jobin.config.custom.ui").toggle_diagnostics()<cr>', { desc = 'Toggle Diagnostics' })
+if vim.lsp.inlay_hint then
+  map('n', '<leader>uh', function() vim.lsp.inlay_hint.enable(0, nil) end , { desc = 'Toggle Inlay Hints' })
+end
 
 -- Custom
 map('n', '<leader>js', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>', { desc = 'Substitute word' })

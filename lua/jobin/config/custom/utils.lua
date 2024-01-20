@@ -21,7 +21,7 @@ M.delete_hidden_buffers = function()
       vim.cmd.bwipeout({ count = buf, bang = true })
     end
   end
-  print("All hidden buffers have been deleted")
+  vim.notify("All hidden buffers have been deleted")
 end
 
 M.scratch_buffer = function()
@@ -65,7 +65,7 @@ M.rename_file = function(target_dir)
       vim.api.nvim_buf_delete(original_bufnr, {})
     end
 
-    print("Renamed to " .. new_filename)
+    vim.notify("Renamed to " .. new_filename)
   end
 
   if target_dir then
@@ -127,12 +127,12 @@ function M.cd_git_root()
     return
   end
   if git_root == vim.loop.cwd() then
-    print('Already at git root: ' .. git_root)
+    vim.notify('Already at git root: ' .. git_root)
     return
   end
   if vim.loop.fs_stat(git_root) then
     vim.cmd('lcd ' .. git_root)
-    print('Directory changed to ' .. git_root)
+    vim.notify('Directory changed to ' .. git_root)
   else
     error(git_root .. ' not accessible')
   end
@@ -190,7 +190,7 @@ function M.better_bufdelete()
   local next_bufnr = nil
 
   for _, nr in ipairs(vim.api.nvim_list_bufs()) do
-    if is_valid_buf(nr) and next_bufnr ~= bufnr then
+    if is_valid_buf(nr) and nr ~= bufnr then
       next_bufnr = nr
       break
     end
