@@ -26,7 +26,7 @@ map('n', ']b', '<cmd>bnext<cr>', { desc = 'Previous Buffer' })
 map('n', '<leader>bo', '<cmd>update <bar> %bdelete <bar> edit# <bar> bdelete #<CR>', { desc = 'Delete Other buffers' })
 map('n', '<leader>bk', '<cmd>call delete(expand("%:p")) <bar> bdelete!<cr>', { desc = 'Buffer Kill' })
 map('n', '<leader>bh', '<cmd>lua require("jobin.config.custom.utils").delete_hidden_buffers()<cr>', { desc = 'Delete Hidden buffers' })
-map("n", "<leader>bd", "<cmd>lua require('jobin.config.custom.utils').better_bufdelete()<cr>", { desc = 'Bufdelete' })
+map('n', '<leader>bd', '<cmd>lua require("jobin.config.custom.utils").better_bufdelete()<cr>', { desc = 'Bufdelete' })
 
 -- Packages
 map('n', '<leader>ps', '<cmd>Lazy<cr>', { desc = 'Plugin Status' })

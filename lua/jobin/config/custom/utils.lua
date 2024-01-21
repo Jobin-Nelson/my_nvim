@@ -18,7 +18,7 @@ M.delete_hidden_buffers = function()
 
   for _, buf in ipairs(all_bufs) do
     if visible_bufs[buf] == nil then
-      vim.cmd.bwipeout({ count = buf, bang = true })
+      vim.api.nvim_buf_delete(buf, {})
     end
   end
   vim.notify("All hidden buffers have been deleted")
