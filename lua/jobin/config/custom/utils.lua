@@ -44,7 +44,7 @@ M.scratch_buffer = function()
   vim.api.nvim_win_set_buf(0, buf_nr)
 end
 
----@param target_dir string|nil
+---@param target_dir string | nil
 M.rename_file = function(target_dir)
   local original_filename = vim.api.nvim_buf_get_name(0)
   local original_bufnr = vim.api.nvim_get_current_buf()

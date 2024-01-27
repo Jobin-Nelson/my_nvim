@@ -18,7 +18,7 @@ return {
       org_hide_emphasis_markers = true,
       org_agenda_span = 'day',
       org_blank_before_new_entry = { heading = false, plain_list_item = false },
-      org_indent_mode = 'noindent',
+      org_startup_intended = 'noindent',
       org_log_into_drawer = 'LOGBOOK',
     })
     for _, key in ipairs({ '=', '~' }) do
