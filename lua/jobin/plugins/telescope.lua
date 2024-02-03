@@ -68,6 +68,12 @@ return {
               ["<A-y>"] = my_actions.copy_entry,
             },
           },
+          file_ignore_patterns = {
+            'node_modules',
+            '.git',
+            '__pycache__',
+          },
+          hidden = true,
           git_worktrees = vim.g.git_worktrees,
           prompt_prefix = "❯ ",
           selection_caret = "❯ ",
