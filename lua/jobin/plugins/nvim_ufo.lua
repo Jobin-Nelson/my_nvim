@@ -17,6 +17,7 @@ return {
         'toggleterm',
         'alpha',
         'NvimTree',
+        'man',
       },
       segments = {
         { text = { builtin.foldfunc, ' ' }, click = 'v:lua.ScFa', hl = 'Comment' },
