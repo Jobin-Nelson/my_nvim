@@ -65,6 +65,7 @@ return {
             i = {
               ["<C-s>"] = actions.cycle_previewers_next,
               ["<C-a>"] = actions.cycle_previewers_prev,
+              ["<C-Enter>"] = actions.to_fuzzy_refine,
               ["<A-y>"] = my_actions.copy_entry,
             },
           },

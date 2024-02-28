@@ -156,7 +156,7 @@ M.insert_second_brain_template = function()
       actions.select_default:replace(function()
         actions.close(prompt_bufnr)
         local selection = action_state.get_selected_entry()
-        vim.cmd('read ' .. selection.value)
+        vim.cmd('0read ' .. selection.value)
         print('Inserted ' .. vim.fs.basename(selection.value))
       end)
       return true

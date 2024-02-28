@@ -108,8 +108,10 @@ return {
           workspace = {
             checkThirdParty = false,
             library = {
-              [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-              [vim.fn.expand('config') .. '/lua'] = true,
+              '${3rd}/luv/library',
+              vim.env.VIMRUNTIME,
+              -- [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+              -- [vim.fn.expand('config') .. '/lua'] = true,
             },
           },
           telemetry = { enable = false },
