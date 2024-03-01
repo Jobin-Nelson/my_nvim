@@ -21,6 +21,7 @@ return {
       map('n', '<leader>fb', '<cmd>lua require("telescope.builtin").buffers()<cr>', { desc = 'Find Buffers' })
       map('n', '<leader>ff', '<cmd>lua require("telescope.builtin").find_files()<cr>', { desc = 'Find Files' })
       map('n', '<leader>fF', '<cmd>lua require("telescope.builtin").find_files({no_ignore=true,hidden=true})<cr>', { desc = 'Find Files' })
+      map('n', '<leader>fg', '<cmd>lua require("telescope.builtin").git_files({use_file_path=true,use_git_root=true,recurse_submodules=true})<cr>', { desc = 'Find Git Files' })
       map('n', '<leader>fh', '<cmd>lua require("telescope.builtin").help_tags()<cr>', { desc = 'Find Help' })
       map('n', '<leader>fc', '<cmd>lua require("telescope.builtin").grep_string()<cr>', { desc = 'Find word under Cursor' })
       map('n', '<leader>fw', '<cmd>lua require("telescope.builtin").live_grep()<cr>', { desc = 'Find words' })
