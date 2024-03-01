@@ -20,7 +20,7 @@ return {
       nmap('gd', vim.lsp.buf.definition, 'Goto Definition')
       nmap('gr', require('telescope.builtin').lsp_references, 'Goto References')
       nmap('gI', vim.lsp.buf.implementation, 'Goto Implementation')
-      nmap('gT', vim.lsp.buf.type_definition, 'Goto Type definition')
+      -- nmap('gT', vim.lsp.buf.type_definition, 'Goto Type definition')
       nmap('gl', vim.diagnostic.open_float, 'Open diagnostic')
       nmap(']d', vim.diagnostic.goto_next, 'Next diagnostic')
       nmap('[d', vim.diagnostic.goto_prev, 'Previous diagnostic')
