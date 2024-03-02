@@ -43,9 +43,9 @@ return {
       --   vim.lsp.buf.format()
       -- end, { desc = 'Format current buffer with LSP' })
 
-      if client.supports_method 'textDocument/inlayHint' then
-        vim.lsp.inlay_hint.enable(bufnr, true)
-      end
+      -- if client.supports_method 'textDocument/inlayHint' then
+      --   vim.lsp.inlay_hint.enable(bufnr, true)
+      -- end
       navic.attach(client, bufnr)
     end
 
