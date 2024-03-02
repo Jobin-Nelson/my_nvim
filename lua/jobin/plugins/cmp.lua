@@ -34,9 +34,9 @@ return {
         ['<C-u>'] = cmp.mapping.scroll_docs(4),
         ["<C-e>"] = cmp.mapping { i = cmp.mapping.abort(), c = cmp.mapping.close() },
         ['<C-Space>'] = cmp.mapping.complete {},
-        ['<CR>'] = cmp.mapping.confirm {
+        ['<C-y>'] = cmp.mapping.confirm {
           behavior = cmp.ConfirmBehavior.Replace,
-          select = false,
+          select = true,
         },
         ['<Tab>'] = cmp.mapping(function(fallback)
           if luasnip.expand_or_locally_jumpable() then
