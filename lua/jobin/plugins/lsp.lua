@@ -8,7 +8,6 @@ return {
     'folke/neodev.nvim',
   },
   config = function()
-    local navic = require('nvim-navic')
     local on_attach = function(client, bufnr)
       local nmap = function(keys, func, desc)
         vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
@@ -46,7 +45,6 @@ return {
       -- if client.supports_method 'textDocument/inlayHint' then
       --   vim.lsp.inlay_hint.enable(bufnr, true)
       -- end
-      navic.attach(client, bufnr)
     end
 
     -- Diagnostics icons
