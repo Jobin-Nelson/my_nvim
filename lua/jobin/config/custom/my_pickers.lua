@@ -26,7 +26,9 @@ local function get_dotfiles()
   for line in econf:lines() do
     if string.match(line, '^%s*$') then break end
     local file_path = string.match(line, '.* - (.*)"$')
-    table.insert(dotfiles, file_path)
+    if file_path then
+      table.insert(dotfiles, file_path)
+    end
   end
   econf:close()
 
@@ -224,6 +226,7 @@ end
 M.find_dotfiles = function()
   require('telescope.builtin').find_files({
     search_dirs = get_dotfiles(),
+
     prompt_title = 'Find Dotfiles',
   })
 end
