@@ -35,8 +35,8 @@ local function populate_summary(text)
   local bufnr = vim.api.nvim_get_current_buf()
   local line_nr = vim.fn.line('.')
   local lines = {
-    '* TODO ' .. text,
-    os.date('SCHEDULED: <%Y-%m-%d %a>'),
+    '* ' .. text,
+    -- os.date('SCHEDULED: <%Y-%m-%d %a>'),
     '',
     '** Description',
     string.format('*Ticket*: [[https://jira.illumina.com/browse/%s][%s]]', issue_id, issue_id),
