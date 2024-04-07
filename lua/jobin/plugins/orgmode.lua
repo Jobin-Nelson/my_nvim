@@ -5,7 +5,6 @@ return {
   },
   event = 'VeryLazy',
   config = function()
-    require('orgmode').setup_ts_grammar()
     require('orgmode').setup({
       org_agenda_files = {
         '~/playground/projects/org_files/**/*',
