@@ -48,6 +48,7 @@ return {
       map('n', '<leader>fO', '<cmd>lua require("jobin.config.custom.my_pickers").find_org_files()<cr>', { desc = 'Find Org files' })
       map('n', '<leader>fp', '<cmd>lua require("jobin.config.custom.my_pickers").find_projects()<cr>', { desc = 'Find Projects' })
       map('n', '<leader>fj', '<cmd>lua require("jobin.config.custom.my_pickers").find_journal()<cr>', { desc = 'Find Journal' })
+      map('n', '<leader>fi', '<cmd>lua require("jobin.config.custom.my_pickers").find_docker_images()<cr>', { desc = 'Find Docker Images' })
 
       -- setup
       local actions = require('telescope.actions')
