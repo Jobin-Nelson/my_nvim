@@ -2,6 +2,8 @@ local pickers = require('telescope.pickers')
 local finders = require('telescope.finders')
 local sorters = require('telescope.sorters')
 local actions = require('telescope.actions')
+local previewers = require('telescope.previewers')
+local previewers_utils = require('telescope.previewers.utils')
 local action_state = require('telescope.actions.state')
 local conf = require('telescope.config').values
 local dropdown_theme = require('telescope.themes').get_dropdown()
@@ -171,7 +173,7 @@ M.find_second_brain_files = function()
     search_dirs = { second_brain },
     prompt_title = 'Second Brain Files',
     attach_mappings = function(_, map)
-      map({'i', 'n'}, '<S-CR>', function(prompt_bufnr)
+      map({ 'i', 'n' }, '<S-CR>', function(prompt_bufnr)
         local selection = action_state.get_current_line()
         if selection == '' then
           print('Input value is empty')
@@ -179,10 +181,10 @@ M.find_second_brain_files = function()
         end
         actions.close(prompt_bufnr)
         local md_suffix = '.md'
-        if selection:sub(-#md_suffix) ~= md_suffix then
+        if selection:sub(- #md_suffix) ~= md_suffix then
           selection = selection .. md_suffix
         end
-        local new_file = vim.fn.join({second_brain, selection}, '/')
+        local new_file = vim.fn.join({ second_brain, selection }, '/')
         vim.cmd('edit ' .. new_file)
       end)
       return true
@@ -195,7 +197,7 @@ M.move_file = function()
   local cwd = require('jobin.config.custom.utils').get_git_root_buf() or vim.loop.cwd()
   local rename_file = require('jobin.config.custom.utils').rename_file
 
-  local cmd = {'find', cwd, '-type', 'd'}
+  local cmd = { 'find', cwd, '-type', 'd' }
   -- fd doesn't return cwd
   -- if vim.fn.executable('fd') == 0 then
   --   cmd = {'fd', '-td', '.', cwd}
@@ -235,8 +237,61 @@ M.find_journal = function()
   local journal_dir = '~/playground/projects/second_brain/Resources/journal/'
   require('telescope.builtin').live_grep({
     prompt_title = 'Find Journal',
-    search_dirs = {journal_dir}
+    search_dirs = { journal_dir }
   })
 end
+
+M.find_docker_images = function(opts)
+  pickers.new(opts, {
+    prompt_title = 'Docker Images',
+    finder = finders.new_async_job({
+      command_generator = function()
+        return { 'docker', 'images', '--format', 'json' }
+      end,
+      entry_maker = function(entry)
+        local parsed = vim.json.decode(entry)
+        if parsed then
+          local image_name = parsed.Repository .. ':' .. parsed.Tag
+          return {
+            value = parsed,
+            display = image_name,
+            ordinal = image_name,
+          }
+        end
+      end
+    }),
+    sorter = conf.generic_sorter(opts),
+    previewer = previewers.new_buffer_previewer({
+      title = "Docker Image Details",
+      define_preview = function(self, entry)
+        vim.api.nvim_buf_set_lines(self.state.bufnr, 0, 0, true, vim.tbl_flatten({
+          '# ' .. entry.value.ID,
+          '```lua',
+          vim.split(vim.inspect(entry.value), '\n'),
+          '```',
+        }))
+        previewers_utils.highlighter(self.state.bufnr, "markdown")
+      end,
+    }),
+    attach_mappings = function(prompt_bufnr, _)
+      local docker_run = function(window_orientation)
+        return function()
+          local selection = action_state.get_selected_entry()
+          actions.close(prompt_bufnr)
+          local command = window_orientation .. ' term://docker run --rm -it ' .. selection.value.Repository
+          vim.cmd(command)
+        end
+      end
+      actions.select_default:replace(docker_run('edit'))
+      actions.select_horizontal:replace(docker_run('new'))
+      actions.select_vertical:replace(docker_run('vnew'))
+      actions.select_tab:replace(docker_run('tabedit'))
+      return true
+    end
+  }):find()
+end
+
+-- vim.keymap.set('n', '<leader>rt', M.find_docker_images)
+-- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 
 return M
