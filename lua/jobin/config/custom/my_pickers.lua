@@ -278,8 +278,7 @@ M.find_docker_images = function(opts)
         return function()
           local selection = action_state.get_selected_entry()
           actions.close(prompt_bufnr)
-          local command = window_orientation .. ' term://docker run --rm -it ' .. selection.value.Repository
-          vim.cmd(command)
+          vim.cmd(window_orientation .. ' term://docker run --rm -it ' .. selection.value.Repository)
         end
       end
       actions.select_default:replace(docker_run('edit'))
