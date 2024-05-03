@@ -17,14 +17,15 @@ return {
       org_hide_emphasis_markers = true,
       org_agenda_span = 'day',
       org_blank_before_new_entry = { heading = false, plain_list_item = false },
-      org_startup_intended = 'noindent',
+      org_startup_intended = false,
+      org_adapt_indentation = false,
       org_log_into_drawer = 'LOGBOOK',
     })
-    for _, key in ipairs({ '=', '~' }) do
-      vim.keymap.set('v', 'i' .. key, string.format('t%soT%s', key, key), { desc = string.format('inner org %s', key) })
-      vim.keymap.set('v', 'a' .. key, string.format('f%soF%s', key, key), { desc = string.format('around org %s', key) })
-      vim.keymap.set('o', 'i' .. key, string.format('<cmd>normal! t%svT%s<CR>', key, key), { desc = string.format('inner org %s', key) })
-      vim.keymap.set('o', 'a' .. key, string.format('<cmd>normal! f%svF%s<CR>', key, key), { desc = string.format('around org %s', key) })
-    end
+    -- for _, key in ipairs({ '=', '~' }) do
+    --   vim.keymap.set('v', 'i' .. key, string.format('t%soT%s', key, key), { desc = string.format('inner org %s', key) })
+    --   vim.keymap.set('v', 'a' .. key, string.format('f%soF%s', key, key), { desc = string.format('around org %s', key) })
+    --   vim.keymap.set('o', 'i' .. key, string.format('<cmd>normal! t%svT%s<CR>', key, key), { desc = string.format('inner org %s', key) })
+    --   vim.keymap.set('o', 'a' .. key, string.format('<cmd>normal! f%svF%s<CR>', key, key), { desc = string.format('around org %s', key) })
+    -- end
   end
 }
