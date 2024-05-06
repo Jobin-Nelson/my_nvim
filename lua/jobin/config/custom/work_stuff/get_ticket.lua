@@ -37,7 +37,6 @@ local function populate_summary(text)
   local lines = {
     '* ' .. text,
     -- os.date('SCHEDULED: <%Y-%m-%d %a>'),
-    '',
     '** Description',
     string.format('*Ticket*: [[https://jira.illumina.com/browse/%s][%s]]', issue_id, issue_id),
   }
