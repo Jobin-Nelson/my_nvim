@@ -40,10 +40,11 @@ local function query_issue_details(token, issue_id)
 end
 
 local function append_subtasks(lines, subtasks)
-  if not subtasks then
+  if #subtasks == 0 then
     vim.print('Issue %s does not have subtasks')
     return
   end
+  vim.print(subtasks)
   table.insert(lines, '** Sub-Tasks')
   for _, subtask in ipairs(subtasks) do
     local subtask_summary = subtask.fields and subtask.fields.summary
@@ -96,6 +97,6 @@ M.populate_issue = function()
 end
 
 
--- vim.keymap.set('n', '<leader>rt', M.populate_issue)
--- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
+vim.keymap.set('n', '<leader>rt', M.populate_issue)
+vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 return M
