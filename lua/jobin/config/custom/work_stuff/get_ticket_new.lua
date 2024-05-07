@@ -44,7 +44,6 @@ local function append_subtasks(lines, subtasks)
     vim.print('Issue %s does not have subtasks')
     return
   end
-  vim.print(subtasks)
   table.insert(lines, '** Sub-Tasks')
   for _, subtask in ipairs(subtasks) do
     local subtask_summary = subtask.fields and subtask.fields.summary
