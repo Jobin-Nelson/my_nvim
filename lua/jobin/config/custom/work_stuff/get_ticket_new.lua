@@ -62,8 +62,12 @@ end
 local function append_header(lines, fields, issue_id)
   table.insert(lines, '* ' .. fields.summary)
   table.insert(lines, string.format('*Ticket*: [[https://jira.illumina.com/browse/%s][%s]]', issue_id, issue_id))
-  table.insert(lines, '** Description')
 
+  if fields.description == vim.NIL then
+    return
+  end
+
+  table.insert(lines, '** Description')
   for _, description_line in ipairs(vim.split(fields.description, '\n')) do
     local without_carriage_return = string.gsub(description_line, '\r', '')
     table.insert(lines, without_carriage_return)
@@ -76,7 +80,7 @@ local function populate_issue_details(issue_id)
   end
 
   local token = get_token()
-  local response = vim.json.decode(query_issue_details(token, issue_id), { object = true, array = true})
+  local response = vim.json.decode(query_issue_details(token, issue_id))
   if not response or not response.fields then
     error('api response is not json')
   end
