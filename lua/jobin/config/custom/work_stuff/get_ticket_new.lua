@@ -39,12 +39,13 @@ local function query_issue_details(token, issue_id)
   return response
 end
 
-local function append_subtasks(lines, subtasks)
+local function append_subtasks(lines, subtasks, issue_summary)
   if #subtasks == 0 then
     vim.print('Issue %s does not have subtasks')
     return
   end
   table.insert(lines, '** Sub-Tasks')
+  local prefix_issue_summary = string.match(issue_summary, '%S+%s+%S+')
   for _, subtask in ipairs(subtasks) do
     local subtask_summary = subtask.fields and subtask.fields.summary
     local subtask_id = subtask.key
@@ -52,7 +53,7 @@ local function append_subtasks(lines, subtasks)
       goto continue
     end
     table.insert(lines,
-      string.format('*** TODO [%s] %s', subtask_id, subtask_summary)
+      string.format('*** TODO [%s] [%s] %s', subtask_id, prefix_issue_summary, subtask_summary)
     )
     ::continue::
   end
@@ -63,8 +64,9 @@ local function append_header(lines, fields, issue_id)
   table.insert(lines, string.format('*Ticket*: [[https://jira.illumina.com/browse/%s][%s]]', issue_id, issue_id))
   table.insert(lines, '** Description')
 
-  for _, description_line in ipairs(vim.split(fields.description, '\r\n\r\n')) do
-    table.insert(lines, description_line)
+  for _, description_line in ipairs(vim.split(fields.description, '\n')) do
+    local without_carriage_return = string.gsub(description_line, '\r', '')
+    table.insert(lines, without_carriage_return)
   end
 end
 
@@ -81,7 +83,7 @@ local function populate_issue_details(issue_id)
 
   local lines = {}
   append_header(lines, response.fields, issue_id)
-  append_subtasks(lines, response.fields.subtasks)
+  append_subtasks(lines, response.fields.subtasks, response.fields.summary)
 
   local line_nr = vim.fn.line('.')
   vim.api.nvim_buf_set_lines(0, line_nr, line_nr, false, lines)
