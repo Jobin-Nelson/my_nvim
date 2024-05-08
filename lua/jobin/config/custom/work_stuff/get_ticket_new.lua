@@ -39,13 +39,12 @@ local function query_issue_details(token, issue_id)
   return response
 end
 
-local function append_subtasks(lines, subtasks, issue_summary)
+local function append_subtasks(lines, subtasks)
   if #subtasks == 0 then
     vim.notify('Issue %s does not have subtasks')
     return
   end
   table.insert(lines, '** Sub-Tasks')
-  local prefix_issue_summary = string.match(issue_summary, '%S+%s+%S+')
   for _, subtask in ipairs(subtasks) do
     local subtask_summary = subtask.fields and subtask.fields.summary
     local subtask_id = subtask.key
@@ -53,14 +52,15 @@ local function append_subtasks(lines, subtasks, issue_summary)
       goto continue
     end
     table.insert(lines,
-      string.format('*** TODO [%s] [%s] %s', subtask_id, prefix_issue_summary, subtask_summary)
+      string.format('*** TODO %s', subtask_summary)
     )
     ::continue::
   end
 end
 
 local function append_header(lines, fields, issue_id)
-  table.insert(lines, '* ' .. fields.summary)
+  table.insert(lines, '* TODO ' .. fields.summary)
+  table.insert(lines, os.date('SCHEDULED: <%Y-%m-%d %a>'))
   table.insert(lines, string.format('*Ticket*: [[https://jira.illumina.com/browse/%s][%s]]', issue_id, issue_id))
 
   if fields.description == vim.NIL then
@@ -87,7 +87,7 @@ local function populate_issue_details(issue_id)
 
   local lines = {}
   append_header(lines, response.fields, issue_id)
-  append_subtasks(lines, response.fields.subtasks, response.fields.summary)
+  append_subtasks(lines, response.fields.subtasks)
 
   local line_nr = vim.fn.line('.')
   vim.api.nvim_buf_set_lines(0, line_nr, line_nr, false, lines)
@@ -102,6 +102,6 @@ M.populate_issue = function()
 end
 
 
--- vim.keymap.set('n', '<leader>rt', M.populate_issue)
--- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
+vim.keymap.set('n', '<leader>rt', M.populate_issue)
+vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 return M
