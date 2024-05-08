@@ -2,6 +2,7 @@
 --
 local M = {}
 
+---@return string
 local function get_token()
   local creds_file_path = vim.fs.normalize('~/playground/dev/illumina/creds/jira.json')
   local creds = vim.fn.json_decode(vim.fn.readfile(creds_file_path))
@@ -15,6 +16,9 @@ local function get_token()
   return token
 end
 
+---@param token string
+---@param issue_id string
+---@return string
 local function query_issue_details(token, issue_id)
   local cmd = 'curl'
   local flags = '-sSfL'
@@ -39,6 +43,8 @@ local function query_issue_details(token, issue_id)
   return response
 end
 
+---@param lines string[]
+---@param subtasks table<string, string>
 local function append_subtasks(lines, subtasks)
   if #subtasks == 0 then
     vim.notify('Issue %s does not have subtasks')
@@ -58,6 +64,9 @@ local function append_subtasks(lines, subtasks)
   end
 end
 
+---@param lines string[]
+---@param fields table<string, string>
+---@param issue_id string
 local function append_header(lines, fields, issue_id)
   table.insert(lines, '* TODO ' .. fields.summary)
   table.insert(lines, os.date('SCHEDULED: <%Y-%m-%d %a>'))
@@ -74,6 +83,7 @@ local function append_header(lines, fields, issue_id)
   end
 end
 
+---@param issue_id string
 local function populate_issue_details(issue_id)
   if issue_id == nil or issue_id == '' then
     error('Invalid issue_id entered')
@@ -102,6 +112,6 @@ M.populate_issue = function()
 end
 
 
-vim.keymap.set('n', '<leader>rt', M.populate_issue)
-vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
+-- vim.keymap.set('n', '<leader>rt', M.populate_issue)
+-- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 return M
