@@ -53,14 +53,11 @@ local function append_subtasks(lines, subtasks)
   table.insert(lines, '** Sub-Tasks')
   for _, subtask in ipairs(subtasks) do
     local subtask_summary = subtask.fields and subtask.fields.summary
-    local subtask_id = subtask.key
-    if not subtask_summary or not subtask_id then
-      goto continue
+    if subtask_summary then
+      table.insert(lines,
+        string.format('*** TODO %s', subtask_summary)
+      )
     end
-    table.insert(lines,
-      string.format('*** TODO %s', subtask_summary)
-    )
-    ::continue::
   end
 end
 

@@ -14,7 +14,7 @@ vim.opt.rtp:prepend(lazypath)
 require('jobin.config')
 
 require('lazy').setup({
-  { import = 'jobin.plugins'},
+  { import = 'jobin/plugins'},
 }, {
   install = {
     colorscheme = {'nightfox', 'habamax'},
