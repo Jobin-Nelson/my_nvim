@@ -42,7 +42,7 @@ map('n', '<leader>ui', '<cmd>lua require("jobin.config.custom.ui").set_indent()<
 map('n', '<leader>us', '<cmd>lua require("jobin.config.custom.ui").toggle_spell()<cr>', { desc = 'Toggle Spell' })
 map('n', '<leader>ud', '<cmd>lua require("jobin.config.custom.ui").toggle_diagnostics()<cr>', { desc = 'Toggle Diagnostics' })
 if vim.lsp.inlay_hint then
-  map('n', '<leader>uh', function() vim.lsp.inlay_hint.enable(0, nil) end , { desc = 'Toggle Inlay Hints' })
+  map('n', '<leader>uh', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end , { desc = 'Toggle Inlay Hints' })
 end
 
 -- Custom

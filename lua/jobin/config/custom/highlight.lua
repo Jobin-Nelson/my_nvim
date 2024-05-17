@@ -10,7 +10,8 @@ vim.api.nvim_set_hl(0,  "telescopeborder", {
   fg = 'white',
 })
 
--- vim.api.nvim_set_hl(0,  "StatusLine", {
---   fg = 'white',
---   bg = 'black',
--- })
+vim.api.nvim_set_hl(0,  "StatusLine", {
+  -- fg = 'white',
+  -- bg = 'black',
+  bold = true,
+})
