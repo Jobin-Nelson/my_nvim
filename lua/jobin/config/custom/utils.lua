@@ -70,7 +70,7 @@ M.rename_file = function(target_dir)
 
   if target_dir then
     if vim.fn.isdirectory(target_dir) == 1 then
-      target_dir = target_dir .. '/' .. vim.fs.basename(original_filename)
+      target_dir = vim.fs.joinpath(target_dir, vim.fs.basename(original_filename))
     end
     move_file(target_dir)
   else

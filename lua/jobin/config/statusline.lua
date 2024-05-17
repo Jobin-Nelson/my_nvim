@@ -19,6 +19,7 @@ local modes = {
   ["r?"] = "CONFIRM",
   ["!"] = "SHELL",
   ["t"] = "TERMINAL",
+  ["nt"] = "TERMINAL",
 }
 
 local icons = require('jobin.config.icons')

@@ -20,8 +20,8 @@ return {
       nmap('gr', require('telescope.builtin').lsp_references, 'Goto References')
       nmap('gI', vim.lsp.buf.implementation, 'Goto Implementation')
       nmap('gl', vim.diagnostic.open_float, 'Open diagnostic')
-      nmap(']d', vim.diagnostic.goto_next, 'Next diagnostic')
-      nmap('[d', vim.diagnostic.goto_prev, 'Previous diagnostic')
+      -- nmap(']d', vim.diagnostic.goto_next, 'Next diagnostic')
+      -- nmap('[d', vim.diagnostic.goto_prev, 'Previous diagnostic')
       nmap('<leader>gT', vim.lsp.buf.type_definition, 'Goto Type definition')
       nmap('<leader>lq', vim.diagnostic.setloclist, 'Set diagnostic quickfix')
       nmap('<leader>ld', require('telescope.builtin').diagnostics, 'Open diagnostic list')
@@ -108,8 +108,6 @@ return {
             library = {
               '${3rd}/luv/library',
               vim.env.VIMRUNTIME,
-              -- [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-              -- [vim.fn.expand('config') .. '/lua'] = true,
             },
           },
           telemetry = { enable = false },
@@ -137,10 +135,10 @@ return {
     -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     -- for ufo
-    capabilities.textDocument.foldingRange = {
-      dynamicRegistration = false,
-      lineFoldingOnly = true,
-    }
+    -- capabilities.textDocument.foldingRange = {
+    --   dynamicRegistration = false,
+    --   lineFoldingOnly = true,
+    -- }
     capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 

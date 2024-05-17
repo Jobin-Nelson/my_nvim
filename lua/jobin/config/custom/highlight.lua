@@ -11,8 +11,6 @@ vim.api.nvim_set_hl(0, "TreesitterContextBottom", {
 -- })
 
 vim.api.nvim_set_hl(0, "StatusLine", {
-  -- fg = 'white',
-  -- bg = 'black',
   bold = true,
 })
 

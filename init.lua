@@ -17,7 +17,7 @@ require('lazy').setup({
   { import = 'jobin/plugins'},
 }, {
   install = {
-    colorscheme = {'nightfox', 'habamax'},
+    colorscheme = {'default', 'habamax'},
   },
   change_detection = {
     enabled = true,

@@ -11,6 +11,9 @@ return {
       w = { name = "Work" },
       j = { name = "Custom" },
       g = { name = "Git" },
+      d = { name = "Debug" },
+      u = { name = "UI" },
+      o = { name = "Org mode" },
     }
     local opts = {
       mode = "n",
