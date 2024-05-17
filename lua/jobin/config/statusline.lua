@@ -44,7 +44,7 @@ local function fileicon()
     return icons.kind.File
   end
   local icon = nvim_web_devicons.get_icon_by_filetype(vim.bo.filetype, {})
-  return icon and icon .. ' ' or icons.kind.File
+  return (icon and icon .. ' ') or icons.kind.File
 end
 
 ---@return string
