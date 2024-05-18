@@ -32,8 +32,7 @@ return {
       map('n', "<leader>fm", '<cmd>lua require("telescope.builtin").man_pages()<cr>', { desc = 'Find Man Pages' })
       map('n', '<leader>ft', '<cmd>lua require("telescope.builtin").colorscheme()<cr>', { desc = 'Find Themes' })
       map('n', '<leader>fD', '<cmd>lua require("telescope.builtin").diagnostics()<cr>', { desc = 'Find Diagnostics' })
-      -- buffer
-      map('n', '<leader>b/', '<cmd>lua require("telescope.builtin").current_buffer_fuzzy_find()<cr>', { desc = 'Buffer Search' })
+      map('n', '<leader>f/', '<cmd>lua require("telescope.builtin").current_buffer_fuzzy_find()<cr>', { desc = 'Buffer Search' })
       -- git
       map('n', '<leader>gb', '<cmd>lua require("telescope.builtin").git_branches()<cr>', { desc = 'Git Branches' })
       map('n', '<leader>gt', '<cmd>lua require("telescope.builtin").git_status()<cr>', { desc = 'Git Status' })

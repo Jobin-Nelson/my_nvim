@@ -1,3 +1,6 @@
+local utils = require('jobin.config.custom.utils')
+
+---@return string
 local function get_alias_command()
   local bashrc = io.open(vim.fn.expand("~/.bashrc"))
 
@@ -20,6 +23,8 @@ local function get_alias_command()
   return command
 end
 
+---@param current_update string
+---@return boolean
 local function has_previous_update(current_update)
   local previous_file, number_of_files = nil, 0
   for file in vim.fs.dir(vim.fs.dirname(current_update)) do
@@ -34,6 +39,8 @@ local function has_previous_update(current_update)
   return number_of_files == 2 or not_current_file
 end
 
+---@param current_update string
+---@return string|nil
 local function get_previous_update(current_update)
   if not has_previous_update(current_update) then
     return
@@ -62,6 +69,8 @@ local function get_previous_update(current_update)
   return previous_update
 end
 
+---@param current_update string
+---@param previous_update string|nil
 local function setup_email(current_update, previous_update)
   if previous_update then
     vim.cmd(string.format("tabedit %s | vsplit %s", previous_update, current_update))
@@ -73,14 +82,20 @@ end
 
 local function email_win_leave_callback()
   local tab_bufs = vim.fn.tabpagebuflist()
-  vim.cmd("tabclose")
-  vim.print("Updated today's email")
 
   if tab_bufs == 0 then
     return
   end
+
   for _, buf in ipairs(tab_bufs) do
-    vim.api.nvim_buf_delete(buf, { force = true })
+    utils.better_bufdelete(buf)
+  end
+
+  vim.print("Updated today's email")
+  if vim.fn.tabpagenr('$') == 1 then
+    vim.cmd.only()
+  else
+    vim.cmd.tabclose()
   end
 end
 
@@ -90,6 +105,8 @@ local function setup_keymap()
   end, { buffer = 0, noremap = true })
 end
 
+---@param _ any
+---@param data string[]
 local function capture_email(_, data)
   local current_update = vim.fs.normalize(data[1])
   local previous_update = get_previous_update(current_update)

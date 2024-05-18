@@ -2,6 +2,17 @@ return {
   "goolord/alpha-nvim",
   event = "VimEnter",
   config = function()
+    if vim.o.filetype == 'lazy' then
+      vim.cmd.close()
+      vim.api.nvim_create_autocmd({ "User" }, {
+        once = true,
+        pattern = { "AlphaReady" },
+        callback = function()
+          require('lazy').show()
+        end,
+      })
+    end
+
     local dashboard = require "alpha.themes.dashboard"
     local icons = require "jobin.config.icons"
 
@@ -23,11 +34,11 @@ return {
     }
 
     dashboard.section.buttons.val = {
-      button("f", icons.ui.Files .. " Find file", "<cmd>Telescope find_files <CR>"),
+      button("f", icons.ui.Lens .. " Find file", "<cmd>Telescope find_files <CR>"),
       button("n", icons.ui.NewFile .. " New file", "<cmd>ene <BAR> startinsert <CR>"),
-      -- button("s", icons.ui.SignIn .. " Load session", ":lua require('persistence').load()<CR>"),
+      button("s", icons.ui.History .. " Load session", "<cmd> lua require('persistence').load()<CR>"),
       button("p", icons.git.Repo .. " Find project", "<cmd>lua require('jobin.config.custom.my_pickers').find_projects()<CR>"),
-      button("o", icons.ui.History .. " Recent files", "<cmd>Telescope oldfiles <CR>"),
+      button("o", icons.ui.Files .. " Recent files", "<cmd>Telescope oldfiles <CR>"),
       button("w", icons.ui.Text .. " Find text", "<cmd>Telescope live_grep <CR>"),
       button("a", icons.ui.Gear .. " Config", '<cmd>lua require("jobin.config.custom.my_pickers").find_config()<cr>'),
       button("q", icons.ui.SignOut .. " Quit", "<cmd>qa<CR>"),
@@ -43,21 +54,13 @@ return {
     require("alpha").setup(dashboard.opts)
 
     vim.api.nvim_create_autocmd("User", {
+      once = true,
       pattern = "LazyVimStarted",
       callback = function()
         local stats = require("lazy").stats()
         local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
         dashboard.section.footer.val = "Loaded " .. stats.count .. " plugins  in " .. ms .. "ms"
         pcall(vim.cmd.AlphaRedraw)
-      end,
-    })
-
-    vim.api.nvim_create_autocmd({ "User" }, {
-      pattern = { "AlphaReady" },
-      callback = function()
-        vim.cmd [[
-      set laststatus=0 | autocmd BufUnload <buffer> set laststatus=3
-    ]]
       end,
     })
   end,

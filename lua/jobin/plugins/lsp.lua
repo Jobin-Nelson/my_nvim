@@ -22,7 +22,7 @@ return {
       nmap('gl', vim.diagnostic.open_float, 'Open diagnostic')
       -- nmap(']d', vim.diagnostic.goto_next, 'Next diagnostic')
       -- nmap('[d', vim.diagnostic.goto_prev, 'Previous diagnostic')
-      nmap('<leader>gT', vim.lsp.buf.type_definition, 'Goto Type definition')
+      nmap('<leader>lt', vim.lsp.buf.type_definition, 'Goto Type definition')
       nmap('<leader>lq', vim.diagnostic.setloclist, 'Set diagnostic quickfix')
       nmap('<leader>ld', require('telescope.builtin').diagnostics, 'Open diagnostic list')
       nmap('<leader>ls', require('telescope.builtin').lsp_document_symbols, 'Lsp Document Symbols')

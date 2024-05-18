@@ -14,6 +14,7 @@ return {
       d = { name = "Debug" },
       u = { name = "UI" },
       o = { name = "Org mode" },
+      s = { name = "Session" },
     }
     local opts = {
       mode = "n",

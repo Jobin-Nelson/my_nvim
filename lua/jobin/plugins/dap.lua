@@ -40,11 +40,10 @@ return {
         { "<leader>dR", function() require("dapui").open({ reset = true }) end, desc = "Dap UI" },
         { "<leader>de", function() require("dapui").eval() end,               desc = "Eval",  mode = { "n", "v" } },
       },
-      opts = {},
-      config = function(_, opts)
+      config = function()
         local dap = require("dap")
         local dapui = require("dapui")
-        dapui.setup(opts)
+        dapui.setup()
 
         dap.listeners.before.attach.dapui_config = dapui.open
         dap.listeners.before.launch.dapui_config = dapui.open
@@ -75,6 +74,7 @@ return {
         handlers = {},
         ensure_installed = {
           'python',
+          'codelldb',
         }
       }
     },

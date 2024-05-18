@@ -35,7 +35,8 @@ end
 ---@return string
 local function mode()
   local current_mode = vim.api.nvim_get_mode().mode
-  return string.format(" %s ", modes[current_mode]:upper())
+  current_mode = (modes[current_mode] and modes[current_mode]:upper()) or current_mode:upper()
+  return string.format(" %s ", current_mode)
 end
 
 ---@return string
@@ -49,17 +50,14 @@ local function fileicon()
 end
 
 ---@return string
-local function line_info()
+function Statusline()
   if vim.bo.filetype == 'alpha' then
     return ''
   end
-  return '%10.(%l:%c%V%) %P '
-end
 
----@return string
-function Statusline()
   local filler = ' %= '
   local file_segment = '%(' .. fileicon() .. '%<%f %h%m%r%)'
+  local line_info =  '%10.(%l:%c%V%) %P '
 
   return table.concat({
     -- '%#Normal#',
@@ -72,7 +70,7 @@ function Statusline()
     filler,
     '%#Normal#',
     '%#StatusLine#',
-    line_info(),
+    line_info,
   })
 end
 

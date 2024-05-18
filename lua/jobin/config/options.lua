@@ -21,6 +21,8 @@ vim.opt.signcolumn = 'yes'
 vim.opt.laststatus = 3
 -- vim.opt.statuscolumn = '%=%C%s%{v:relnum?v:relnum:v:lnum } '
 vim.o.fillchars = 'eob: ,fold: ,foldopen:,foldsep: ,foldclose:'
+vim.opt.foldenable = false
+vim.opt.foldlevelstart = 99
 -- vim.opt.foldcolumn = '1'
 -- vim.opt.winbar = '%=%m %t'
 -- vim.opt.winbar = "%t  %{%v:lua.require'nvim-navic'.get_location()%}"

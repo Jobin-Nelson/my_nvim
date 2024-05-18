@@ -185,8 +185,9 @@ function M.term_toggle()
   vim.cmd('botright sb' .. term_bufnr)
 end
 
-function M.better_bufdelete()
-  local bufnr = vim.api.nvim_get_current_buf()
+---@param buf_to_delete number|nil
+function M.better_bufdelete(buf_to_delete)
+  local bufnr = buf_to_delete or vim.api.nvim_get_current_buf()
   local next_bufnr = nil
 
   for _, nr in ipairs(vim.api.nvim_list_bufs()) do
