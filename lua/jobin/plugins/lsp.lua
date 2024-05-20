@@ -148,10 +148,12 @@ return {
           capabilities = capabilities,
           on_attach = on_attach,
           settings = servers[server_name],
-          filetypes = (servers[server_name] or {}).filetypes,
+          filetypes = servers[server_name].filetypes,
           cmd = servers[server_name].cmd
         }
       end,
+      -- rust_analyzer will be set up by rustaceanvim
+      ['rust_analyzer'] = function() end,
     }
   end
 }

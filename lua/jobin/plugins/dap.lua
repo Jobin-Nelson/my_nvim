@@ -26,7 +26,7 @@ return {
     { "<leader>do", function() require("dap").step_out() end,                                             desc = "Step Out" },
     { "<leader>dO", function() require("dap").step_over() end,                                            desc = "Step Over" },
     { "<leader>dp", function() require("dap").pause() end,                                                desc = "Pause" },
-    { "<leader>dr", function() require("dap").repl.toggle() end,                                          desc = "Toggle REPL" },
+    -- { "<leader>dr", function() require("dap").repl.toggle() end,                                          desc = "Toggle REPL" },
     { "<leader>ds", function() require("dap").session() end,                                              desc = "Session" },
     { "<leader>dt", function() require("dap").terminate() end,                                            desc = "Terminate" },
     { "<leader>dw", function() require("dap.ui.widgets").hover() end,                                     desc = "Widgets" },
@@ -37,7 +37,7 @@ return {
       dependencies = { "nvim-neotest/nvim-nio" },
       keys = {
         { "<leader>du", function() require("dapui").toggle({}) end,           desc = "Dap UI" },
-        { "<leader>dR", function() require("dapui").open({ reset = true }) end, desc = "Dap UI" },
+        { "<leader>dr", function() require("dapui").open({ reset = true }) end, desc = "Dap UI" },
         { "<leader>de", function() require("dapui").eval() end,               desc = "Eval",  mode = { "n", "v" } },
       },
       config = function()
