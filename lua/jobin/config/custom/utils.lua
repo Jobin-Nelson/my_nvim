@@ -62,7 +62,7 @@ M.rename_file = function(target_dir)
       vim.api.nvim_win_set_buf(win_id, new_bufnr)
     end
     if vim.fn.bufexists(original_bufnr) then
-      vim.api.nvim_buf_delete(original_bufnr, {})
+      vim.api.nvim_buf_delete(original_bufnr, { force = true })
     end
 
     vim.notify("Renamed to " .. new_filename)
