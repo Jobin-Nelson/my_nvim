@@ -51,9 +51,9 @@ end
 
 ---@return string
 function Statusline()
-  if vim.bo.filetype == 'alpha' then
-    return ''
-  end
+  -- if vim.bo.filetype == 'alpha' then
+  --   return ''
+  -- end
 
   local filler = ' %= '
   local file_segment = '%(' .. fileicon() .. '%<%f %h%m%r%)'
