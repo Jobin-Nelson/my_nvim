@@ -34,7 +34,7 @@ local function has_previous_update(current_update)
     previous_file = file
     number_of_files = number_of_files + 1
   end
-  local current_file = os.date("%Y-%m-%d") .. ".txt"
+  local current_file = os.date("%Y-%m-%d") .. ".md"
   local not_current_file = previous_file and previous_file ~= current_file
   return number_of_files == 2 or not_current_file
 end
@@ -61,7 +61,7 @@ local function get_previous_update(current_update)
   for _ = 1, 10 do
     previous_date = previous_date - one_day_in_sec
     local previous_date_string = os.date("%Y-%m-%d", previous_date)
-    previous_update = string.format("%s/%s.txt", parent_dir, previous_date_string)
+    previous_update = string.format("%s/%s.md", parent_dir, previous_date_string)
     if vim.loop.fs_stat(previous_update) then
       break
     end
