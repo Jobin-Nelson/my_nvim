@@ -203,7 +203,7 @@ function M.better_bufdelete(buf_to_delete)
     vim.api.nvim_win_set_buf(win_id, next_bufnr)
   end
 
-  vim.api.nvim_buf_delete(bufnr, {})
+  vim.api.nvim_buf_delete(bufnr, { force = true })
 end
 
 -- vim.keymap.set('n', '<leader>rt', M.better_bufdelete)
