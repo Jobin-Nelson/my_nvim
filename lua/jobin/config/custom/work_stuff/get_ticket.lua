@@ -1,136 +1,115 @@
--- Get issue-id
--- Get link + token
--- Make request
--- Get description from json result
--- Convert html to org
--- Output the result to buffer
+-- https://docs.atlassian.com/software/jira/docs/api/REST/8.20.14/
+--
+local M = {}
 
-local function get_issue_id()
-  return vim.fn.expand('<cWORD>')
-end
-
--- example json file
--- {
---   "jira": {
---     "link": "..."
---     "token": "...",
---   }
--- }
-local function get_link(issue_id)
+---@return string
+local function get_token()
   local creds_file_path = vim.fs.normalize('~/playground/dev/illumina/creds/jira.json')
   local creds = vim.fn.json_decode(vim.fn.readfile(creds_file_path))
   if not creds then
     error('No jira.json file found')
   end
-  local link = creds.jira.link:gsub('(issueIdOrKey=)([^&]*)', string.format('%%1%s', issue_id))
-  local token = creds.jira.token
-  if not link or not token then
+  local token = creds.jira and creds.jira.token
+  if not token then
     error('Cannot parse jira.json file')
   end
-  return link, token
+  return token
 end
 
-local function populate_summary(text)
-  local issue_id = get_issue_id()
-  local bufnr = vim.api.nvim_get_current_buf()
-  local line_nr = vim.fn.line('.')
-  local lines = {
-    '* ' .. text,
-    -- os.date('SCHEDULED: <%Y-%m-%d %a>'),
-    '** Description',
-    string.format('*Ticket*: [[https://jira.illumina.com/browse/%s][%s]]', issue_id, issue_id),
-  }
-  vim.api.nvim_buf_set_lines(bufnr, line_nr, line_nr, false, lines)
-  return line_nr + #lines + 1
-end
-
-local function populate_description(html, line_nr)
-  local uv = vim.loop
-  local handle
-  local stdin, stdout = uv.new_pipe(), uv.new_pipe()
-  local bufnr = vim.api.nvim_get_current_buf()
-
-  if not stdin or not stdout then
-    error('Cannot create new pipe')
-  end
-
-  local function on_exit(status)
-    uv.read_stop(stdout)
-    uv.close(handle)
-    if status ~= 0 then
-      print('pandoc exited with ' .. status)
-    end
-  end
-
-  local cmd = 'pandoc'
-  local cmd_args = { '-f', 'html', '-t', 'org', '-' }
-  local options = {
-    args = cmd_args,
-    stdio = { stdin, stdout, nil }
-  }
-
-  handle = uv.spawn(cmd, options, on_exit)
-
-  if not handle then
-    error('Cannot spawn pandoc process')
-  end
-
-  uv.read_start(stdout, function(status, data)
-    if data then
-      vim.schedule(function()
-        data = data:gsub('\n\n', '\n') -- removing double new lines
-        data = data:gsub('\\\\', '')   -- removing double backslashes
-        data = data:gsub('u00a0', '')  -- removing unusual unicode character
-        vim.api.nvim_buf_set_lines(bufnr, line_nr, line_nr, false, vim.split(data, '\n'))
-      end)
-    end
-  end)
-  uv.write(stdin, html)
-  uv.shutdown(stdin, function()
-    uv.close(stdin)
-  end)
-end
-
-local function pop_sum_desc(_, data)
-  if data and data[1] ~= '' then
-    local response = vim.fn.json_decode(data)
-    if not response then
-      error('Cannot convert response to json')
-    end
-    local description_html = response.tabs.defaultTabs[3].sections[1].html
-    local summary = response.tabs.defaultTabs[1].fields[1].text
-    local line_nr = populate_summary(summary)
-    populate_description(description_html, line_nr)
-  end
-end
-
-local function populate_ticket_details(link, token)
+---@param token string
+---@param issue_id string
+---@return string
+local function query_issue_details(token, issue_id)
   local cmd = 'curl'
   local flags = '-sSfL'
-  local operation = '--request GET'
   local header = "Authorization: Bearer " .. token
+  local api_get_issue = string.format(
+    'https://jira.illumina.com/rest/api/2/issue/%s?fields=summary,description,subtasks',
+    issue_id
+  )
+
   local command = {
     cmd,
     flags,
-    -- operation,
     '--header', header,
-    link,
+    api_get_issue
   }
 
-  vim.fn.jobstart(command, {
-    stdout_buffered = true,
-    on_stdout = pop_sum_desc,
-  })
+  local response = vim.fn.system(command)
+  if vim.v.shell_error ~= 0 then
+    error('Get issue request failed')
+  end
+
+  return response
 end
 
-local M = {}
-
-M.populate_ticket = function()
-  local issue_id = get_issue_id()
-  local link, token = get_link(issue_id)
-  populate_ticket_details(link, token)
+---@param lines string[]
+---@param subtasks table<string, string>
+local function append_subtasks(lines, subtasks)
+  if #subtasks == 0 then
+    vim.notify('Issue %s does not have subtasks')
+    return
+  end
+  table.insert(lines, '** Sub-Tasks')
+  for _, subtask in ipairs(subtasks) do
+    local subtask_summary = subtask.fields and subtask.fields.summary
+    if subtask_summary then
+      table.insert(lines,
+        string.format('*** TODO %s', subtask_summary)
+      )
+    end
+  end
 end
--- vim.keymap.set('n', '<leader>rt', M.populate_ticket)
--- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 
+---@param lines string[]
+---@param fields table<string, string>
+---@param issue_id string
+local function append_header(lines, fields, issue_id)
+  table.insert(lines, '* TODO ' .. fields.summary)
+  table.insert(lines, os.date('SCHEDULED: <%Y-%m-%d %a>'))
+  table.insert(lines, string.format('*Ticket*: [[https://jira.illumina.com/browse/%s][%s]]', issue_id, issue_id))
+
+  if fields.description == vim.NIL then
+    return
+  end
+
+  table.insert(lines, '** Description')
+  for _, description_line in ipairs(vim.split(fields.description, '\n')) do
+    local without_carriage_return = string.gsub(description_line, '\r', '')
+    local without_surround_braces = string.gsub(without_carriage_return, '{%*}', '*')
+    table.insert(lines, without_surround_braces)
+  end
+end
+
+---@param issue_id string
+local function populate_issue_details(issue_id)
+  if issue_id == nil or issue_id == '' then
+    error('Invalid issue_id entered')
+  end
+
+  local token = get_token()
+  local response = vim.json.decode(query_issue_details(token, issue_id))
+  if not response or not response.fields then
+    error('api response is not json')
+  end
+
+  local lines = {}
+  append_header(lines, response.fields, issue_id)
+  append_subtasks(lines, response.fields.subtasks)
+
+  local line_nr = vim.fn.line('.')
+  vim.api.nvim_buf_set_lines(0, line_nr, line_nr, false, lines)
+end
+
+M.populate_issue = function()
+  local issue_id = vim.fn.input({ prompt = 'Enter Issue ID: '})
+  populate_issue_details(issue_id)
+  -- vim.ui.input({
+  --   prompt = 'Enter Issue ID: ',
+  -- }, populate_issue_details)
+end
+
+
+vim.keymap.set('n', '<leader>rt', M.populate_issue)
+vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 return M
