@@ -20,6 +20,12 @@ return {
       org_startup_intended = false,
       org_adapt_indentation = false,
       org_log_into_drawer = 'LOGBOOK',
+      org_use_tag_inheritance = false,
+    })
+
+    vim.keymap.set('i', '<S-CR>', '<cmd>lua require("orgmode").action("org_mappings.meta_return")<CR>', {
+      silent = true,
+      buffer = true,
     })
     -- for _, key in ipairs({ '=', '~' }) do
     --   vim.keymap.set('v', 'i' .. key, string.format('t%soT%s', key, key), { desc = string.format('inner org %s', key) })
