@@ -264,12 +264,12 @@ M.find_docker_images = function(opts)
     previewer = previewers.new_buffer_previewer({
       title = "Docker Image Details",
       define_preview = function(self, entry)
-        vim.api.nvim_buf_set_lines(self.state.bufnr, 0, 0, true, vim.tbl_flatten({
+        vim.api.nvim_buf_set_lines(self.state.bufnr, 0, 0, true, vim.iter({
           '# ' .. entry.value.ID,
           '```lua',
           vim.split(vim.inspect(entry.value), '\n'),
           '```',
-        }))
+        }):flatten():totable())
         previewers_utils.highlighter(self.state.bufnr, "markdown")
       end,
     }),
