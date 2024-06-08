@@ -26,13 +26,34 @@ function M.toggle_spell()
 end
 
 function M.toggle_diagnostics()
-  if vim.diagnostic.is_disabled() then
+  if vim.diagnostic.is_enabled() then
+    vim.diagnostic.enable(false)
+    vim.notify('Diagnostics Disabled')
+  else
     vim.diagnostic.enable()
     vim.notify('Diagnostics Enabled')
-  else
-    vim.diagnostic.disable()
-    vim.notify('Diagnostics Disabled')
   end
+end
+
+function M.toggle_transparency()
+  vim.opt.background = 'dark'
+  local normal_hl = vim.api.nvim_get_hl(0, { name = 'Normal', link = false })
+
+  ---@diagnostic disable-next-line: undefined-field
+  if vim.tbl_isempty(normal_hl) or (normal_hl.bg == nil and normal_hl.ctermbg == nil) then
+    vim.cmd.colorscheme(vim.g.colors_name or 'default')
+
+    -- custom highlights
+    local status_hl = vim.api.nvim_get_hl(0, { name = 'StatusLine', link = false })
+    status_hl = vim.tbl_extend('force', status_hl, { bold = true })
+    vim.api.nvim_set_hl(0, "StatusLine", status_hl)
+    vim.api.nvim_set_hl(0, 'WinSeparator', { cterm = nil })
+    return
+  end
+
+  normal_hl = vim.tbl_extend('force', normal_hl, { bg = 'None', ctermbg = 'None' })
+  vim.api.nvim_set_hl(0, 'Normal', normal_hl)
+  vim.api.nvim_set_hl(0, "StatusLine", { bold = true })
 end
 
 return M

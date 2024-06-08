@@ -10,6 +10,7 @@ local dropdown_theme = require('telescope.themes').get_dropdown()
 
 local second_brain = vim.fs.normalize('~/playground/projects/second_brain')
 
+---@return string[]
 local function get_dotfiles()
   local econf_file = vim.fn.expand('~/.local/bin/econf.sh')
 
@@ -41,6 +42,7 @@ local function get_dotfiles()
   return dotfiles
 end
 
+---@return string[]
 local function get_projects()
   local project_dir = vim.fs.normalize('~/playground/projects')
   local projects = {}
@@ -60,6 +62,8 @@ local function get_projects()
   return projects
 end
 
+---@param entry string
+---@return table<string, string>
 local function zoxide_entry_maker(entry)
   local trimmed = string.gsub(entry, '^%s*(.-)%s*$', '%1')
   local path = string.gsub(trimmed, '^[^%s]* (.*)$', '%1')
