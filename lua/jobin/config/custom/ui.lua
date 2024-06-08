@@ -37,23 +37,25 @@ end
 
 function M.toggle_transparency()
   vim.opt.background = 'dark'
+
+  local transparent_hl = { bg = 'None', ctermbg = 'None' }
   local normal_hl = vim.api.nvim_get_hl(0, { name = 'Normal', link = false })
 
   ---@diagnostic disable-next-line: undefined-field
   if vim.tbl_isempty(normal_hl) or (normal_hl.bg == nil and normal_hl.ctermbg == nil) then
     vim.cmd.colorscheme(vim.g.colors_name or 'default')
 
-    -- custom highlights
     local status_hl = vim.api.nvim_get_hl(0, { name = 'StatusLine', link = false })
     status_hl = vim.tbl_extend('force', status_hl, { bold = true })
     vim.api.nvim_set_hl(0, "StatusLine", status_hl)
-    vim.api.nvim_set_hl(0, 'WinSeparator', { cterm = nil })
-    return
+  else
+    normal_hl = vim.tbl_extend('force', normal_hl, transparent_hl)
+    vim.api.nvim_set_hl(0, 'Normal', normal_hl)
+    vim.api.nvim_set_hl(0, "StatusLine", { bold = true })
+    vim.api.nvim_set_hl(0, 'SignColumn', transparent_hl)
   end
 
-  normal_hl = vim.tbl_extend('force', normal_hl, { bg = 'None', ctermbg = 'None' })
-  vim.api.nvim_set_hl(0, 'Normal', normal_hl)
-  vim.api.nvim_set_hl(0, "StatusLine", { bold = true })
+  vim.api.nvim_set_hl(0, 'WinSeparator', { cterm = nil })
 end
 
 return M

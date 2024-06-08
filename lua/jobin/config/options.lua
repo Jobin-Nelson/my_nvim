@@ -8,6 +8,7 @@ vim.opt.clipboard = 'unnamedplus'
 vim.opt.linebreak = true
 vim.opt.breakindent = true
 vim.opt.breakindentopt = 'list:2,min:20,sbr'
+vim.opt.smoothscroll = true
 -- vim.opt.showbreak = '> '
 vim.opt.ignorecase = true
 vim.opt.smartcase = true

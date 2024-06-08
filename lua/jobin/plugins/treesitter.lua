@@ -30,6 +30,7 @@ return {
           'typescript',
           'tsx',
           'vim',
+          'vimdoc',
           'org',
           'query'
         },
