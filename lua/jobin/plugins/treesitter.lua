@@ -31,7 +31,6 @@ return {
           'tsx',
           'vim',
           'vimdoc',
-          'org',
           'query'
         },
         highlight = {

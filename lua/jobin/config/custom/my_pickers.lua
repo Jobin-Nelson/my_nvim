@@ -99,8 +99,12 @@ M.find_projects = function()
       actions.select_default:replace(function()
         actions.close(prompt_bufnr)
         local selection = action_state.get_selected_entry()
-        vim.cmd('tcd ' .. selection.value[2])
-        print('Directory changed to ' .. selection.value[1])
+        if selection then
+          vim.cmd('tcd ' .. selection.value[2])
+          print('Directory changed to ' .. selection.value[1])
+        else
+          print('No directory selected')
+        end
       end)
       return true
     end

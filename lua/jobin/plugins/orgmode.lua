@@ -1,9 +1,7 @@
 return {
   'nvim-orgmode/orgmode',
-  dependencies = {
-    { 'nvim-treesitter/nvim-treesitter', lazy = true }
-  },
   event = 'VeryLazy',
+  ft = { 'org' },
   config = function()
     require('orgmode').setup({
       org_agenda_files = {
