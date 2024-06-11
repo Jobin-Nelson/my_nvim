@@ -24,7 +24,7 @@ local function query_issue_details(token, issue_id)
   local flags = '-sSfL'
   local header = "Authorization: Bearer " .. token
   local api_get_issue = string.format(
-    'https://jira.illumina.com/rest/api/2/issue/%s?fields=summary,description,subtasks',
+    'https://jira.illumina.com/rest/api/2/issue/%s?fields=summary,description,issuetype,subtasks',
     issue_id
   )
 
@@ -53,10 +53,13 @@ local function append_subtasks(lines, subtasks)
   table.insert(lines, '** Sub-Tasks')
   for _, subtask in ipairs(subtasks) do
     local subtask_summary = subtask.fields and subtask.fields.summary
+    local is_bug = subtask.fields and subtask.fields.issuetype and subtask.fields.issuetype.id == '14'
     if subtask_summary then
-      table.insert(lines,
-        string.format('*** TODO %s', subtask_summary)
-      )
+      local line = string.format('*** TODO [%s] %s', subtask.key, subtask_summary)
+      if is_bug then
+        line = line .. ' :BUG:'
+      end
+      table.insert(lines, line)
     end
   end
 end
@@ -65,7 +68,12 @@ end
 ---@param fields table<string, string>
 ---@param issue_id string
 local function append_header(lines, fields, issue_id)
-  table.insert(lines, '* TODO ' .. fields.summary)
+  local heading = '* TODO ' .. fields.summary
+  ---@diagnostic disable-next-line: undefined-field
+  if fields.issuetype and fields.issuetype.id == '1' then
+    heading = heading .. ' :BUG:'
+  end
+  table.insert(lines, heading)
   table.insert(lines, os.date('SCHEDULED: <%Y-%m-%d %a>'))
   table.insert(lines, string.format('*Ticket*: [[https://jira.illumina.com/browse/%s][%s]]', issue_id, issue_id))
 
@@ -110,6 +118,6 @@ M.populate_issue = function()
 end
 
 
-vim.keymap.set('n', '<leader>rt', M.populate_issue)
-vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
+-- vim.keymap.set('n', '<leader>rt', M.populate_issue)
+-- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 return M
