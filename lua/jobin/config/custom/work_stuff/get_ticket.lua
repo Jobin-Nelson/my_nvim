@@ -195,12 +195,12 @@ end
 M.list_filter_issues = function()
   local filter_id = vim.fn.input({ prompt = 'Enter filter ID: ' })
   local filter_jql = get_filter_jql(filter_id)
-  local search_results = get_search_results(filter_jql, 5, {'summary'})
+  local search_results = get_search_results(filter_jql, 100, {'summary'})
 
   list_issue_summary(search_results)
 end
 
 
--- vim.keymap.set('n', '<leader>rt', M.list_issue_summary)
+-- vim.keymap.set('n', '<leader>rt', M.list_filter_issues)
 -- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 return M
