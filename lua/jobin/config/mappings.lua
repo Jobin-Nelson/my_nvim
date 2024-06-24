@@ -47,8 +47,6 @@ map('n', '<leader>uh', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hi
 -- Custom
 map('n', '<leader>js', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>', { desc = 'Substitute word' })
 map('n', '<leader>jy', '<cmd>call setreg("+", expand("%:p"))<cr>', { desc = 'Copy Filepath' })
-map('n', '<leader>we', '<cmd>lua require("jobin.config.custom.work_stuff.email_update").open()<cr>', { desc = 'Send Email' })
-map('n', '<leader>wt', '<cmd>lua require("jobin.config.custom.work_stuff.get_ticket").populate_issue()<cr>', { desc = 'Source Ticket' })
 map('n', '<leader>jb', '<cmd>lua require("jobin.config.custom.utils").scratch_buffer()<cr>', { desc = 'Scratch buffer' })
 -- map('n', '<leader>jj', '<cmd>lua require("jobin.config.custom.utils").start_journal()<cr>', { desc = 'Start Journal' })
 -- map('n', '<leader>jt', '<cmd>lua require("jobin.config.custom.org_tangle").tangle()<cr>', { desc = 'Org Tangle' })
@@ -56,3 +54,8 @@ map('n', '<leader>jc', '<cmd>lua require("jobin.config.custom.utils").cd_git_roo
 map('n', '<leader>jr', '<cmd>lua require("jobin.config.custom.utils").rename_file()<cr>', { desc = 'Rename File' })
 map('n', '<leader>jm', '<cmd>lua require("jobin.config.custom.my_pickers").move_file()<cr>', { desc = 'Move File' })
 map('n', '<leader>jl', '<cmd>lua require("jobin.config.custom.utils").leet()<cr>', { desc = 'Leetcode Daily' })
+
+-- Work
+map('n', '<leader>we', '<cmd>lua require("jobin.config.custom.work_stuff.email_update").open()<cr>', { desc = 'Send Email' })
+map('n', '<leader>wt', '<cmd>lua require("jobin.config.custom.work_stuff.get_ticket").populate_issue()<cr>', { desc = 'Source Ticket' })
+map('n', '<leader>wf', '<cmd>lua require("jobin.config.custom.work_stuff.get_ticket").list_filter_issues()<cr>', { desc = 'Source Filter Issues' })
