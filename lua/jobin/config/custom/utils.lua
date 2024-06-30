@@ -102,16 +102,8 @@ end
 ---@param cwd? string
 ---@return string|nil
 local function get_git_root(cwd)
-  local cmd = { 'git', 'rev-parse', '--show-toplevel' }
-  if cwd then
-    table.insert(cmd, 2, '-C')
-    table.insert(cmd, 3, cwd)
-  end
-  local output = vim.fn.systemlist(cmd)
-  if vim.v.shell_error ~= 0 then
-    return nil
-  end
-  return output[1]
+  local git_root = vim.fs.find('.git', { path = cwd, upward = true })[1]
+  return git_root and vim.fn.fnamemodify(git_root, ':h') or nil
 end
 
 ---@return string|nil
