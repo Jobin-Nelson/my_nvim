@@ -137,12 +137,12 @@ function M.leet()
   end
 
   local cmd = { 'leet.py', '-n' }
-  local output = vim.fn.system(cmd)
-  if vim.v.shell_error ~= 0 then
+  local response = vim.system(cmd, {text=true}):wait()
+  if response.code ~= 0 or response.stdout == nil then
     print('leet.py failed execution')
     return
   end
-  local leet_file = string.match(output, "(%S+)%s*$")
+  local leet_file = string.match(response.stdout, "(%S+)%s*$")
   vim.cmd('tabedit ' .. leet_file)
 end
 
