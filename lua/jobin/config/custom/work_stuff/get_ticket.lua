@@ -180,8 +180,7 @@ local function list_issue_summary(issues)
   ---@param issue table
   local function insert_summary_from_issue(issue)
     table.insert(lines, string.format(
-      '- [[https://jira.illumina.com/browse/%s][%s]] %s',
-      issue.key,
+      '- [%s] %s',
       issue.key,
       issue.fields.summary
     ))
