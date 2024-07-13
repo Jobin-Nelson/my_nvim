@@ -205,7 +205,7 @@ M.move_file = function()
   local cwd = require('jobin.config.custom.utils').get_git_root_buf() or vim.loop.cwd()
   local rename_file = require('jobin.config.custom.utils').rename_file
 
-  local cmd = { 'find', cwd, '-type', 'd' }
+  local cmd = { 'find', cwd, '(', '-path', '*/.git', '-o', '-path', '*/.obsidian', ')', '-prune', '-o', '-type', 'd', '-print' }
   -- fd doesn't return cwd
   -- if vim.fn.executable('fd') == 0 then
   --   cmd = {'fd', '-td', '.', cwd}
