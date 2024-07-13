@@ -41,6 +41,7 @@ return {
       map('v', '<leader>gc', '<cmd>lua require("telescope.builtin").git_bcommits_range()<cr>', { desc = 'Git Range Commits' })
       -- custom
       map('n', '<leader>fa', '<cmd>lua require("jobin.config.custom.my_pickers").find_config()<cr>', { desc = 'Find Config' })
+      map('n', '<leader>fA', '<cmd>Telescope find_files search_dirs=~/playground/projects/config-setup<cr>', { desc = 'Find Config Setup' })
       map('n', '<leader>fd', '<cmd>lua require("jobin.config.custom.my_pickers").find_dotfiles()<cr>', { desc = 'Find Dotfiles' })
       map('n', '<leader>fz', '<cmd>lua require("jobin.config.custom.my_pickers").find_zoxide()<cr>', { desc = 'Find Zoxide' })
       map('n', '<leader>fss', '<cmd>lua require("jobin.config.custom.my_pickers").find_second_brain_files()<cr>', { desc = 'Find Second brain files' })

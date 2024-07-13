@@ -236,7 +236,6 @@ end
 M.find_dotfiles = function()
   require('telescope.builtin').find_files({
     search_dirs = get_dotfiles(),
-
     prompt_title = 'Find Dotfiles',
   })
 end
