@@ -25,7 +25,7 @@ vim.o.fillchars = 'eob: ,fold: ,foldopen:,foldsep: ,foldclose:'
 vim.opt.foldenable = false
 vim.opt.foldlevelstart = 99
 -- vim.opt.foldcolumn = '1'
-vim.opt.winbar = '%=%m %t'
+-- vim.opt.winbar = '%=%m %t'
 -- vim.opt.winbar = "%t  %{%v:lua.require'nvim-navic'.get_location()%}"
 vim.opt.splitbelow = true
 vim.opt.splitright = true

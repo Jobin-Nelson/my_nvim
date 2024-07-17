@@ -1,23 +1,23 @@
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
-	vim.fn.system {
-		'git',
-		'clone',
-		'--filter=blob:none',
-		'https://github.com/folke/lazy.nvim.git',
-		'--branch=stable', -- latest stable release
-		lazypath,
-	}
+  vim.fn.system {
+    'git',
+    'clone',
+    '--filter=blob:none',
+    'https://github.com/folke/lazy.nvim.git',
+    '--branch=stable', -- latest stable release
+    lazypath,
+  }
 end
 vim.opt.rtp:prepend(lazypath)
 
 require('jobin.config')
 
 require('lazy').setup({
-  { import = 'jobin/plugins'},
+  { import = 'jobin/plugins' },
 }, {
   install = {
-    colorscheme = {'default', 'habamax'},
+    colorscheme = { 'default', 'habamax' },
   },
   change_detection = {
     enabled = true,
@@ -27,26 +27,24 @@ require('lazy').setup({
     enabled = true,
     notify = false,
   },
-	defaults = {
-		lazy = true,
-	},
+  defaults = {
+    lazy = true,
+  },
   ui = {
     border = 'rounded',
   },
-	performance = {
-		rtp = {
-			disabled_plugins = {
-				"gzip",
-				"matchit",
-				-- "matchparen",
-				"netrwPlugin",
-				"tarPlugin",
-				"tohtml",
-				"tutor",
-				"zipPlugin",
-			}
-		}
-	}
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        "gzip",
+        "matchit",
+        -- "matchparen",
+        "netrwPlugin",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
+      }
+    }
+  }
 })
-
-
