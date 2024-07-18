@@ -136,7 +136,7 @@ function M.leet()
     return
   end
 
-  local cmd = { 'leet.py', '-n', '-b' }
+  local cmd = { 'leet.py', '-n' }
   local response = vim.system(cmd, {text=true}):wait()
   if response.code ~= 0 or response.stdout == nil then
     print('leet.py failed execution')
