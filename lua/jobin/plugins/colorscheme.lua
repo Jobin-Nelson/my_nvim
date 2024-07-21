@@ -76,5 +76,13 @@ return {
 
       vim.cmd('colorscheme terafox')
     end,
+  },
+  {
+    'loctvl842/monokai-pro.nvim',
+    opts = {
+      transparent_background = false,
+      devicons = true,
+      background_clear = { 'float_win', 'telescope' },
+    }
   }
 }
