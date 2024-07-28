@@ -41,10 +41,10 @@ local integrations = {
 return {
   {
     "catppuccin/nvim",
-    name = "catppuccin",
-    lazy = false,
+    name     = "catppuccin",
+    lazy     = false,
     priority = 1000,
-    config  = function()
+    config   = function()
       require('catppuccin').setup({
         transparent_background = true,
         dim_inactive = {
@@ -78,11 +78,6 @@ return {
     end,
   },
   {
-    'loctvl842/monokai-pro.nvim',
-    opts = {
-      transparent_background = false,
-      devicons = true,
-      background_clear = { 'float_win', 'telescope' },
-    }
+    "slugbyte/lackluster.nvim",
   }
 }
