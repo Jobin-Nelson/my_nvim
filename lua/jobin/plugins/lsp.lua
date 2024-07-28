@@ -4,7 +4,37 @@ return {
   dependencies = {
     { 'williamboman/mason.nvim', cmd = 'Mason', opts = { ui = { border = 'rounded' } } },
     'williamboman/mason-lspconfig.nvim',
-    { 'j-hui/fidget.nvim', opts = {} },
+    {
+      'j-hui/fidget.nvim',
+      opts = {
+        progress = {
+          display = {
+            render_limit = 16,     -- How many LSP messages to show at once
+            done_ttl = 3,          -- How long a message should persist after completion
+            done_icon = '✔',
+            progress_icon = { pattern = 'meter', period = 1 },
+          },
+        },
+
+        notification = {
+          poll_rate = 60,   -- FPS
+          view = {
+            stack_upwards = true,
+            icon_separator = " ",
+            group_separator = "---",
+          },
+
+          window = {
+            normal_hl = "Comment",     -- Base highlight group in the notification window
+            winblend = 0,              -- Background color opacity in the notification window
+            border = "single",         -- Border around the notification window
+            x_padding = 1,
+            y_padding = 0,
+            relative = "editor",
+          },
+        },
+      }
+    },
     'folke/neodev.nvim',
   },
   config = function()
@@ -135,10 +165,10 @@ return {
     -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     -- for ufo
-    -- capabilities.textDocument.foldingRange = {
-    --   dynamicRegistration = false,
-    --   lineFoldingOnly = true,
-    -- }
+    capabilities.textDocument.foldingRange = {
+      dynamicRegistration = false,
+      lineFoldingOnly = true,
+    }
     capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 

@@ -76,6 +76,7 @@ return {
           file_ignore_patterns = {
             'node_modules',
             -- '.git',
+            'venv',
             '__pycache__',
           },
           hidden = true,
