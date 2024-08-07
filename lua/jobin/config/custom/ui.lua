@@ -36,7 +36,6 @@ function M.toggle_diagnostics()
 end
 
 function M.toggle_transparency()
-  vim.opt.background = 'dark'
 
   local transparent_hl = { bg = 'None', ctermbg = 'None' }
   local normal_hl = vim.api.nvim_get_hl(0, { name = 'Normal', link = false })
@@ -56,6 +55,7 @@ function M.toggle_transparency()
   end
 
   vim.api.nvim_set_hl(0, 'WinSeparator', { cterm = nil })
+  vim.opt.background = 'dark'
 end
 
 return M

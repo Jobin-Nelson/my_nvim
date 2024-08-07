@@ -17,7 +17,7 @@ require('lazy').setup({
   { import = 'jobin/plugins' },
 }, {
   install = {
-    colorscheme = { 'retrobox', 'habamax' },
+    colorscheme = { 'default', 'habamax' },
   },
   change_detection = {
     enabled = true,
