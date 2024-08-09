@@ -6,4 +6,5 @@ return {
   { 'b0o/schemastore.nvim' },
   { 'stevearc/dressing.nvim',     event = 'VeryLazy',                      config = true },
   { 'akinsho/toggleterm.nvim',    cmd = 'ToggleTerm',                      config = true },
+  { 'folke/neodev.nvim',          ft = 'lua ' , config = true },
 }

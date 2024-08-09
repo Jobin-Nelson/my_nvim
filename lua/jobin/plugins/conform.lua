@@ -1,6 +1,6 @@
 return {
   'stevearc/conform.nvim',
-  event = 'VeryLazy',
+  event = { 'BufReadPre', 'BufNewFile' },
   keys = { '<leader>cf' },
   config = function()
     vim.keymap.set('n', '<leader>cf', function()

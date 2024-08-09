@@ -1,7 +1,46 @@
+local map = vim.keymap.set
+map('n', '<leader>f<cr>', '<cmd>Telescope resume<cr>', { desc = 'Find Oldfiles' })
+map('n', '<leader>fB', '<cmd>Telescope builtin<cr>', { desc = 'Find Builtins' })
+map('n', '<leader>fo', '<cmd>Telescope oldfiles<cr>', { desc = 'Find Oldfiles' })
+map('n', '<leader>fb', '<cmd>Telescope buffers<cr>', { desc = 'Find Buffers' })
+map('n', '<leader>ff', '<cmd>Telescope find_files<cr>', { desc = 'Find Files' })
+map('n', '<leader>fF', '<cmd>Telescope find_files hidden=True no_ignore=True<cr>', { desc = 'Find Files' })
+map('n', '<leader>fg', '<cmd>Telescope git_files use_file_path=True use_git_root=True recurse_submodules=True<cr>', { desc = 'Find Git Files (root)' })
+map('n', '<leader>fG', '<cmd>Telescope git_files use_file_path=False use_git_root=False recurse_submodules=True<cr>', { desc = 'Find Git Files (cwd)' })
+map('n', '<leader>fh', '<cmd>Telescope help_tags<cr>', { desc = 'Find Help' })
+map('n', '<leader>fc', '<cmd>Telescope grep_string<cr>', { desc = 'Find word under Cursor' })
+map('n', '<leader>fW', '<cmd>Telescope live_grep<cr>', { desc = 'Find words (cwd)' })
+map('n', '<leader>fC', '<cmd>Telescope commands<cr>', { desc = 'Find Commands' })
+map('n', '<leader>fk', '<cmd>Telescope keymaps<cr>', { desc = 'Find Keymaps' })
+map('n', "<leader>f'", '<cmd>Telescope marks<cr>', { desc = 'Find Marks' })
+map('n', "<leader>fm", '<cmd>Telescope man_pages<cr>', { desc = 'Find Man Pages' })
+map('n', '<leader>ft', '<cmd>Telescope colorscheme<cr>', { desc = 'Find Themes' })
+map('n', '<leader>fD', '<cmd>Telescope diagnostics<cr>', { desc = 'Find Diagnostics' })
+map('n', '<leader>f/', '<cmd>Telescope current_buffer_fuzzy_find<cr>', { desc = 'Buffer Search' })
+-- git
+map('n', '<leader>gb', '<cmd>Telescope git_branches<cr>', { desc = 'Git Branches' })
+map('n', '<leader>gt', '<cmd>Telescope git_status<cr>', { desc = 'Git Status' })
+map('n', '<leader>gc', '<cmd>Telescope git_commits<cr>', { desc = 'Git Commits' })
+map('v', '<leader>gc', '<cmd>Telescope git_bcommits_range<cr>', { desc = 'Git Range Commits' })
+
 return {
   {
     'nvim-telescope/telescope.nvim',
-    event = 'VeryLazy',
+    cmd = 'Telescope',
+    keys = {
+      { '<leader>fw',  '<cmd>lua require("telescope.builtin").live_grep({cwd=require("jobin.config.custom.utils").get_git_root_buf()})<cr>', desc = 'Find words (root)' },
+      -- custom
+      { '<leader>fa',  '<cmd>lua require("jobin.config.custom.my_pickers").find_config()<cr>',                                               desc = 'Find Config' },
+      { '<leader>fA',  '<cmd>Telescope find_files search_dirs=~/playground/projects/config-setup<cr>',                                       desc = 'Find Config Setup' },
+      { '<leader>fd',  '<cmd>lua require("jobin.config.custom.my_pickers").find_dotfiles()<cr>',                                             desc = 'Find Dotfiles' },
+      { '<leader>fz',  '<cmd>lua require("jobin.config.custom.my_pickers").find_zoxide()<cr>',                                               desc = 'Find Zoxide' },
+      { '<leader>fss', '<cmd>lua require("jobin.config.custom.my_pickers").find_second_brain_files()<cr>',                                   desc = 'Find Second brain files' },
+      { '<leader>fsi', '<cmd>lua require("jobin.config.custom.my_pickers").insert_second_brain_template()<cr>',                              desc = 'Insert Second brain Templates' },
+      { '<leader>fO',  '<cmd>lua require("jobin.config.custom.my_pickers").find_org_files()<cr>',                                            desc = 'Find Org files' },
+      { '<leader>fp',  '<cmd>lua require("jobin.config.custom.my_pickers").find_projects()<cr>',                                             desc = 'Find Projects' },
+      { '<leader>fj',  '<cmd>lua require("jobin.config.custom.my_pickers").find_journal()<cr>',                                              desc = 'Find Journal' },
+      { '<leader>fi',  '<cmd>lua require("jobin.config.custom.my_pickers").find_docker_images()<cr>',                                        desc = 'Find Docker Images' },
+    },
     dependencies = {
       'nvim-lua/plenary.nvim',
       {
@@ -13,44 +52,6 @@ return {
       },
     },
     config = function()
-      -- mappings
-      local map = vim.keymap.set
-      map('n', '<leader>f<cr>', '<cmd>lua require("telescope.builtin").resume()<cr>', { desc = 'Find Oldfiles' })
-      map('n', '<leader>fB', '<cmd>lua require("telescope.builtin").builtin()<cr>', { desc = 'Find Builtins' })
-      map('n', '<leader>fo', '<cmd>lua require("telescope.builtin").oldfiles()<cr>', { desc = 'Find Oldfiles' })
-      map('n', '<leader>fb', '<cmd>lua require("telescope.builtin").buffers()<cr>', { desc = 'Find Buffers' })
-      map('n', '<leader>ff', '<cmd>lua require("telescope.builtin").find_files()<cr>', { desc = 'Find Files' })
-      map('n', '<leader>fF', '<cmd>lua require("telescope.builtin").find_files({no_ignore=true,hidden=true})<cr>', { desc = 'Find Files' })
-      map('n', '<leader>fg', '<cmd>lua require("telescope.builtin").git_files({use_file_path=true,use_git_root=true,recurse_submodules=true})<cr>', { desc = 'Find Git Files (root)' })
-      map('n', '<leader>fG', '<cmd>lua require("telescope.builtin").git_files({use_file_path=false,use_git_root=false,recurse_submodules=true})<cr>', { desc = 'Find Git Files (cwd)' })
-      map('n', '<leader>fh', '<cmd>lua require("telescope.builtin").help_tags()<cr>', { desc = 'Find Help' })
-      map('n', '<leader>fc', '<cmd>lua require("telescope.builtin").grep_string()<cr>', { desc = 'Find word under Cursor' })
-      map('n', '<leader>fw', '<cmd>lua require("telescope.builtin").live_grep({cwd=require("jobin.config.custom.utils").get_git_root_buf()})<cr>', { desc = 'Find words (root)' })
-      map('n', '<leader>fW', '<cmd>lua require("telescope.builtin").live_grep()<cr>', { desc = 'Find words (cwd)' })
-      map('n', '<leader>fC', '<cmd>lua require("telescope.builtin").commands()<cr>', { desc = 'Find Commands' })
-      map('n', '<leader>fk', '<cmd>lua require("telescope.builtin").keymaps()<cr>', { desc = 'Find Keymaps' })
-      map('n', "<leader>f'", '<cmd>lua require("telescope.builtin").marks()<cr>', { desc = 'Find Marks' })
-      map('n', "<leader>fm", '<cmd>lua require("telescope.builtin").man_pages()<cr>', { desc = 'Find Man Pages' })
-      map('n', '<leader>ft', '<cmd>lua require("telescope.builtin").colorscheme()<cr>', { desc = 'Find Themes' })
-      map('n', '<leader>fD', '<cmd>lua require("telescope.builtin").diagnostics()<cr>', { desc = 'Find Diagnostics' })
-      map('n', '<leader>f/', '<cmd>lua require("telescope.builtin").current_buffer_fuzzy_find()<cr>', { desc = 'Buffer Search' })
-      -- git
-      map('n', '<leader>gb', '<cmd>lua require("telescope.builtin").git_branches()<cr>', { desc = 'Git Branches' })
-      map('n', '<leader>gt', '<cmd>lua require("telescope.builtin").git_status()<cr>', { desc = 'Git Status' })
-      map('n', '<leader>gc', '<cmd>lua require("telescope.builtin").git_commits()<cr>', { desc = 'Git Commits' })
-      map('v', '<leader>gc', '<cmd>lua require("telescope.builtin").git_bcommits_range()<cr>', { desc = 'Git Range Commits' })
-      -- custom
-      map('n', '<leader>fa', '<cmd>lua require("jobin.config.custom.my_pickers").find_config()<cr>', { desc = 'Find Config' })
-      map('n', '<leader>fA', '<cmd>Telescope find_files search_dirs=~/playground/projects/config-setup<cr>', { desc = 'Find Config Setup' })
-      map('n', '<leader>fd', '<cmd>lua require("jobin.config.custom.my_pickers").find_dotfiles()<cr>', { desc = 'Find Dotfiles' })
-      map('n', '<leader>fz', '<cmd>lua require("jobin.config.custom.my_pickers").find_zoxide()<cr>', { desc = 'Find Zoxide' })
-      map('n', '<leader>fss', '<cmd>lua require("jobin.config.custom.my_pickers").find_second_brain_files()<cr>', { desc = 'Find Second brain files' })
-      map('n', '<leader>fsi', '<cmd>lua require("jobin.config.custom.my_pickers").insert_second_brain_template()<cr>', { desc = 'Insert Second brain Templates' })
-      map('n', '<leader>fO', '<cmd>lua require("jobin.config.custom.my_pickers").find_org_files()<cr>', { desc = 'Find Org files' })
-      map('n', '<leader>fp', '<cmd>lua require("jobin.config.custom.my_pickers").find_projects()<cr>', { desc = 'Find Projects' })
-      map('n', '<leader>fj', '<cmd>lua require("jobin.config.custom.my_pickers").find_journal()<cr>', { desc = 'Find Journal' })
-      map('n', '<leader>fi', '<cmd>lua require("jobin.config.custom.my_pickers").find_docker_images()<cr>', { desc = 'Find Docker Images' })
-
       -- setup
       local actions = require('telescope.actions')
       local my_actions = require('jobin.config.custom.my_actions')

@@ -34,8 +34,7 @@ return {
           },
         },
       }
-    },
-    'folke/neodev.nvim',
+    }
   },
   config = function()
     local on_attach = function(client, bufnr)
@@ -151,9 +150,6 @@ return {
         },
       },
     }
-
-    -- Setup neovim lua configuration
-    require('neodev').setup()
 
     -- Ensure the servers above are installed
     local mason_lspconfig = require 'mason-lspconfig'

@@ -1,6 +1,6 @@
 return {
   "nvim-lualine/lualine.nvim",
-  event = 'VeryLazy',
+  event = { 'BufReadPre', 'BufNewFile' },
   config = function()
     local icons = require "jobin.config.icons"
 

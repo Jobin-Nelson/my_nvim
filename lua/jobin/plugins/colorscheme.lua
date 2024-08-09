@@ -1,7 +1,7 @@
 local integrations = {
   nvimtree = true,
   ts_rainbow = false,
-  -- dap = { enabled = true, enable_ui = true },
+  dap = { enabled = true, enable_ui = true },
   symbols_outline = true,
   aerial = true,
   alpha = true,
