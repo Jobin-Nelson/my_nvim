@@ -26,7 +26,6 @@ vim.opt.foldenable = false
 vim.opt.foldlevelstart = 99
 -- vim.opt.foldcolumn = '1'
 -- vim.opt.winbar = '%=%m %t'
--- vim.opt.winbar = "%t  %{%v:lua.require'nvim-navic'.get_location()%}"
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.tabstop = 2
@@ -46,15 +45,15 @@ vim.opt.pumblend = 0
 vim.opt.sessionoptions = 'curdir,folds,globals,help,tabpages,terminal,winsize'
 -- vim.opt.iskeyword = vim.opt.iskeyword + '-'
 vim.opt.formatoptions = vim.opt.formatoptions
-  - "a" -- Auto formatting is BAD.
-  - "t" -- Don't auto format my code. I got linters for that.
-  + "c" -- In general, I like it when comments respect textwidth
-  + "q" -- Allow formatting comments w/ gq
-  - "o" -- O and o, don't continue comments
-  + "r" -- But do continue when pressing enter.
-  + "n" -- Indent past the formatlistpat, not underneath it.
-  + "j" -- Auto-remove comments if possible.
-  - "2" -- I'm not in gradeschool anymore
+    - "a" -- Auto formatting is BAD.
+    - "t" -- Don't auto format my code. I got linters for that.
+    + "c" -- In general, I like it when comments respect textwidth
+    + "q" -- Allow formatting comments w/ gq
+    - "o" -- O and o, don't continue comments
+    + "r" -- But do continue when pressing enter.
+    + "n" -- Indent past the formatlistpat, not underneath it.
+    + "j" -- Auto-remove comments if possible.
+    - "2" -- I'm not in gradeschool anymore
 vim.g.markdown_folding = 1
 vim.g.git_worktrees = {
   {
