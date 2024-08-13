@@ -2,6 +2,9 @@ return {
   'folke/which-key.nvim',
   event = 'VeryLazy',
   opts = {
+    icons = {
+      mappings = false,
+    },
     defaults = {
       preset = "modern",
     },
@@ -18,6 +21,7 @@ return {
       { "<leader>u", group = "UI",       nowait = true, remap = false },
       { "<leader>o", group = "Org mode", nowait = true, remap = false },
       { "<leader>s", group = "Session",  nowait = true, remap = false },
+      { "<leader>x", group = "Trouble",  nowait = true, remap = false },
     }
   },
 }

@@ -22,6 +22,8 @@ map('n', '<leader>gb', '<cmd>Telescope git_branches<cr>', { desc = 'Git Branches
 map('n', '<leader>gt', '<cmd>Telescope git_status<cr>', { desc = 'Git Status' })
 map('n', '<leader>gc', '<cmd>Telescope git_commits<cr>', { desc = 'Git Commits' })
 map('v', '<leader>gc', '<cmd>Telescope git_bcommits_range<cr>', { desc = 'Git Range Commits' })
+-- Custom
+map('n', '<leader>fA', '<cmd>Telescope find_files search_dirs=~/playground/projects/config-setup<cr>', {desc = 'Find Config Setup' })
 
 return {
   {
@@ -31,7 +33,6 @@ return {
       { '<leader>fw',  '<cmd>lua require("telescope.builtin").live_grep({cwd=require("jobin.config.custom.utils").get_git_root_buf()})<cr>', desc = 'Find words (root)' },
       -- custom
       { '<leader>fa',  '<cmd>lua require("jobin.config.custom.my_pickers").find_config()<cr>',                                               desc = 'Find Config' },
-      { '<leader>fA',  '<cmd>Telescope find_files search_dirs=~/playground/projects/config-setup<cr>',                                       desc = 'Find Config Setup' },
       { '<leader>fd',  '<cmd>lua require("jobin.config.custom.my_pickers").find_dotfiles()<cr>',                                             desc = 'Find Dotfiles' },
       { '<leader>fz',  '<cmd>lua require("jobin.config.custom.my_pickers").find_zoxide()<cr>',                                               desc = 'Find Zoxide' },
       { '<leader>fss', '<cmd>lua require("jobin.config.custom.my_pickers").find_second_brain_files()<cr>',                                   desc = 'Find Second brain files' },
