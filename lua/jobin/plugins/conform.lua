@@ -1,12 +1,15 @@
 return {
   'stevearc/conform.nvim',
-  event = { 'BufReadPre', 'BufNewFile' },
-  keys = { '<leader>cf' },
+  keys = {
+    {
+      '<leader>cf',
+      function()
+        require('conform').format({ async = true })
+      end,
+      desc = 'Format Buffer'
+    }
+  },
   config = function()
-    vim.keymap.set('n', '<leader>cf', function()
-      require('conform').format({ async = true })
-    end, { desc = 'Format Buffer' })
-
     require('conform').setup({
       formatters_by_ft = {
         python = { 'isort', 'black', },

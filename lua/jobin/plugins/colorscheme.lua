@@ -41,10 +41,10 @@ local integrations = {
 return {
   {
     "catppuccin/nvim",
-    name     = "catppuccin",
+    name   = "catppuccin",
     -- lazy     = false,
     -- priority = 1000,
-    config   = function()
+    config = function()
       require('catppuccin').setup({
         transparent_background = true,
         dim_inactive = {
@@ -91,5 +91,11 @@ return {
       vim.g.gruvbox_material_better_performance = 1
       vim.cmd.colorscheme('gruvbox-material')
     end
-  }
+  },
+  {
+    "mellow-theme/mellow.nvim",
+    config = function()
+      vim.cmd.colorscheme('mellow')
+    end
+  },
 }
