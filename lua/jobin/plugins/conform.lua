@@ -14,6 +14,7 @@ return {
       formatters_by_ft = {
         python = { 'isort', 'black', },
         rust = { 'rustfmt' },
+        go = { 'goimports', 'gofmt' },
         javascript = { 'prettierd', 'prettier', stop_after_first = true },
       },
       default_format_opts = {

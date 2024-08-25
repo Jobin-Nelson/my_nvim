@@ -121,7 +121,7 @@ return {
       tsserver = {},
       emmet_ls = {},
       marksman = {},
-      -- gopls = {},
+      gopls = {},
       rust_analyzer = {
         cmd = { "rustup", "run", "stable", "rust-analyzer" },
       },
