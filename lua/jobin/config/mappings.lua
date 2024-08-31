@@ -51,6 +51,7 @@ map('n', '<leader>uh', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hi
 -- Custom
 map('n', '<leader>js', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>', { desc = 'Substitute word' })
 map('n', '<leader>jy', '<cmd>call setreg("+", expand("%:p"))<cr>', { desc = 'Copy Filepath' })
+map('n', '<leader>ja', ':<Up><cr>', { desc = 'Run Last Command' })
 map('n', '<leader>jb', '<cmd>lua require("jobin.config.custom.utils").scratch_buffer()<cr>', { desc = 'Scratch buffer' })
 -- map('n', '<leader>jj', '<cmd>lua require("jobin.config.custom.utils").start_journal()<cr>', { desc = 'Start Journal' })
 -- map('n', '<leader>jt', '<cmd>lua require("jobin.config.custom.org_tangle").tangle()<cr>', { desc = 'Org Tangle' })
