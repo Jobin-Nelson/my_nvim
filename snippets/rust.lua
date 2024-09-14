@@ -31,6 +31,16 @@ mod tests {{
       i(2, "start_testing..."),
     })
   ),
+  s("reg",
+    fmt([[
+  // region: -- {}
+  {}
+  // end region: -- {}
+  ]], {
+      i(1), i(0), rep(1)
+    })
+
+  )
 }
 
 -- End snippets
