@@ -5,6 +5,5 @@ return {
   { "kylechui/nvim-surround",     event = { "BufReadPost", "BufNewFile" },         config = true },
   { 'stevearc/dressing.nvim',     event = 'VeryLazy',                              config = true },
   { 'akinsho/toggleterm.nvim',    cmd = 'ToggleTerm',                              config = true },
-  { 'folke/neodev.nvim',          ft = 'lua',                                      config = true },
   { 'sindrets/diffview.nvim',     cmd = { 'DiffviewFileHistory', 'DiffViewOpen' }, config = true },
 }

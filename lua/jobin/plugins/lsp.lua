@@ -5,6 +5,7 @@ return {
     { 'williamboman/mason.nvim', cmd = 'Mason', opts = { ui = { border = 'rounded' } } },
     'williamboman/mason-lspconfig.nvim',
     'b0o/schemastore.nvim',
+    'hrsh7th/cmp-nvim-lsp',
     {
       'j-hui/fidget.nvim',
       opts = {
@@ -128,29 +129,43 @@ return {
           diagnostics = {
             globals = { "vim" },
           },
-          runtime = {
-            version = "LuaJIT",
+          completion = {
+            callSnippet = 'Replace',
           },
           workspace = {
             checkThirdParty = false,
-            library = {
-              '${3rd}/luv/library',
-              vim.env.VIMRUNTIME,
-            },
           },
-          telemetry = { enable = false },
+          doc = {
+            privateName = { '^_' },
+          },
         },
       },
       jsonls = {
         settings = {
           json = {
+            -- For more manual selection of schemas visit
+            -- https://www.arthurkoziel.com/json-schemas-in-neovim/
             schemas = require('schemastore').json.schemas(),
+            validate = { enable = true },
           }
+        },
+      },
+      yamlls = {
+         settings = {
+          yaml = {
+            schemaStore = {
+              -- You must disable built-in schemaStore support if you want to use
+              -- this plugin and its advanced options like `ignore`.
+              enable = false,
+              -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+              url = "",
+            },
+            schemas = require('schemastore').yaml.schemas(),
+          },
         },
       },
       dockerls = {},
       sqlls = {},
-      yamlls = {},
     }
 
     -- Ensure the servers above are installed
@@ -167,16 +182,18 @@ return {
       dynamicRegistration = false,
       lineFoldingOnly = true,
     }
-    capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-
+    capabilities = vim.tbl_deep_extend(
+      'force',
+      capabilities,
+      require('cmp_nvim_lsp').default_capabilities()
+    )
 
     mason_lspconfig.setup_handlers {
       function(server_name)
-        require('lspconfig')[server_name].setup {
-          capabilities = capabilities,
-          on_attach = on_attach,
-          settings = servers[server_name],
-        }
+        local server = servers[server_name] or {}
+        server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+        server.on_attach = on_attach
+        require('lspconfig')[server_name].setup(server)
       end,
       -- rust_analyzer will be set up by rustaceanvim
       ['rust_analyzer'] = function() end,
