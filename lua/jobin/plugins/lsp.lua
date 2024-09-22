@@ -119,7 +119,7 @@ return {
       bashls = {},
       clangd = {},
       pyright = {},
-      tsserver = {},
+      ts_ls = {},
       emmet_ls = {},
       marksman = {},
       -- gopls = {},
