@@ -6,4 +6,5 @@ return {
   { 'stevearc/dressing.nvim',     event = 'VeryLazy',                              config = true },
   { 'akinsho/toggleterm.nvim',    cmd = 'ToggleTerm',                              config = true },
   { 'sindrets/diffview.nvim',     cmd = { 'DiffviewFileHistory', 'DiffViewOpen' }, config = true },
+  { "folke/todo-comments.nvim",   event = { 'BufReadPre', 'BufNewFile' },          dependencies = { "nvim-lua/plenary.nvim" }, opts = {} }
 }
