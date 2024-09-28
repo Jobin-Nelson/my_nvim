@@ -39,6 +39,7 @@ function M.toggle_transparency()
 
   local transparent_hl = { bg = 'None', ctermbg = 'None' }
   local normal_hl = vim.api.nvim_get_hl(0, { name = 'Normal', link = false })
+  local normalnc_hl = vim.api.nvim_get_hl(0, { name = 'NormalNC', link = false })
 
   ---@diagnostic disable-next-line: undefined-field
   if vim.tbl_isempty(normal_hl) or (normal_hl.bg == nil and normal_hl.ctermbg == nil) then
@@ -49,7 +50,9 @@ function M.toggle_transparency()
     vim.api.nvim_set_hl(0, "StatusLine", status_hl)
   else
     normal_hl = vim.tbl_extend('force', normal_hl, transparent_hl)
+    normalnc_hl = vim.tbl_extend('force', normalnc_hl, transparent_hl)
     vim.api.nvim_set_hl(0, 'Normal', normal_hl)
+    vim.api.nvim_set_hl(0, 'NormalNC', normalnc_hl)
     vim.api.nvim_set_hl(0, "StatusLine", { bold = true })
     vim.api.nvim_set_hl(0, 'SignColumn', transparent_hl)
   end

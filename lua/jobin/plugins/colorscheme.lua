@@ -42,8 +42,8 @@ return {
   {
     "catppuccin/nvim",
     name   = "catppuccin",
-    -- lazy     = false,
-    -- priority = 1000,
+    lazy     = false,
+    priority = 1000,
     config = function()
       require('catppuccin').setup({
         transparent_background = true,
@@ -59,28 +59,9 @@ return {
     end
   },
   {
-    'EdenEast/nightfox.nvim',
+    'sainnhe/gruvbox-material',
     -- lazy = false,
     -- priority = 1000,
-    config = function()
-      require('nightfox').setup({
-        options = {
-          transparent = false,
-          dim_inactive = true,
-          styles = {
-            comments = 'italic',
-          },
-          modules = integrations,
-        },
-      })
-
-      vim.cmd('colorscheme terafox')
-    end,
-  },
-  {
-    'sainnhe/gruvbox-material',
-    lazy = false,
-    priority = 1000,
     config = function()
       vim.g.gruvbox_material_background = 'hard'
       vim.g.gruvbox_material_enable_italic = true
@@ -94,8 +75,11 @@ return {
   },
   {
     "mellow-theme/mellow.nvim",
+    -- lazy = false,
+    -- priority = 1000,
     config = function()
+      -- vim.g.mellow_transparent = true
       vim.cmd.colorscheme('mellow')
-    end
+    end,
   },
 }
