@@ -42,8 +42,8 @@ return {
   {
     "catppuccin/nvim",
     name   = "catppuccin",
-    lazy     = false,
-    priority = 1000,
+    -- lazy     = false,
+    -- priority = 1000,
     config = function()
       require('catppuccin').setup({
         transparent_background = true,
@@ -75,8 +75,8 @@ return {
   },
   {
     "mellow-theme/mellow.nvim",
-    -- lazy = false,
-    -- priority = 1000,
+    lazy = false,
+    priority = 1000,
     config = function()
       -- vim.g.mellow_transparent = true
       vim.cmd.colorscheme('mellow')

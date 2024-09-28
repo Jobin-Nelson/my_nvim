@@ -183,6 +183,7 @@ return {
       },
       dockerls = {},
       sqlls = {},
+      groovyls = {},
     }
 
     -- Ensure the servers above are installed

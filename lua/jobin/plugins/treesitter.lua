@@ -45,7 +45,9 @@ return {
         'tsx',
         'vim',
         'vimdoc',
-        'query'
+        'query',
+        'groovy',
+        'java',
       },
       highlight = {
         enable = true,
