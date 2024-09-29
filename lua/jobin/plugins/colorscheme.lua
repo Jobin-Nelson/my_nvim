@@ -78,8 +78,11 @@ return {
     lazy = false,
     priority = 1000,
     config = function()
-      -- vim.g.mellow_transparent = true
+      vim.g.mellow_transparent = true
       vim.cmd.colorscheme('mellow')
+      vim.api.nvim_set_hl(0, 'TreesitterContextBottom', {
+        underline = true,
+      })
     end,
   },
 }

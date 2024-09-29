@@ -9,7 +9,5 @@ return {
     "sindrets/diffview.nvim",
     "nvim-telescope/telescope.nvim",
   },
-  config = function()
-    require('neogit').setup({})
-  end,
+  opts = {},
 }
