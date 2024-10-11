@@ -41,6 +41,15 @@ if __name__ == '__main__':
   s({ trig = 'imain', hidden = true },
     t({ "if __name__ == '__main__':", '\t' })
   ),
+  s({ trig = 'reg' },
+    fmt([[
+    # Region: -- {}
+    {}
+    # End Region: -- {}
+]], {
+      i(1), i(0), rep(1),
+    })
+  ),
 }
 
 -- End snippets
