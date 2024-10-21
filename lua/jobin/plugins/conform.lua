@@ -12,7 +12,7 @@ return {
   config = function()
     require('conform').setup({
       formatters_by_ft = {
-        python = { 'isort', 'black', },
+        python = { 'ruff_format' },
         rust = { 'rustfmt' },
         go = { 'goimports', 'gofmt' },
         javascript = { 'prettierd', 'prettier', stop_after_first = true },
