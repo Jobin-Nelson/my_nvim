@@ -48,6 +48,7 @@ return {
         'query',
         'groovy',
         'java',
+        'haskell',
       },
       highlight = {
         enable = true,

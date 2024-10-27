@@ -52,6 +52,9 @@ map('n', '<leader>uh', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hi
 map('n', '<leader>js', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>', { desc = 'Substitute word' })
 map('n', '<leader>jy', '<cmd>let @+=@% | echo "Filepath copied to clipboard"<cr>', { desc = 'Copy Filepath' })
 map('n', '<leader>ja', ':<Up><cr>', { desc = 'Run Last Command' })
+map('n', '<leader>jp', '<cmd>set relativenumber! number! showmode! showcmd! hidden! ruler!<cr>',
+  { desc = 'Presentation Mode' })
+map('n', '<leader>jt', '<cmd>.!toilet -w 200 -f term -F border<cr>', { desc = 'Box line' })
 map('n', '<leader>jb', '<cmd>lua require("jobin.config.custom.utils").scratch_buffer()<cr>', { desc = 'Scratch buffer' })
 -- map('n', '<leader>jj', '<cmd>lua require("jobin.config.custom.utils").start_journal()<cr>', { desc = 'Start Journal' })
 -- map('n', '<leader>jt', '<cmd>lua require("jobin.config.custom.org_tangle").tangle()<cr>', { desc = 'Org Tangle' })
