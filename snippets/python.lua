@@ -13,6 +13,7 @@ local rep = require('luasnip.extras').rep
 
 local autosnippets = {}
 
+
 -- Snippets go here
 
 local snippets = {
@@ -41,6 +42,21 @@ if __name__ == '__main__':
   s({ trig = 'imain', hidden = true },
     t({ "if __name__ == '__main__':", '\t' })
   ),
+  s({ trig = 'header' },
+    fmt([[
+    # {} #
+    # {} #
+    # {} #
+
+
+]], {
+      d(2, function(value)
+        return sn(nil, t(string.rep('=', string.len(value[1][1]))))
+      end, { 1 }), i(1),
+      rep(2),
+    })
+  ),
+
   s({ trig = 'reg' },
     fmt([[
     # Region: -- {}
