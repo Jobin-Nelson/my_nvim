@@ -42,11 +42,11 @@ if __name__ == '__main__':
   s({ trig = 'imain', hidden = true },
     t({ "if __name__ == '__main__':", '\t' })
   ),
-  s({ trig = 'header' },
+  s({ trig = 'box' },
     fmt([[
-    # {} #
-    # {} #
-    # {} #
+    # ={}= #
+    #  {}  #
+    # ={}= #
 
 
 ]], {
@@ -54,16 +54,6 @@ if __name__ == '__main__':
         return sn(nil, t(string.rep('=', string.len(value[1][1]))))
       end, { 1 }), i(1),
       rep(2),
-    })
-  ),
-
-  s({ trig = 'reg' },
-    fmt([[
-    # Region: -- {}
-    {}
-    # End Region: -- {}
-]], {
-      i(1), i(0), rep(1),
     })
   ),
 }
