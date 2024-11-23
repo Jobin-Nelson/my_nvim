@@ -2,6 +2,7 @@ return {
   'nvim-orgmode/orgmode',
   ft = { 'org' },
   config = function()
+    ---@diagnostic disable-next-line: missing-fields
     require('orgmode').setup({
       org_agenda_files = {
         '~/playground/projects/org_files/**/*',

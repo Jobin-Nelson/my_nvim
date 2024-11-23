@@ -3,7 +3,7 @@ return {
     'nvim-treesitter/nvim-treesitter',
     version = false,
     build = ':TSUpdate',
-    event = { 'BufReadPre', 'BufNewFile' },
+    event = { 'BufReadPre', 'BufNewFile', 'VeryLazy' },
     lazy = vim.fn.argc(-1) == 0, -- load treesitter early when opening a file from the cmdline
     init = function(plugin)
       -- PERF: add nvim-treesitter queries to the rtp and it's custom query predicates early
@@ -14,9 +14,6 @@ return {
       require("lazy.core.loader").add_to_rtp(plugin)
       require("nvim-treesitter.query_predicates")
     end,
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter-textobjects',
-    },
     ---@type TSConfig
     ---@diagnostic disable-next-line: missing-fields
     opts = {
@@ -60,12 +57,12 @@ return {
       },
       incremental_selection = {
         enable = true,
-        -- keymaps = {
-        -- 	init_selection = '<c-space>',
-        -- 	node_incremental = '<c-space>',
-        -- 	scope_incremental = '<c-s>',
-        -- 	node_decremental = '<M-space>',
-        -- },
+        keymaps = {
+        	init_selection = '<c-space>',
+        	node_incremental = '<c-space>',
+        	scope_incremental = '<c-s>',
+        	node_decremental = '<M-space>',
+        },
       },
       textobjects = {
         select = {
@@ -137,4 +134,9 @@ return {
     event = { 'BufReadPre', 'BufNewFile' },
     opts = { mode = "cursor", max_lines = 3 },
   },
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    event = { 'BufReadPre', 'BufNewFile' },
+  }
 }

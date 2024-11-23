@@ -42,8 +42,8 @@ return {
   {
     "catppuccin/nvim",
     name     = "catppuccin",
-    -- lazy     = false,
-    -- priority = 1000,
+    lazy     = false,
+    priority = 1000,
     config   = function()
       require('catppuccin').setup({
         transparent_background = false,
@@ -60,8 +60,8 @@ return {
   },
   {
     'sainnhe/gruvbox-material',
-    lazy = false,
-    priority = 1000,
+    -- lazy = false,
+    -- priority = 1000,
     config = function()
       vim.g.gruvbox_material_background = 'hard'
       vim.g.gruvbox_material_enable_italic = true
