@@ -137,7 +137,7 @@ function M.leet()
   end
 
   local cmd = { 'leet.py', '-n' }
-  local response = vim.system(cmd, {text=true}):wait()
+  local response = vim.system(cmd, { text = true }):wait()
   if response.code ~= 0 or response.stdout == nil then
     print('leet.py failed execution')
     return
@@ -198,7 +198,58 @@ function M.better_bufdelete(buf_to_delete)
   vim.api.nvim_buf_delete(bufnr, { force = true })
 end
 
--- vim.keymap.set('n', '<leader>rt', M.better_bufdelete)
+function M.box()
+  local value = vim.fn.input({ prompt = "Box value: " })
+  if value == '' then return print("No value provided") end
+
+  local top_component = {
+    left = "┏",
+    center = "━",
+    right = "┓",
+  }
+  local middle_component = {
+    left = "┃",
+    center = " ",
+    right = "┃",
+  }
+  local bottom_component = {
+    left = "┗",
+    center = "━",
+    right = "┛",
+  }
+
+  local width = 60
+
+  ---Constructs lines from left, center and right components
+  ---@param comp table<string,string>
+  ---@return string
+  local function get_line(comp)
+    return comp.left .. string.rep(comp.center, width - 2) .. comp.right
+  end
+
+  ---Helper for floor division
+  ---@param n integer
+  ---@return integer
+  local function get_half(n)
+    return math.floor(n / 2)
+  end
+
+  local lines = vim.iter(
+    { top_component, middle_component, bottom_component }
+  ):map(get_line):totable()
+
+  local line_nr = vim.fn.line('.')
+  vim.api.nvim_buf_set_lines(0, line_nr, line_nr, false, lines)
+
+  local middle_line_nr = line_nr + 1
+  local value_len = vim.fn.strchars(value)
+
+  local col_nr = get_half(width) - get_half(value_len) + 1
+
+  vim.api.nvim_buf_set_text(0, middle_line_nr, col_nr, middle_line_nr, col_nr + value_len, { value })
+end
+
+-- vim.keymap.set('n', '<leader>rt', M.box)
 -- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 
 return M

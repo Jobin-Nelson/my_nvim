@@ -48,7 +48,6 @@ if __name__ == '__main__':
     #  {}  #
     # ={}= #
 
-
 ]], {
       d(2, function(value)
         return sn(nil, t(string.rep('=', string.len(value[1][1]))))
