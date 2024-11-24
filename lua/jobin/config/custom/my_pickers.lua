@@ -202,10 +202,11 @@ end
 
 M.move_file = function()
   local opts = dropdown_theme
-  local cwd = require('jobin.config.custom.utils').get_git_root_buf() or vim.loop.cwd()
+  local cwd = require('jobin.config.custom.utils').get_git_root_buf() or vim.uv.cwd()
   local rename_file = require('jobin.config.custom.utils').rename_file
 
-  local cmd = { 'find', cwd, '(', '-path', '*/.git', '-o', '-path', '*/.obsidian', ')', '-prune', '-o', '-type', 'd', '-print' }
+  local cmd = { 'find', cwd, '(', '-path', '*/.git', '-o', '-path', '*/.obsidian', ')', '-prune', '-o', '-type', 'd',
+    '-print' }
   -- fd doesn't return cwd
   -- if vim.fn.executable('fd') == 0 then
   --   cmd = {'fd', '-td', '.', cwd}
@@ -297,7 +298,57 @@ M.find_docker_images = function(opts)
   }):find()
 end
 
--- vim.keymap.set('n', '<leader>rt', M.find_docker_images)
+M.find_docker_containers = function(opts)
+  pickers.new(opts, {
+    prompt_title = 'Docker Containers',
+    finder = finders.new_async_job({
+      command_generator = function()
+        return { 'docker', 'ps', '--format', 'json' }
+      end,
+      entry_maker = function(entry)
+        local parsed = vim.json.decode(entry)
+        if parsed then
+          local image_name = parsed.Image .. ':' .. parsed.Names
+          return {
+            value = parsed,
+            display = image_name,
+            ordinal = image_name,
+          }
+        end
+      end
+    }),
+    sorter = conf.generic_sorter(opts),
+    previewer = previewers.new_buffer_previewer({
+      title = "Docker Container Details",
+      define_preview = function(self, entry)
+        vim.api.nvim_buf_set_lines(self.state.bufnr, 0, 0, true, vim.iter({
+          '# ' .. entry.value.ID,
+          '```lua',
+          vim.split(vim.inspect(entry.value), '\n'),
+          '```',
+        }):flatten():totable())
+        previewers_utils.highlighter(self.state.bufnr, "markdown")
+      end,
+    }),
+    attach_mappings = function(prompt_bufnr, _)
+      local docker_exec = function(window_orientation)
+        return function()
+          local selection = action_state.get_selected_entry()
+          actions.close(prompt_bufnr)
+          local cmd = vim.fn.input({ prompt = "Command to execute: ", default = 'sh' })
+          vim.cmd(string.format('%s term://docker exec -it %s %s', window_orientation, selection.value.Names, cmd))
+        end
+      end
+      actions.select_default:replace(docker_exec('edit'))
+      actions.select_horizontal:replace(docker_exec('new'))
+      actions.select_vertical:replace(docker_exec('vnew'))
+      actions.select_tab:replace(docker_exec('tabedit'))
+      return true
+    end
+  }):find()
+end
+
+-- vim.keymap.set('n', '<leader>rt', M.find_docker_containers)
 -- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 
 return M

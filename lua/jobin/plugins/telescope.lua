@@ -48,6 +48,8 @@ map('n', '<leader>fj', '<cmd>lua require("jobin.config.custom.my_pickers").find_
   { desc = 'Find Journal' })
 map('n', '<leader>fi', '<cmd>lua require("jobin.config.custom.my_pickers").find_docker_images()<cr>',
   { desc = 'Find Docker Images' })
+map('n', '<leader>fe', '<cmd>lua require("jobin.config.custom.my_pickers").find_docker_containers()<cr>',
+  { desc = 'Find Docker Containers' })
 
 return {
   {
