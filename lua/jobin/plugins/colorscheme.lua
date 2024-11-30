@@ -71,22 +71,29 @@ return {
       vim.g.gruvbox_material_float_style = 'dim'
       vim.g.gruvbox_material_better_performance = 1
       vim.g.gruvbox_material_colors_override = {
-        bg_dim = {'#151515', '232'},
-        bg0 = {'#101010', '234'},
+        bg_dim = { '#151515', '232' },
+        bg0 = { '#101010', '234' },
       }
       vim.cmd.colorscheme('gruvbox-material')
     end
   },
   {
-    "mellow-theme/mellow.nvim",
+    'EdenEast/nightfox.nvim',
     -- lazy = false,
     -- priority = 1000,
     config = function()
-      vim.g.mellow_transparent = false
-      vim.cmd.colorscheme('mellow')
-      vim.api.nvim_set_hl(0, 'TreesitterContextBottom', {
-        underline = true,
+      require('nightfox').setup({
+        options = {
+          transparent = false,
+          dim_inactive = true,
+          styles = {
+            comments = 'italic',
+          },
+          modules = integrations,
+        },
       })
+
+      vim.cmd('colorscheme terafox')
     end,
   },
 }
