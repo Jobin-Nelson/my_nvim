@@ -60,7 +60,7 @@ map('n', '<leader>jb', '<cmd>lua require("jobin.config.custom.utils").box()<cr>'
 -- map('n', '<leader>jt', '<cmd>lua require("jobin.config.custom.org_tangle").tangle()<cr>', { desc = 'Org Tangle' })
 map('n', '<leader>jc', '<cmd>lua require("jobin.config.custom.utils").cd_git_root()<cr>', { desc = 'Cd Git Root' })
 map('n', '<leader>jr', '<cmd>lua require("jobin.config.custom.utils").rename_file()<cr>', { desc = 'Rename File' })
-map('n', '<leader>jm', '<cmd>lua require("jobin.config.custom.my_pickers").move_file()<cr>', { desc = 'Move File' })
+map('n', '<leader>jm', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_move_file()<cr>', { desc = 'Move File' })
 map('n', '<leader>jl', '<cmd>lua require("jobin.config.custom.utils").leet()<cr>', { desc = 'Leetcode Daily' })
 
 -- Work
