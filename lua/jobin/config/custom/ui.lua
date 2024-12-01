@@ -57,8 +57,6 @@ function M.toggle_transparency()
     vim.api.nvim_set_hl(0, 'SignColumn', transparent_hl)
     -- vim.api.nvim_set_hl(0, 'WinSeparator', { cterm = nil })
   end
-
-  vim.opt.background = 'dark'
 end
 
 return M

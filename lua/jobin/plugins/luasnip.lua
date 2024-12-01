@@ -15,7 +15,7 @@ return {
     ls.filetype_extend("typescript", { "tsdoc" })
     ls.filetype_extend("javascript", { "jsdoc" })
     ls.filetype_extend("lua", { "luadoc" })
-    ls.filetype_extend("python", { "pydoc" })
+    ls.filetype_extend("python", { "pydoc", "django" })
     ls.filetype_extend("rust", { "rustdoc" })
     ls.filetype_extend("cs", { "csharpdoc" })
     ls.filetype_extend("java", { "javadoc" })

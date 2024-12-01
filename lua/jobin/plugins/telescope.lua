@@ -64,6 +64,7 @@ return {
           return vim.fn.executable 'make' == 1
         end,
       },
+    "benfowler/telescope-luasnip.nvim",
     },
     config = function()
       -- setup
@@ -115,6 +116,7 @@ return {
         }
       })
       require('telescope').load_extension('fzf')
+      require('telescope').load_extension('luasnip')
     end
   },
 }
