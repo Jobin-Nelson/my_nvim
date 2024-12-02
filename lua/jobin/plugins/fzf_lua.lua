@@ -3,9 +3,12 @@ map('n', '<leader>f<cr>', '<cmd>FzfLua resume<cr>', { desc = 'Find Oldfiles' })
 map('n', '<leader>fB', '<cmd>FzfLua builtin<cr>', { desc = 'Find Builtins' })
 map('n', '<leader>fo', '<cmd>FzfLua oldfiles<cr>', { desc = 'Find Oldfiles' })
 map('n', '<leader>fb', '<cmd>FzfLua buffers<cr>', { desc = 'Find Buffers' })
-map('n', '<leader>ff', '<cmd>lua require("fzf-lua").files({cwd=require("jobin.config.custom.utils").get_git_root_buf()})<cr>', { desc = 'Find Files' })
+map('n', '<leader>ff',
+  '<cmd>lua require("fzf-lua").files({cwd=require("jobin.config.custom.utils").get_git_root_buf()})<cr>',
+  { desc = 'Find Files' })
 map('n', '<leader>fF', '<cmd>FzfLua files<cr>', { desc = 'Find Files (cwd)' })
-map('n', '<leader>fg', '<cmd>lua require("fzf-lua").git_files({cwd=require("jobin.config.custom.utils").get_git_root_buf()})<cr>',
+map('n', '<leader>fg',
+  '<cmd>lua require("fzf-lua").git_files({cwd=require("jobin.config.custom.utils").get_git_root_buf()})<cr>',
   { desc = 'Find Git Files' })
 map('n', '<leader>fG', '<cmd>FzfLua git_files<cr>', { desc = 'Find Git Files (cwd)' })
 map('n', '<leader>fh', '<cmd>FzfLua helptags<cr>', { desc = 'Find Help' })
@@ -31,15 +34,18 @@ map('n', '<leader>fA', '<cmd>FzfLua files cwd=~/playground/projects/config-setup
   { desc = 'Find Config Setup' })
 map('n', '<leader>fa', '<cmd>FzfLua files cwd=~/.config/nvim<cr>',
   { desc = 'Find Config' })
-map('n', '<leader>fd', '<cmd>lua require("fzf-lua").files({cwd_prompt=false,prompt="~/",cmd="git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME ls-files --exclude-standard"})<cr>',
+map('n', '<leader>fd',
+  '<cmd>lua require("fzf-lua").files({cwd="$HOME", cwd_prompt=false,prompt="~/",cmd="git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME ls-tree --name-only --full-tree -r HEAD"})<cr>',
   { desc = 'Find Dotfiles' })
 map('n', '<leader>fz', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_cd_dir("zoxide query -l")<cr>',
   { desc = 'Find Zoxide' })
 map('n', '<leader>fss', '<cmd>FzfLua files cwd=~/playground/projects/second_brain<cr>',
   { desc = 'Find Second brain files' })
-map('n', '<leader>fsi', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_read_file("find ~/playground/projects/second_brain/Resources/Templates/")<cr>',
+map('n', '<leader>fsi',
+  '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_read_file("find ~/playground/projects/second_brain/Resources/Templates/")<cr>',
   { desc = 'Insert Second brain Templates' })
-map('n', '<leader>fp', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_cd_dir("find ~/playground/projects -maxdepth 1 -mindepth 1 -type d")<cr>',
+map('n', '<leader>fp',
+  '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_cd_dir("find ~/playground/projects -maxdepth 1 -mindepth 1 -type d")<cr>',
   { desc = 'Find Projects' })
 -- map('n', '<leader>fj', '<cmd>lua require("jobin.config.custom.my_pickers").find_journal()<cr>',
 --   { desc = 'Find Journal' })
@@ -50,10 +56,10 @@ map('n', '<leader>fp', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_
 
 return {
   "ibhagwan/fzf-lua",
-  -- optional for icon support
   cmd = {
     'FzfLua'
   },
+  -- optional for icon support
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
     -- calling `setup` is optional for customization
