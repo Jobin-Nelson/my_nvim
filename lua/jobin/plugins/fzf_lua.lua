@@ -35,7 +35,7 @@ map('n', '<leader>fA', '<cmd>FzfLua files cwd=~/playground/projects/config-setup
 map('n', '<leader>fa', '<cmd>FzfLua files cwd=~/.config/nvim<cr>',
   { desc = 'Find Config' })
 map('n', '<leader>fd',
-  '<cmd>lua require("fzf-lua").files({cwd="$HOME", cwd_prompt=false,prompt="~/",cmd="git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME ls-tree --name-only --full-tree -r HEAD"})<cr>',
+  '<cmd>lua require("fzf-lua").files({cwd="$HOME",cwd_prompt=false,prompt="~/",cmd="git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME ls-tree --name-only --full-tree -r HEAD"})<cr>',
   { desc = 'Find Dotfiles' })
 map('n', '<leader>fz', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_cd_dir("zoxide query -l")<cr>',
   { desc = 'Find Zoxide' })
