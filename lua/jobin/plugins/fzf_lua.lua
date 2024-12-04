@@ -66,12 +66,34 @@ return {
     -- calling `setup` is optional for customization
     local actions = require "fzf-lua.actions"
     local my_actions = require "jobin.config.custom.fzf_actions"
+
     require("fzf-lua").setup({
+      "default-title",
+      keymap = {
+        builtin = {
+          true, -- inherit from defaults
+          ["<c-u>"] = "preview-page-up",
+          ["<c-d>"] = "preview-page-down",
+        },
+        fzf = {
+          true, -- inherit from defaults
+          ["ctrl-q"] = "select-all+accept",
+          ["ctrl-u"] = "preview-page-up",
+          ["ctrl-d"] = "preview-page-down",
+          ["ctrl-x"] = "jump",
+        },
+      },
       files = {
         actions = {
-          ["ctrl-h"] = actions.toggle_hidden,
+          ["alt-h"] = actions.toggle_hidden,
+          ["alt-i"] = actions.toggle_ignore,
           ["ctrl-y"] = my_actions.copy_entry,
-          ["ctrl-q"] = actions.set_qflist,
+        }
+      },
+      grep = {
+        actions = {
+          ["alt-h"] = actions.toggle_hidden,
+          ["alt-i"] = actions.toggle_ignore,
         }
       }
     })
