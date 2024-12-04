@@ -234,9 +234,7 @@ function M.box()
     return math.floor(n / 2)
   end
 
-  local lines = vim.iter(
-    { top_component, middle_component, bottom_component }
-  ):map(get_line):totable()
+  local lines = vim.tbl_map(get_line, { top_component, middle_component, bottom_component })
 
   local line_nr = vim.fn.line('.')
   vim.api.nvim_buf_set_lines(0, line_nr, line_nr, false, lines)

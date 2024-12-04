@@ -39,10 +39,10 @@ map('n', '<leader>fd',
   { desc = 'Find Dotfiles' })
 map('n', '<leader>fz', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_cd_dir("zoxide query -l")<cr>',
   { desc = 'Find Zoxide' })
-map('n', '<leader>fss', '<cmd>FzfLua files cwd=~/playground/projects/second_brain<cr>',
+map('n', '<leader>fss', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_second_brain()<cr>',
   { desc = 'Find Second brain files' })
 map('n', '<leader>fsi',
-  '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_read_file("find ~/playground/projects/second_brain/Resources/Templates/")<cr>',
+  '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_read_file({cwd="~/playground/projects/second_brain/Resources/Templates/"})<cr>',
   { desc = 'Insert Second brain Templates' })
 map('n', '<leader>fp',
   '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_cd_dir("find ~/playground/projects -maxdepth 1 -mindepth 1 -type d")<cr>',
@@ -70,16 +70,9 @@ return {
     require("fzf-lua").setup({
       "default-title",
       keymap = {
-        builtin = {
-          true, -- inherit from defaults
-          ["<c-u>"] = "preview-page-up",
-          ["<c-d>"] = "preview-page-down",
-        },
         fzf = {
           true, -- inherit from defaults
           ["ctrl-q"] = "select-all+accept",
-          ["ctrl-u"] = "preview-page-up",
-          ["ctrl-d"] = "preview-page-down",
           ["ctrl-x"] = "jump",
         },
       },
