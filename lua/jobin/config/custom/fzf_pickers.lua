@@ -95,7 +95,7 @@ M.fzf_second_brain = function()
         if query:sub(- #md_suffix) ~= md_suffix then
           query = query .. md_suffix
         end
-        local new_file = vim.fn.join({ second_brain, query }, '/')
+        local new_file = vim.fs.joinpath(second_brain, query)
         vim.cmd.edit(new_file)
       end
     }

@@ -1,5 +1,6 @@
 return {
   'stevearc/oil.nvim',
+  lazy = false,
   keys = {
     {
       "-",
@@ -13,6 +14,9 @@ return {
     default_file_explorer = true,
     delete_to_trash = true,
     skip_confirm_for_simple_edits = true,
+    keymaps = {
+      ['gy'] = 'actions.yank_entry',
+    },
     view_options = {
       natural_order = "fast",
     },
