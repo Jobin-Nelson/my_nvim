@@ -1,22 +1,33 @@
 return {
-  {
-    'nvim-treesitter/nvim-treesitter',
-    version = false,
-    build = ':TSUpdate',
-    event = { 'BufReadPre', 'BufNewFile', 'VeryLazy' },
-    lazy = vim.fn.argc(-1) == 0, -- load treesitter early when opening a file from the cmdline
-    init = function(plugin)
-      -- PERF: add nvim-treesitter queries to the rtp and it's custom query predicates early
-      -- This is needed because a bunch of plugins no longer `require("nvim-treesitter")`, which
-      -- no longer trigger the **nvim-treesitter** module to be loaded in time.
-      -- Luckily, the only things that those plugins need are the custom queries, which we make available
-      -- during startup.
-      require("lazy.core.loader").add_to_rtp(plugin)
-      require("nvim-treesitter.query_predicates")
-    end,
+  'nvim-treesitter/nvim-treesitter',
+  version = false,
+  build = ':TSUpdate',
+  dependencies = {
+    {
+      "nvim-treesitter/nvim-treesitter-context",
+      lazy = true,
+      opts = { mode = "cursor", max_lines = 3 },
+    },
+    {
+      "nvim-treesitter/nvim-treesitter-textobjects",
+      lazy = true
+    }
+  },
+  event = { 'BufReadPre', 'BufNewFile', 'VeryLazy' },
+  lazy = vim.fn.argc(-1) == 0,   -- load treesitter early when opening a file from the cmdline
+  init = function(plugin)
+    -- PERF: add nvim-treesitter queries to the rtp and it's custom query predicates early
+    -- This is needed because a bunch of plugins no longer `require("nvim-treesitter")`, which
+    -- no longer trigger the **nvim-treesitter** module to be loaded in time.
+    -- Luckily, the only things that those plugins need are the custom queries, which we make available
+    -- during startup.
+    require("lazy.core.loader").add_to_rtp(plugin)
+    require("nvim-treesitter.query_predicates")
+  end,
+  config = function()
     ---@type TSConfig
     ---@diagnostic disable-next-line: missing-fields
-    opts = {
+    require('nvim-treesitter.configs').setup {
       ignore_install = {},
       sync_install = false,
       auto_install = false,
@@ -55,15 +66,15 @@ return {
         enable = true,
         -- disable = { 'python' }
       },
-      incremental_selection = {
-        enable = true,
-        keymaps = {
-        	init_selection = '<c-space>',
-        	node_incremental = '<c-space>',
-        	scope_incremental = '<c-s>',
-        	node_decremental = '<M-space>',
-        },
-      },
+      -- incremental_selection = {
+      --   enable = true,
+      --   keymaps = {
+      --     init_selection = '<c-space>',
+      --     node_incremental = '<c-space>',
+      --     scope_incremental = '<c-s>',
+      --     node_decremental = '<M-space>',
+      --   },
+      -- },
       textobjects = {
         select = {
           enable = true,
@@ -91,25 +102,25 @@ return {
             ["]k"] = { query = "@block.outer", desc = "Next block start" },
             ["]f"] = { query = "@function.outer", desc = "Next function start" },
             ["]a"] = { query = "@parameter.inner", desc = "Next argument start" },
-            -- ["]c"] = { query = "@class.outer", desc = "Next class start" },
+            ["]]"] = { query = "@class.outer", desc = "Next class start" },
           },
           goto_next_end = {
             ["]K"] = { query = "@block.outer", desc = "Next block end" },
             ["]F"] = { query = "@function.outer", desc = "Next function end" },
             ["]A"] = { query = "@parameter.inner", desc = "Next argument end" },
-            -- ["]C"] = { query = "@class.outer", desc = "Next class end" },
+            ["]["] = { query = "@class.outer", desc = "Next class end" },
           },
           goto_previous_start = {
             ["[k"] = { query = "@block.outer", desc = "Previous block start" },
             ["[f"] = { query = "@function.outer", desc = "Previous function start" },
             ["[a"] = { query = "@parameter.inner", desc = "Previous argument start" },
-            -- ["[c"] = { query = "@class.outer", desc = "Previous class start" },
+            ["[["] = { query = "@class.outer", desc = "Previous class start" },
           },
           goto_previous_end = {
             ["[K"] = { query = "@block.outer", desc = "Previous block end" },
             ["[F"] = { query = "@function.outer", desc = "Previous function end" },
             ["[A"] = { query = "@parameter.inner", desc = "Previous argument end" },
-            -- ["[C"] = { query = "@class.outer", desc = "Previous class end" },
+            ["[]"] = { query = "@class.outer", desc = "Previous class end" },
           },
         },
         swap = {
@@ -127,16 +138,5 @@ return {
         },
       },
     }
-  },
-  {
-    "nvim-treesitter/nvim-treesitter-context",
-    dependencies = { 'nvim-treesitter/nvim-treesitter' },
-    event = { 'BufReadPre', 'BufNewFile' },
-    opts = { mode = "cursor", max_lines = 3 },
-  },
-  {
-    "nvim-treesitter/nvim-treesitter-textobjects",
-    dependencies = { 'nvim-treesitter/nvim-treesitter' },
-    event = { 'BufReadPre', 'BufNewFile' },
-  }
+  end
 }
