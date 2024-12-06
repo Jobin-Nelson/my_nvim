@@ -34,7 +34,7 @@ map('n', '<leader>ps', '<cmd>Lazy<cr>', { desc = 'Plugin Status' })
 map('n', '<leader>pm', '<cmd>Mason<cr>', { desc = 'Mason Installer' })
 
 -- Terminal
--- map('t', '<C-w>', '<C-\\><C-n><C-w>', { desc = 'Terminal window command' })
+map('t', '<C-w>', '<C-\\><C-n><C-w>', { desc = 'Terminal window command' })
 -- map({'n', 't'}, '<A-h>', '<cmd>lua require("jobin.config.custom.utils").term_toggle()<cr>', { desc = 'Toggle Horizontal Term' })
 
 -- UI
