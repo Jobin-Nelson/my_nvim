@@ -5,7 +5,7 @@ return {
     { 'williamboman/mason.nvim', cmd = 'Mason', opts = { ui = { border = 'rounded' } } },
     'williamboman/mason-lspconfig.nvim',
     'b0o/schemastore.nvim',
-    'hrsh7th/cmp-nvim-lsp',
+    'saghen/blink.cmp',
     {
       'j-hui/fidget.nvim',
       opts = {
@@ -194,17 +194,12 @@ return {
     }
 
     -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    local capabilities = require('blink.cmp').get_lsp_capabilities()
     -- for ufo
     capabilities.textDocument.foldingRange = {
       dynamicRegistration = false,
       lineFoldingOnly = true,
     }
-    capabilities = vim.tbl_deep_extend(
-      'force',
-      capabilities,
-      require('cmp_nvim_lsp').default_capabilities()
-    )
 
     mason_lspconfig.setup_handlers {
       function(server_name)
