@@ -95,8 +95,15 @@ return {
       sections = {
         lualine_a = { { "mode", fmt = function(m) return modes[m:sub(1, 1)] end } },
         lualine_b = { branch },
-        lualine_c = { diff, filler, filetype, filename },
-        lualine_x = { diagnostics },
+        lualine_c = {
+          -- diff,
+          filler,
+          filetype,
+          filename,
+        },
+        lualine_x = {
+          -- diagnostics,
+        },
         lualine_y = { { "location", icon = icons.ui.Location } },
         lualine_z = { { "progress", icon = icons.ui.ProgressDown } },
       },
