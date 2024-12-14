@@ -4,6 +4,22 @@ return {
   config = function()
     local icons = require "jobin.config.icons"
 
+    local modes = {
+      ["N"] = icons.ui.Neovim,
+      ["V"] = icons.ui.Visual,
+      ["S"] = icons.ui.Visual,
+      ["I"] = icons.ui.Insert,
+      ["R"] = icons.ui.Replace,
+      ["C"] = icons.ui.Fire,
+      ["T"] = icons.ui.Terminal,
+      ["P"] = icons.ui.HourGlass,
+    }
+
+    local branch = {
+      "branch",
+      icon = icons.git.Branch
+    }
+
     local diff = {
       "diff",
       colored = true,
@@ -13,23 +29,6 @@ return {
         removed = icons.git.LineRemoved
       },
     }
-
-    local branch = {
-      "branch",
-      icon = icons.git.Branch
-    }
-
-    local diagnostics = {
-      'diagnostics',
-      symbols = {
-        error = icons.diagnostics.BoldError,
-        warn = icons.diagnostics.BoldWarning,
-        info = icons.diagnostics.BoldInformation,
-        hint = icons.diagnostics.BoldHint,
-      },
-    }
-
-    local filler = '%= '
 
     local filetype = {
       'filetype',
@@ -50,6 +49,18 @@ return {
         newfile = icons.ui.NewFile,
       }
     }
+
+    local diagnostics = {
+      'diagnostics',
+      symbols = {
+        error = icons.diagnostics.BoldError,
+        warn = icons.diagnostics.BoldWarning,
+        info = icons.diagnostics.BoldInformation,
+        hint = icons.diagnostics.BoldHint,
+      },
+    }
+
+    local filler = '%= '
 
     local winbar_filename = {
       'filename',
@@ -82,12 +93,12 @@ return {
         }
       },
       sections = {
-        lualine_a = { "mode" },
+        lualine_a = { { "mode", fmt = function(m) return modes[m:sub(1, 1)] end } },
         lualine_b = { branch },
         lualine_c = { diff, filler, filetype, filename },
         lualine_x = { diagnostics },
-        lualine_y = { 'location' },
-        lualine_z = { "progress" },
+        lualine_y = { { "location", icon = icons.ui.Location } },
+        lualine_z = { { "progress", icon = icons.ui.ProgressDown } },
       },
       extensions = { 'quickfix', 'man' },
       winbar = {
