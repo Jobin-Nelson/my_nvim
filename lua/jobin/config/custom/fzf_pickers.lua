@@ -7,6 +7,10 @@ local M = {}
 ---@param opts table?
 M.fzf_cd_dir = function(cmd, opts)
   local default_opts = {
+    fzf_opts = {
+      ['--preview'] = "ls -lAhF --group-directories-first {}",
+      ['--preview-window'] = 'hidden,down,50%',
+    },
     prompt = "cd ❯ ",
     winopts = {
       title = " Change Directory ",
@@ -66,6 +70,10 @@ end
 M.fzf_move_file = function(opts)
   local rename_file = require('jobin.config.custom.utils').rename_file
   local default_opts = {
+    fzf_opts = {
+      ['--preview'] = "ls -lAhF --group-directories-first {}",
+      ['--preview-window'] = 'hidden,down,50%',
+    },
     prompt = "move ❯ ",
     winopts = {
       title = " Move File ",
@@ -74,12 +82,13 @@ M.fzf_move_file = function(opts)
       width = 0.40,
       row = 0.50,
       col = 0.50,
-      actions = {
-        ['default'] = function(selected)
-          vim.print(selected)
-          rename_file(selected[1])
-        end
-      }
+    },
+    actions = {
+      ['default'] = function(selected)
+        vim.api.nvim_buf_set_lines(234, 0, 0, false, vim.split(vim.inspect(selected), '\n'))
+        vim.print(selected)
+        rename_file(selected[1])
+      end
     }
   }
   opts = vim.tbl_deep_extend('force', default_opts, opts or {})
@@ -109,7 +118,7 @@ M.fzf_second_brain = function()
   })
 end
 
--- vim.keymap.set('n', '<leader>rt', function() M.fzf_read_file({cwd="~/playground/projects/second_brain/Resources/Templates"}) end)
+-- vim.keymap.set('n', '<leader>rt', function() M.fzf_move_file() end)
 -- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 
 return M
