@@ -36,7 +36,7 @@ return {
       -- Sets the fallback highlight groups to nvim-cmp's highlight groups
       -- Useful for when your theme doesn't support blink.cmp
       -- will be removed in a future release
-      use_nvim_cmp_as_default = true,
+      use_nvim_cmp_as_default = false,
       -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
       -- Adjusts spacing to ensure icons are aligned
       nerd_font_variant = 'normal',
@@ -46,7 +46,16 @@ return {
     -- default list of enabled providers defined so that you can extend it
     -- elsewhere in your config, without redefining it, via `opts_extend`
     sources = {
+      providers = {
+        dadbod = {
+          name = 'Dadbod',
+          module = 'vim_dadbod_completion.blink',
+        }
+      },
       default = { 'lsp', 'path', 'snippets', 'buffer' },
+      per_filetype = {
+        sql = { 'buffer', 'dadbod' },
+      },
       -- optionally disable cmdline completions
       -- cmdline = {},
     },
