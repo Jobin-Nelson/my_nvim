@@ -32,13 +32,15 @@ end
 
 ---@param opts table?
 M.fzf_read_file = function(opts)
+  local path = require('fzf-lua.path')
   local default_opts = {
     prompt = "read ❯ ",
+    cwd_prompt = false,
     winopts = {
       title = " Read File ",
       title_pos = "center",
-      height = 0.40,
-      width = 0.40,
+      height = 0.50,
+      width = 0.50,
       row = 0.50,
       col = 0.50,
       preview = {
@@ -46,9 +48,13 @@ M.fzf_read_file = function(opts)
       }
     },
     actions = {
-      ['default'] = function(selected)
-        vim.cmd('0read ' .. selected[1])
-        print('Inserted ' .. vim.fs.basename(selected[1]))
+      ['default'] = function(selected, lopts)
+        for _, sel in ipairs(selected) do
+          local entry = path.entry_to_file(sel, lopts, lopts._uri)
+          local fullpath = entry.path
+          vim.cmd('0read ' .. fullpath)
+          print('Inserted ' .. vim.fs.basename(fullpath))
+        end
       end
     }
   }
@@ -70,6 +76,7 @@ M.fzf_move_file = function(opts)
       col = 0.50,
       actions = {
         ['default'] = function(selected)
+          vim.print(selected)
           rename_file(selected[1])
         end
       }
@@ -102,7 +109,7 @@ M.fzf_second_brain = function()
   })
 end
 
--- vim.keymap.set('n', '<leader>rt', function() M.fzf_second_brain() end)
+-- vim.keymap.set('n', '<leader>rt', function() M.fzf_read_file({cwd="~/playground/projects/second_brain/Resources/Templates"}) end)
 -- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 
 return M
