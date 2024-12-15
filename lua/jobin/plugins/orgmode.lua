@@ -1,5 +1,6 @@
 return {
   'nvim-orgmode/orgmode',
+  event = 'VeryLazy',
   ft = { 'org' },
   config = function()
     ---@diagnostic disable-next-line: missing-fields
@@ -9,7 +10,7 @@ return {
         '~/playground/dev/illumina/ticket_notes/work_org_files/**/*',
       },
       org_default_notes_file = '~/playground/projects/org_files/refile.org',
-      org_todo_keywords = { 'TODO(t)', 'DIP(p)', 'ON_HOLD(h)', 'REVIEW(r)', '|', 'DONE(d)', 'CANCELLED(c)' },
+      org_todo_keywords = { 'TODO(t)', 'WAITING(w)', 'ON_HOLD(h)', 'REVIEW(r)', '|', 'DONE(d)', 'CANCELLED(c)' },
       org_archive_location = '~/playground/projects/org_files/archive_file.org',
       org_hide_leading_stars = false,
       org_hide_emphasis_markers = true,
@@ -19,6 +20,13 @@ return {
       org_adapt_indentation = false,
       org_log_into_drawer = 'LOGBOOK',
       org_use_tag_inheritance = false,
+      org_capture_templates = {
+        m = {
+          description = 'Meeting',
+          template = '\n* %?\n %u',
+          target = '~/playground/dev/illumina/ticket_notes/work_org_files/ICI/ici-on-prem/meeting_notes.org',
+        }
+      },
     })
 
     vim.keymap.set('i', '<S-CR>', '<cmd>lua require("orgmode").action("org_mappings.meta_return")<CR>', {

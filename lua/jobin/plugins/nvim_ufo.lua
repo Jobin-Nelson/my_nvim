@@ -7,6 +7,7 @@ return {
   },
   config = function()
     local builtin = require('statuscol.builtin')
+    local icons = require('jobin.config.icons')
     local cfg = {
       setopt = true,
       relculright = true,
@@ -35,7 +36,7 @@ return {
 
     local handler = function(virtText, lnum, endLnum, width, truncate)
       local newVirtText = {}
-      local suffix = (' 󰁂 %d '):format(endLnum - lnum)
+      local suffix = string.format(" %s%d ", icons.ui.Folding, endLnum - lnum)
       local sufWidth = vim.fn.strdisplaywidth(suffix)
       local targetWidth = width - sufWidth
       local curWidth = 0

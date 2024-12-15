@@ -115,6 +115,7 @@ return {
     Folder = "󰉋 ",
     FolderOpen = " ",
     FolderSymlink = "",
+    Folding = " ",
     Forward = " ",
     Gear = " ",
     History = " ",
