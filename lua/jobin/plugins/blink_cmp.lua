@@ -14,6 +14,10 @@ return {
   ---@type blink.cmp.Config
   ---@diagnostic disable: missing-fields
   opts = {
+    enabled = function()
+      -- TODO: remove when blink supports cmdline completion
+      return not vim.tbl_contains({ 'vim' }, vim.bo.filetype) and vim.bo.buftype ~= "prompt"
+    end,
     snippets = {
       expand = function(snippet) require('luasnip').lsp_expand(snippet) end,
       active = function(filter)
