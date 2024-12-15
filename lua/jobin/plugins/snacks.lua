@@ -9,7 +9,7 @@ local send_lines_to_terminal = function(mode)
     vim.notify(
       ('ERROR: incompatible mode (%s)'):format(mode),
       vim.log.levels.ERROR,
-      { title = 'Error' }
+      { title = 'Terminal Send' }
     )
     return
   end
@@ -56,13 +56,13 @@ return {
   ---@type snacks.Config
   opts = {
     bigfile = { enabled = true },
-    dashboard = { enabled = true },
     input = { enabled = true },
     notifier = {
       enabled = true,
       timeout = 3000,
     },
     quickfile = { enabled = true },
+    dashboard = { enabled = false },
     scroll = { enabled = false },
     indent = { enabled = false },
     statuscolumn = { enabled = false },
