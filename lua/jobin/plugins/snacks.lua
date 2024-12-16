@@ -50,7 +50,7 @@ return {
     input = { enabled = true },
     notifier = {
       enabled = true,
-      timeout = 3000,
+      timeout = 5000,
     },
     quickfile = { enabled = true },
     dashboard = { enabled = false },

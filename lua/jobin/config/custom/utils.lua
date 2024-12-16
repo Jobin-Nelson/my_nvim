@@ -65,7 +65,11 @@ M.rename_file = function(target_dir)
       vim.api.nvim_buf_delete(original_bufnr, { force = true })
     end
 
-    vim.notify("Renamed to " .. new_filename)
+    vim.notify(
+      "Renamed to " .. new_filename,
+      vim.log.levels.INFO,
+      { title = 'Utils' }
+    )
   end
 
   if target_dir then
