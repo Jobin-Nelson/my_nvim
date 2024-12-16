@@ -1,10 +1,42 @@
 -- https://docs.atlassian.com/software/jira/docs/api/REST/8.20.14/
 
+
+-- ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+-- ┃                          Types                           ┃
+-- ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+
+---@class Creds
+---@field jira Jira
+
+---@class Jira
+---@field link string
+---@field token string
+
+---@class Issue
+---@field key string
+---@field fields IssueField
+
+---@class IssueField
+---@field summary string
+---@field issuetype IssueType
+---@field description string
+
+---@class IssueType
+---@field id integer
+
+
+-- ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+-- ┃                   Core Implementation                    ┃
+-- ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+
 local M = {}
 
 ---@return string
 local function get_token()
   local creds_file_path = vim.fs.normalize('~/playground/dev/illumina/creds/jira.json')
+  ---@type Creds
   local creds = vim.fn.json_decode(vim.fn.readfile(creds_file_path))
   if not creds then
     error('No jira.json file found')
@@ -17,20 +49,19 @@ local function get_token()
 end
 
 ---@param url string
----@param headers string[]
----@param data string|nil
+---@param additional_headers string[]?
+---@param data string?
 ---@return string
-local function request_jira(url, headers, data)
+local function request_jira(url, additional_headers, data)
   local token = get_token()
   local cmd = { 'curl' }
   -- flags
-  table.insert(cmd, '-sSfL') -- flags
-  local default_headers = {
+  table.insert(cmd, '-sSfL')
+  local headers = {
     'Authorization: Bearer ' .. token,
     'Content-Type: application/json'
   }
-  -- additional headers
-  vim.list_extend(headers, default_headers)
+  vim.list_extend(headers, additional_headers or {})
   vim.tbl_map(
     function(header) vim.list_extend(cmd, { '--header', header }) end,
     headers
@@ -55,7 +86,7 @@ local function request_jira(url, headers, data)
 end
 
 ---@param lines string[]
----@param subtasks table<string, string>
+---@param subtasks Issue[]
 local function append_subtasks(lines, subtasks)
   if #subtasks == 0 then
     vim.notify('Issue %s does not have subtasks')
@@ -76,7 +107,7 @@ local function append_subtasks(lines, subtasks)
 end
 
 ---@param lines string[]
----@param fields table<string, string>
+---@param fields IssueField
 ---@param issue_id string
 local function append_header(lines, fields, issue_id)
   local heading = '* TODO ' .. fields.summary
@@ -150,9 +181,6 @@ end
 ---@param filter_id string
 ---@return string
 local function get_filter_jql(filter_id)
-  if filter_id == nil or filter_id == '' then
-    error('Invalid filter_id entered')
-  end
   local get_filter_query = string.format(
     'https://jira.illumina.com/rest/api/2/filter/%s',
     filter_id
@@ -166,8 +194,8 @@ local function get_filter_jql(filter_id)
 end
 
 ---@param jql string
----@param max_results number
----@param fields table
+---@param max_results integer
+---@param fields string[]
 local function get_search_results(jql, max_results, fields)
   local get_search_query = 'https://jira.illumina.com/rest/api/2/search'
   local data = {
@@ -186,29 +214,29 @@ local function get_search_results(jql, max_results, fields)
   return issues
 end
 
----@param issues table
+---@param issues Issue[]
 local function list_issue_summary(issues)
-  local lines = {}
-  ---@param issue table
-  local function insert_summary_from_issue(issue)
-    table.insert(lines, string.format(
-      '- [%s] %s',
-      issue.key,
-      issue.fields.summary
-    ))
-  end
-  vim.tbl_map(insert_summary_from_issue, issues)
+  local lines = vim.tbl_map(function(issue)
+    return ('- [%s] %s'):format(issue.key, issue.fields.summary)
+  end, issues)
 
   local line_nr = vim.fn.line('.')
   vim.api.nvim_buf_set_lines(0, line_nr, line_nr, false, lines)
 end
 
 M.list_filter_issues = function()
-  local filter_id = vim.fn.input({ prompt = 'Enter filter ID: ' })
-  local filter_jql = get_filter_jql(filter_id)
-  local search_results = get_search_results(filter_jql, 100, { 'summary' })
-
-  list_issue_summary(search_results)
+  vim.ui.input({ prompt = 'Enter filter ID: ' }, function(filter_id)
+    if filter_id == nil or filter_id == '' then
+      return vim.notify(
+        'Invalid filter_id entered',
+        vim.log.levels.ERROR,
+        { title = 'Jira' }
+      )
+    end
+    local filter_jql = get_filter_jql(filter_id)
+    local search_results = get_search_results(filter_jql, 100, { 'summary' })
+    list_issue_summary(search_results)
+  end)
 end
 
 

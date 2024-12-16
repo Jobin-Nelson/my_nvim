@@ -10,7 +10,7 @@ return {
         '~/playground/dev/illumina/ticket_notes/work_org_files/**/*',
       },
       org_default_notes_file = '~/playground/projects/org_files/refile.org',
-      org_todo_keywords = { 'TODO(t)', 'WAITING(w)', 'ON_HOLD(h)', 'REVIEW(r)', '|', 'DONE(d)', 'CANCELLED(c)' },
+      org_todo_keywords = { 'TODO(t)', 'NEXT(n)', 'WAITING(w)', 'ON_HOLD(h)', 'REVIEW(r)', '|', 'DONE(d)', 'CANCELLED(c)' },
       org_archive_location = '~/playground/projects/org_files/archive_file.org',
       org_hide_leading_stars = false,
       org_hide_emphasis_markers = true,

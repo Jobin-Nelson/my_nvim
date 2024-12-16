@@ -130,7 +130,33 @@ M.fzf_second_brain = function()
   })
 end
 
--- vim.keymap.set('n', '<leader>rt', function() M.fzf_move_file() end)
+M.fzf_org_agenda = function()
+  local org_dir = '~/playground/dev/illumina/ticket_notes/work_org_files'
+  fzf_lua.live_grep({
+    cwd = org_dir,
+    search = "* TODO",
+    rg_opts = "--column --type org --line-number --no-heading --color=always --smart-case --max-columns=4096 -e",
+    fzf_opts = {
+      ['--delimiter'] = '/',
+      ['--nth'] = '-1',
+      ['--with-nth'] = '-1',
+    },
+    winopts = {
+      title = " Org Agenda ",
+      title_pos = "center",
+      preview = {
+        layout = 'vertical',
+        vertical = 'up:45%'
+      }
+    }
+  })
+  vim.api.nvim_feedkeys(
+    vim.api.nvim_replace_termcodes('<C-a>^<C-e>', true, false, true),
+    'i', false
+  )
+end
+
+-- vim.keymap.set('n', '<leader>rt', function() M.fzf_org_agenda() end)
 -- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 
 return M
