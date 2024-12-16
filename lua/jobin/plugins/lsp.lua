@@ -63,7 +63,11 @@ return {
       nmap('<leader>lwa', vim.lsp.buf.add_workspace_folder, 'Lsp Workspace Add folder')
       nmap('<leader>lwr', vim.lsp.buf.remove_workspace_folder, 'Lsp Workspace Remove folder')
       nmap('<leader>lwl', function()
-        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+        vim.notify(
+          vim.inspect(vim.lsp.buf.list_workspace_folders()),
+          vim.log.levels.INFO,
+          { title = 'LSP' }
+        )
       end, 'Lsp Workspace List folders')
       nmap('<leader>lf', vim.lsp.buf.format, 'Lsp Format buffer')
 

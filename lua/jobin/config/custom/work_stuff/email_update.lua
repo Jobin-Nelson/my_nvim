@@ -76,7 +76,11 @@ local function setup_email(current_update, previous_update)
     vim.cmd(string.format("tabedit %s | vsplit %s", previous_update, current_update))
   else
     vim.cmd("tabedit " .. current_update)
-    print("No previous update found since 10 days ago")
+    vim.notify(
+      "No previous update found since 10 days ago",
+      vim.log.levels.INFO,
+      { title = 'Email Update' }
+    )
   end
 end
 
@@ -91,7 +95,11 @@ local function email_win_leave_callback()
     utils.better_bufdelete(buf)
   end
 
-  vim.print("Updated today's email")
+  vim.notify(
+    "Updated today's email",
+    vim.log.levels.INFO,
+    { title = 'Email Update' }
+  )
   if vim.fn.tabpagenr('$') == 1 then
     vim.cmd.only()
   else

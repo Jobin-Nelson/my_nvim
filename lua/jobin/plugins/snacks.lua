@@ -1,19 +1,10 @@
 ---@param mode "visual" | "normal"
 local send_lines_to_terminal = function(mode)
-  local start_char, end_char = '.', '.'
-  if mode == 'visual' then
-    start_char, end_char = 'v', '.'
-  elseif mode == 'normal' then
-    start_char, end_char = '.', '.'
-  else
-    vim.notify(
-      ('ERROR: incompatible mode (%s)'):format(mode),
-      vim.log.levels.ERROR,
-      { title = 'Terminal Send' }
-    )
-    return
-  end
-
+  local modes = {
+    visual = { 'v', '.' },
+    normal = { '.', '.' },
+  }
+  local start_char, end_char = unpack(modes[mode])
   local lines = vim.api.nvim_buf_get_lines(
     0,
     vim.fn.line(start_char) - 1,

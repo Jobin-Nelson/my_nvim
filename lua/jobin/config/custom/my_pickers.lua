@@ -101,9 +101,17 @@ M.find_projects = function()
         local selection = action_state.get_selected_entry()
         if selection then
           vim.cmd('tcd ' .. selection.value[2])
-          print('Directory changed to ' .. selection.value[1])
+          vim.notify(
+            'Directory changed to ' .. selection.value[1],
+            vim.log.levels.INFO,
+            { title = 'Telescope' }
+          )
         else
-          print('No directory selected')
+          vim.notify(
+            'No directory selected',
+            vim.log.levels.INFO,
+            { title = 'Telescope' }
+          )
         end
       end)
       return true
@@ -129,7 +137,11 @@ M.find_zoxide = function()
         actions.close(prompt_bufnr)
         local selection = action_state.get_selected_entry()
         vim.cmd('tcd ' .. selection.path)
-        print('Directory changed to ' .. selection.path)
+        vim.notify(
+          'Directory changed to ' .. selection.path,
+          vim.log.levels.INFO,
+          { title = 'Telescope' }
+        )
       end)
       return true
     end
@@ -169,7 +181,11 @@ M.insert_second_brain_template = function()
         actions.close(prompt_bufnr)
         local selection = action_state.get_selected_entry()
         vim.cmd('0read ' .. selection.value)
-        print('Inserted ' .. vim.fs.basename(selection.value))
+        vim.notify(
+          'Inserted ' .. vim.fs.basename(selection.value),
+          vim.log.levels.INFO,
+          { title = 'Telescope' }
+        )
       end)
       return true
     end
@@ -184,7 +200,11 @@ M.find_second_brain_files = function()
       map({ 'i', 'n' }, '<S-CR>', function(prompt_bufnr)
         local selection = action_state.get_current_line()
         if selection == '' then
-          print('Input value is empty')
+          vim.notify(
+            'Input value is empty',
+            vim.log.levels.INFO,
+            { title = 'Telescope' }
+          )
           return true
         end
         actions.close(prompt_bufnr)

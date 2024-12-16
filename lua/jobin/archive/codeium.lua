@@ -13,7 +13,7 @@ return {
     vim.keymap.set({ 'n', 'i' }, '<A-t>', function()
       vim.cmd('CodeiumToggle')
       local codeium_status = vim.g.codeium_enabled and 'Enabled' or 'Disabled'
-      print('Codeium is ' .. codeium_status)
+      vim.notify('Codeium is ' .. codeium_status, vim.log.levels.INFO, { title = 'Codeium' })
     end, { desc = 'Codeium Toggle' })
   end
 }

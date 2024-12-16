@@ -58,7 +58,11 @@ local function populate_description(html, line_nr)
     uv.read_stop(stdout)
     uv.close(handle)
     if status ~= 0 then
-      print('pandoc exited with ' .. status)
+      vim.notify(
+        'pandoc exited with ' .. status,
+        vim.log.levels.INFO,
+        { title = 'Email Update' }
+      )
     end
   end
 

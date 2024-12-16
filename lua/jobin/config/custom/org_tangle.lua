@@ -83,7 +83,11 @@ M.tangle = function()
 
   local target = get_target_file(bufnr, root)
   create_file(target, bufnr, root)
-  print('Tangled to ' .. target)
+  vim.notify(
+    'Tangled to ' .. target,
+    vim.log.levels.INFO,
+    { title = 'Telescope' }
+  )
 end
 
 return M

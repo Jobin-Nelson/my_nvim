@@ -115,7 +115,11 @@ end
 function M.cd_git_root()
   local git_root = M.get_git_root_buf()
   if not git_root then
-    print('Not a git repo: ' .. vim.fn.expand('%:p:h'))
+    vim.notify(
+      'Not a git repo: ' .. vim.fn.expand('%:p:h'),
+      vim.log.levels.INFO,
+      { title = 'Git' }
+    )
     return
   end
   if git_root == vim.loop.cwd() then
@@ -132,14 +136,22 @@ end
 
 function M.leet()
   if vim.fn.executable('leet.py') ~= 1 then
-    print('leet.py not found')
+    vim.notify(
+      'leet.py not found',
+      vim.log.levels.INFO,
+      { title = 'Leetcode' }
+    )
     return
   end
 
   local cmd = { 'leet.py', '-n' }
   local response = vim.system(cmd, { text = true }):wait()
   if response.code ~= 0 or response.stdout == nil then
-    print('leet.py failed execution')
+    vim.notify(
+      'leet.py failed execution',
+      vim.log.levels.INFO,
+      { title = 'Leetcode' }
+    )
     return
   end
   local leet_file = string.match(response.stdout, "(%S+)%s*$")
@@ -200,7 +212,13 @@ end
 
 function M.box()
   local value = vim.fn.input({ prompt = "Box value: " })
-  if value == '' then return print("No value provided") end
+  if value == '' then
+    return vim.notify(
+      "No value provided",
+      vim.log.levels.INFO,
+      { title = 'Box' }
+    )
+  end
 
   local top_component = {
     left = "┏",

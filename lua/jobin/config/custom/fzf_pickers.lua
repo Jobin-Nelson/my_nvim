@@ -23,7 +23,11 @@ M.fzf_cd_dir = function(cmd, opts)
     actions = {
       ['default'] = function(selected)
         vim.cmd("tcd " .. selected[1])
-        print("Changed directory into " .. selected[1])
+        vim.notify(
+          "Changed directory into " .. selected[1],
+          vim.log.levels.INFO,
+          { title = 'FZF' }
+        )
       end
     },
     fn_transform = function(x)
@@ -57,7 +61,11 @@ M.fzf_read_file = function(opts)
           local entry = path.entry_to_file(sel, lopts, lopts._uri)
           local fullpath = entry.path
           vim.cmd('0read ' .. fullpath)
-          print('Inserted ' .. vim.fs.basename(fullpath))
+          vim.notify(
+            'Inserted ' .. vim.fs.basename(fullpath),
+            vim.log.levels.INFO,
+            { title = 'FZF' }
+          )
         end
       end
     }
@@ -85,8 +93,6 @@ M.fzf_move_file = function(opts)
     },
     actions = {
       ['default'] = function(selected)
-        vim.api.nvim_buf_set_lines(234, 0, 0, false, vim.split(vim.inspect(selected), '\n'))
-        vim.print(selected)
         rename_file(selected[1])
       end
     }
@@ -106,7 +112,13 @@ M.fzf_second_brain = function()
     actions = {
       ['ctrl-space'] = function(_, opts)
         local query = opts.__call_opts.query
-        if query == "" then return print('Query is empty') end
+        if query == "" then
+          return vim.notify(
+            'Query is empty',
+            vim.log.levels.INFO,
+            { title = 'FZF' }
+          )
+        end
         local md_suffix = '.md'
         if query:sub(- #md_suffix) ~= md_suffix then
           query = query .. md_suffix
