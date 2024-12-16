@@ -22,22 +22,19 @@ end
 ---@return string
 local function request_jira(url, headers, data)
   local token = get_token()
-  local cmd = {'curl'}
+  local cmd = { 'curl' }
   -- flags
   table.insert(cmd, '-sSfL') -- flags
   -- default headers
   local function add_header(header)
     table.insert(cmd, '--header')
-    table.insert(cmd,header)
+    table.insert(cmd, header)
   end
   add_header('Authorization: Bearer ' .. token)
   add_header('Content-Type: application/json')
 
   -- additional headers
   vim.tbl_map(add_header, headers)
-  -- for _, header in ipairs(headers) do
-  --   add_header(header)
-  -- end
 
   -- POST request data
   if data then
@@ -50,7 +47,7 @@ local function request_jira(url, headers, data)
   -- request url
   table.insert(cmd, url)
 
-  local response = vim.system(cmd, {text = true}):wait()
+  local response = vim.system(cmd, { text = true }):wait()
   if response.stdout == nil then
     error('Jira request failed')
   end
@@ -90,7 +87,7 @@ local function append_header(lines, fields, issue_id)
   end
   table.insert(lines, heading)
   table.insert(lines, os.date('SCHEDULED: <%Y-%m-%d %a>'))
-  table.insert(lines, string.format('*Ticket*: [[https://jira.illumina.com/browse/%s][%s]]', issue_id, issue_id))
+  table.insert(lines, string.format('  *Ticket*: [[https://jira.illumina.com/browse/%s][%s]]', issue_id, issue_id))
 
   if fields.description == vim.NIL then
     return
@@ -107,7 +104,11 @@ end
 ---@param issue_id string
 local function populate_issue_details(issue_id)
   if issue_id == nil or issue_id == '' then
-    error('Invalid issue_id entered')
+    return vim.notify(
+      'ERROR: Received invalid issue id',
+      vim.log.levels.ERROR,
+      { title = 'Jira' }
+    )
   end
 
   local get_issue_query = string.format(
@@ -128,11 +129,9 @@ local function populate_issue_details(issue_id)
 end
 
 M.populate_issue = function()
-  local issue_id = vim.fn.input({ prompt = 'Enter Issue ID: ' })
-  populate_issue_details(issue_id)
-  -- vim.ui.input({
-  --   prompt = 'Enter Issue ID: ',
-  -- }, populate_issue_details)
+  vim.ui.input({
+    prompt = 'Enter Issue ID: ',
+  }, populate_issue_details)
 end
 
 ---@param filter_id string
@@ -194,12 +193,12 @@ end
 M.list_filter_issues = function()
   local filter_id = vim.fn.input({ prompt = 'Enter filter ID: ' })
   local filter_jql = get_filter_jql(filter_id)
-  local search_results = get_search_results(filter_jql, 100, {'summary'})
+  local search_results = get_search_results(filter_jql, 100, { 'summary' })
 
   list_issue_summary(search_results)
 end
 
 
--- vim.keymap.set('n', '<leader>rt', M.list_filter_issues)
+-- vim.keymap.set('n', '<leader>rt', M.populate_issue)
 -- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 return M

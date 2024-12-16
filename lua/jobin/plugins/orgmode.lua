@@ -16,10 +16,13 @@ return {
       org_hide_emphasis_markers = true,
       org_agenda_span = 'day',
       org_blank_before_new_entry = { heading = false, plain_list_item = false },
-      org_startup_intended = false,
-      org_adapt_indentation = false,
+      -- org_startup_intended = false,
+      -- org_adapt_indentation = false,
       org_log_into_drawer = 'LOGBOOK',
       org_use_tag_inheritance = false,
+      mappings = {
+        org_return_uses_meta_return = true
+      },
       org_capture_templates = {
         m = {
           description = 'Meeting',
@@ -29,10 +32,6 @@ return {
       },
     })
 
-    vim.keymap.set('i', '<S-CR>', '<cmd>lua require("orgmode").action("org_mappings.meta_return")<CR>', {
-      silent = true,
-      buffer = true,
-    })
     -- for _, key in ipairs({ '=', '~' }) do
     --   vim.keymap.set('v', 'i' .. key, string.format('t%soT%s', key, key), { desc = string.format('inner org %s', key) })
     --   vim.keymap.set('v', 'a' .. key, string.format('f%soF%s', key, key), { desc = string.format('around org %s', key) })
