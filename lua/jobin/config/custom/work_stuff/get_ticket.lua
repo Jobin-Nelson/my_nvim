@@ -25,23 +25,22 @@ local function request_jira(url, headers, data)
   local cmd = { 'curl' }
   -- flags
   table.insert(cmd, '-sSfL') -- flags
-  -- default headers
-  local function add_header(header)
-    table.insert(cmd, '--header')
-    table.insert(cmd, header)
-  end
-  add_header('Authorization: Bearer ' .. token)
-  add_header('Content-Type: application/json')
-
+  local default_headers = {
+    'Authorization: Bearer ' .. token,
+    'Content-Type: application/json'
+  }
   -- additional headers
-  vim.tbl_map(add_header, headers)
-
+  vim.list_extend(headers, default_headers)
+  vim.tbl_map(
+    function(header) vim.list_extend(cmd, { '--header', header }) end,
+    headers
+  )
   -- POST request data
   if data then
-    table.insert(cmd, '-X')
-    table.insert(cmd, 'POST')
-    table.insert(cmd, '-d')
-    table.insert(cmd, data)
+    vim.tbl_map(
+      function(arg) table.insert(cmd, arg) end,
+      { '-X', 'POST', '-d', data }
+    )
   end
 
   -- request url
@@ -85,30 +84,34 @@ local function append_header(lines, fields, issue_id)
   if fields.issuetype and fields.issuetype.id == '1' then
     heading = heading .. ' :BUG:'
   end
-  table.insert(lines, heading)
-  table.insert(lines, os.date('  SCHEDULED: <%Y-%m-%d %a>'))
-  table.insert(lines, '  :PROPERTIES:')
-  table.insert(lines, ('  :Ticket: %s'):format(issue_id))
-  table.insert(lines, '  :END:')
+  vim.list_extend(lines, {
+    heading,
+    os.date('  SCHEDULED: <%Y-%m-%d %a>'),
+    '  :PROPERTIES:',
+    ('  :Ticket: %s'):format(issue_id),
+    '  :END:'
+  })
 
   if fields.description == vim.NIL then
     return
   end
 
   table.insert(lines, '** Description')
-  local sanitize = ''
-  for _, description_line in ipairs(vim.split(fields.description, '\n')) do
-    sanitize = description_line:gsub('\r', '')
-    sanitize = sanitize:gsub('{%*}', '*')
-
-    -- convert jira list to org list
-    for _, list_char in ipairs({ '#', '%*' }) do
-      sanitize = sanitize:gsub(string.format('^(%%s%s+) ', list_char), function(hash)
+  vim.tbl_map(
+    function(description_line)
+      local function jira_list2org_list(hash)
         return string.rep(' ', #hash - 1) .. '- '
-      end)
-    end
-    table.insert(lines, '   ' .. sanitize)
-  end
+      end
+      local sanitized_line = description_line
+          :gsub('\r', '')                         -- remove carriage return
+          :gsub('{%*}', '*')                      -- remove curly braces
+          :gsub('^(%s*#+) ', jira_list2org_list)  -- jira numbered list to org list
+          :gsub('^(%s*%*+) ', jira_list2org_list) -- jira list to org list
+
+      table.insert(lines, '   ' .. sanitized_line)
+    end,
+    vim.split(fields.description, '\n')
+  )
 end
 
 ---@param issue_id string
