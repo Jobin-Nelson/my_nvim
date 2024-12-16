@@ -87,7 +87,9 @@ local function append_header(lines, fields, issue_id)
   end
   table.insert(lines, heading)
   table.insert(lines, os.date('  SCHEDULED: <%Y-%m-%d %a>'))
-  table.insert(lines, string.format('  *Ticket*: [[https://jira.illumina.com/browse/%s][%s]]', issue_id, issue_id))
+  table.insert(lines, '  :PROPERTIES:')
+  table.insert(lines, ('  :Ticket: %s'):format(issue_id))
+  table.insert(lines, '  :END:')
 
   if fields.description == vim.NIL then
     return
@@ -96,12 +98,12 @@ local function append_header(lines, fields, issue_id)
   table.insert(lines, '** Description')
   local sanitize = ''
   for _, description_line in ipairs(vim.split(fields.description, '\n')) do
-    sanitize = string.gsub(description_line, '\r', '')
-    sanitize = string.gsub(sanitize, '{%*}', '*')
+    sanitize = description_line:gsub('\r', '')
+    sanitize = sanitize:gsub('{%*}', '*')
 
     -- convert jira list to org list
     for _, list_char in ipairs({ '#', '%*' }) do
-      sanitize = string.gsub(sanitize, string.format('^(%%s%s+) ', list_char), function(hash)
+      sanitize = sanitize:gsub(string.format('^(%%s%s+) ', list_char), function(hash)
         return string.rep(' ', #hash - 1) .. '- '
       end)
     end
