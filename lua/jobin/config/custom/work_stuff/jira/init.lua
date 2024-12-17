@@ -62,39 +62,35 @@ end
 ---@param additional_headers string[]?
 ---@param data string?
 ---@return string
-function M.request_jira(url, additional_headers, data)
-  local token = get_token()
-  local cmd = { 'curl' }
-  -- flags
-  table.insert(cmd, '-sSfL')
-  local headers = {
-    'Authorization: Bearer ' .. token,
+function M.request(url, additional_headers, data)
+  local default_headers = {
+    'Authorization: Bearer ' .. get_token(),
     'Content-Type: application/json'
   }
-  vim.list_extend(headers, additional_headers or {})
-  vim.tbl_map(
-    function(header) vim.list_extend(cmd, { '--header', header }) end,
-    headers
-  )
+  local headers = vim.iter(vim.tbl_map(
+    function(header) return { '--header', header } end,
+    vim.list_extend(default_headers, additional_headers or {})
+  )):flatten():totable()
+
   -- POST request data
   if data then
-    vim.tbl_map(
-      function(arg) table.insert(cmd, arg) end,
-      { '-X', 'POST', '-d', data }
-    )
+    vim.list_extend(headers, { '-X', 'POST', '-d', data })
   end
 
-  -- request url
-  table.insert(cmd, url)
+  local cmd = vim.iter({
+    { 'curl', '-sSfL' }, -- flags
+    headers,             -- headers + data?
+    { url }              -- query url
+  }):flatten():totable()
 
   local response = vim.system(cmd, { text = true }):wait()
-  if response.stdout == nil then
+  if response.code ~= 0 or response.stdout == nil then
     error('Jira request failed')
   end
 
   return response.stdout
 end
 
--- vim.keymap.set('n', '<leader>rt', M.populate_issue)
+-- vim.keymap.set('n', '<leader>rt', function() M.request('https://google.com') end)
 -- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 return M

@@ -9,7 +9,7 @@ local function get_filter_jql(filter_id)
     'https://jira.illumina.com/rest/api/2/filter/%s',
     filter_id
   )
-  local response = vim.json.decode(jira.request_jira(get_filter_query, {}))
+  local response = vim.json.decode(jira.request(get_filter_query, {}))
   local filter_jql = response and response.jql
   if filter_jql == nil then
     error('received nil filter jql')
@@ -29,7 +29,7 @@ local function get_search_results(jql, max_results, fields)
   }
   local json_data = vim.json.encode(data)
 
-  local response = vim.json.decode(jira.request_jira(get_search_query, {}, json_data))
+  local response = vim.json.decode(jira.request(get_search_query, {}, json_data))
   local issues = response and response.issues
   if issues == nil then
     error('No issues found for this filter')

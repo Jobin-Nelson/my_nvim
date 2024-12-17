@@ -35,18 +35,11 @@ end
 ---@param issue_id string
 ---@return string[]
 local function header(fields, issue_id)
-  local lines = {}
-  local heading = '* TODO ' .. fields.summary
+  local heading = ('* TODO [%s] %s'):format(issue_id, fields.summary)
   if fields.issuetype and fields.issuetype.id == '1' then
     heading = heading .. ' :BUG:'
   end
-  vim.list_extend(lines, {
-    heading,
-    os.date('  SCHEDULED: <%Y-%m-%d %a>'),
-    '  :PROPERTIES:',
-    ('  :Ticket: %s'):format(issue_id),
-    '  :END:'
-  })
+  local lines = { heading, os.date('  SCHEDULED: <%Y-%m-%d %a>'), }
 
   if fields.description == vim.NIL then
     return lines
@@ -72,7 +65,7 @@ end
 ---@param issue_id string
 ---@return Issue
 local function get_issue(issue_id)
-  return vim.json.decode(jira.request_jira(string.format(
+  return vim.json.decode(jira.request(string.format(
     'https://jira.illumina.com/rest/api/2/issue/%s?fields=summary,description,issuetype,subtasks',
     issue_id
   )))
