@@ -12,6 +12,9 @@ return {
     },
     {
       '<S-m>', function() require('harpoon'):list():add() end, desc = 'Harpoon Mark'
+    },
+    {
+      "<leader>1", function() require('harpoon'):list():select(1) end, desc = 'Harpoon Select 1'
     }
   },
   dependencies = {
@@ -22,7 +25,7 @@ return {
 
     harpoon:setup({})
 
-    vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end, { desc = 'Harpoon Select 1' })
+    -- vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end, { desc = 'Harpoon Select 1' })
     vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end, { desc = 'Harpoon Select 2' })
     vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end, { desc = 'Harpoon Select 3' })
     vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end, { desc = 'Harpoon Select 4' })
