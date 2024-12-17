@@ -35,6 +35,11 @@
 ---@class IssueType
 ---@field id integer
 
+---@class LocalTask
+---@field key string
+---@field summary string
+
+---@alias RLTask SubTask | LocalTask
 
 -- ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 -- ┃                   Core Implementation                    ┃
@@ -89,6 +94,17 @@ function M.request(url, additional_headers, data)
   end
 
   return response.stdout
+end
+
+
+---@param msg string
+---@param level? integer
+function M.notify(msg, level)
+  vim.notify(
+    msg,
+    level or vim.log.levels.ERROR,
+    { title = 'Jira' }
+  )
 end
 
 -- vim.keymap.set('n', '<leader>rt', function() M.request('https://google.com') end)

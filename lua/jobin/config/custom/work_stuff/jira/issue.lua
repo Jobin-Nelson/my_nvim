@@ -1,40 +1,12 @@
 local jira = require('jobin.config.custom.work_stuff.jira')
+local subtask = require('jobin.config.custom.work_stuff.jira.subtask')
 
 local M = {}
-
----@param tasks SubTask[]
----@return string[]
-local function subtasks(tasks)
-  local lines = {}
-  if #tasks == 0 then
-    vim.notify(
-      'Issue %s does not have subtasks',
-      vim.log.levels.INFO,
-      { title = 'Jira' }
-    )
-    return lines
-  end
-  table.insert(lines, '** Sub-Tasks')
-  return vim.list_extend(lines, vim.tbl_map(
-    function(task)
-      local subtask_summary = task.fields and task.fields.summary
-      local is_bug = task.fields and task.fields.issuetype and task.fields.issuetype.id == '14'
-      if subtask_summary then
-        local line = string.format('*** TODO [%s] %s', task.key, subtask_summary)
-        if is_bug then
-          line = line .. ' :BUG:'
-        end
-        return line
-      end
-    end,
-    tasks
-  ))
-end
 
 ---@param fields IssueField
 ---@param issue_id string
 ---@return string[]
-local function header(fields, issue_id)
+local function get_header_lines(fields, issue_id)
   local heading = ('* TODO [%s] %s'):format(issue_id, fields.summary)
   if fields.issuetype and fields.issuetype.id == '1' then
     heading = heading .. ' :BUG:'
@@ -71,12 +43,20 @@ local function get_issue(issue_id)
   )))
 end
 
+---@param subtasks SubTask[]
+local function get_subtask_lines(subtasks)
+  local subtask_lines = subtask.subtasks2lines(subtasks)
+  return vim.tbl_isempty(subtask_lines)
+      and vim.list_extend({ '** Sub-Tasks' }, subtask_lines)
+      or subtask_lines
+end
+
 ---@param issue_id string
 local function populate_issue_details(issue_id)
   local response = get_issue(issue_id)
   local lines = vim.iter({
-    header(response.fields, issue_id),
-    subtasks(response.fields.subtasks)
+    get_header_lines(response.fields, issue_id),
+    get_subtask_lines(response.fields.subtasks)
   }):flatten():totable()
 
   local line_nr = vim.fn.line('.')
@@ -98,6 +78,6 @@ function M.populate_issue()
   end)
 end
 
--- vim.keymap.set('n', '<leader>rt', M.populate_issue)
--- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
+vim.keymap.set('n', '<leader>rt', M.populate_issue)
+vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 return M

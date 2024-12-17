@@ -1,5 +1,5 @@
 local map = vim.keymap.set
-map('n', '<leader>f<cr>', '<cmd>FzfLua resume<cr>', { desc = 'Find Oldfiles' })
+map('n', '<leader>f<cr>', '<cmd>FzfLua resume<cr>', { desc = 'Find Resume' })
 map('n', '<leader>fB', '<cmd>FzfLua builtin<cr>', { desc = 'Find Builtins' })
 map('n', '<leader>fo', '<cmd>FzfLua oldfiles<cr>', { desc = 'Find Oldfiles' })
 map('n', '<leader>fb', '<cmd>FzfLua buffers<cr>', { desc = 'Find Buffers' })
