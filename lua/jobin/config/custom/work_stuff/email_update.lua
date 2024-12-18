@@ -1,28 +1,5 @@
 local utils = require('jobin.config.custom.utils')
 
----@return string
-local function get_alias_command()
-  local bashrc = io.open(vim.fn.expand("~/.bashrc"))
-
-  if bashrc == nil then
-    error("No bashrc file found")
-  end
-
-  local command = ""
-  for line in bashrc:lines() do
-    if string.match(line, "^alias eup=") then
-      command = string.match(line, ".*='%${EDITOR:%-nvim} (.*)'$")
-      break
-    end
-  end
-  bashrc:close()
-
-  if command == "" then
-    error('No alias "eup" found in bashrc file')
-  end
-  return command
-end
-
 ---@param current_update string
 ---@return boolean
 local function has_previous_update(current_update)
@@ -62,7 +39,7 @@ local function get_previous_update(current_update)
     previous_date = previous_date - one_day_in_sec
     local previous_date_string = os.date("%Y-%m-%d", previous_date)
     previous_update = string.format("%s/%s.md", parent_dir, previous_date_string)
-    if vim.loop.fs_stat(previous_update) then
+    if vim.uv.fs_stat(previous_update) then
       break
     end
   end
@@ -125,14 +102,17 @@ end
 local M = {}
 
 M.open = function()
-  local command = get_alias_command()
-  vim.fn.jobstart("echo " .. command, {
+  local command = 'echo '
+  .. '$HOME/playground/dev/illumina/daily_updates/$(date -d '
+  .. '"$([[ $(date -d "+6 hours" +%u) -gt 5 ]] '
+  .. '&& echo "next Monday" || echo "+6 hours")" +%Y-%m-%d).md'
+  vim.fn.jobstart(command, {
     stdout_buffered = true,
     on_stdout = capture_email,
   })
 end
 
--- vim.keymap.set("n", "<leader>rt", open)
+-- vim.keymap.set("n", "<leader>rt", M.open)
 -- vim.keymap.set("n", "<leader>rr", ":update | luafile %<cr>")
 
 return M
