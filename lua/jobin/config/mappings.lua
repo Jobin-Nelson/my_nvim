@@ -73,5 +73,7 @@ map('n', '<leader>wt', '<cmd>lua require("jobin.config.custom.work_stuff.jira.is
   { desc = 'Source Ticket' })
 map('n', '<leader>ws', '<cmd>lua require("jobin.config.custom.work_stuff.jira.subtask").get()<cr>',
   { desc = 'Source SubTask' })
+map('n', '<leader>wo', '<cmd>lua require("jobin.config.custom.work_stuff.jira.issue").open()<cr>',
+  { desc = 'Open Ticket' })
 map('n', '<leader>wf', '<cmd>lua require("jobin.config.custom.work_stuff.jira.search").list_filter_issues()<cr>',
   { desc = 'Source Filter Issues' })

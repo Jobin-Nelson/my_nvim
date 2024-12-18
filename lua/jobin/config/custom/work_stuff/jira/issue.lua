@@ -79,9 +79,15 @@ function M.get()
 end
 
 function M.open()
-
+  local id = jira.get_id_summary(vim.fn.getline('.'))
+  if not id then
+    return jira.notify('Ticket ID not present in current line')
+  end
+  vim.system({ 'xdg-open',
+    ('https://jira.illumina.com/browse/%s'):format(id)
+  }):wait()
 end
 
--- vim.keymap.set('n', '<leader>rt', M.get)
+-- vim.keymap.set('n', '<leader>rt', M.open)
 -- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 return M
