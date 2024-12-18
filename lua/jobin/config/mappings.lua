@@ -69,7 +69,9 @@ map('n', '<leader>jl', '<cmd>lua require("jobin.config.custom.utils").leet()<cr>
 -- Work
 map('n', '<leader>we', '<cmd>lua require("jobin.config.custom.work_stuff.email_update").open()<cr>',
   { desc = 'Send Email' })
-map('n', '<leader>wt', '<cmd>lua require("jobin.config.custom.work_stuff.jira.issue").populate_issue()<cr>',
+map('n', '<leader>wt', '<cmd>lua require("jobin.config.custom.work_stuff.jira.issue").get()<cr>',
   { desc = 'Source Ticket' })
+map('n', '<leader>ws', '<cmd>lua require("jobin.config.custom.work_stuff.jira.subtask").get()<cr>',
+  { desc = 'Source SubTask' })
 map('n', '<leader>wf', '<cmd>lua require("jobin.config.custom.work_stuff.jira.search").list_filter_issues()<cr>',
   { desc = 'Source Filter Issues' })

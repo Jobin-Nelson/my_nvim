@@ -45,7 +45,7 @@ end
 
 ---@param subtasks SubTask[]
 local function get_subtask_lines(subtasks)
-  local subtask_lines = subtask.subtasks2lines(subtasks)
+  local subtask_lines = vim.tbl_map(subtask.subtask2line, subtasks)
   return vim.tbl_isempty(subtask_lines)
       and vim.list_extend({ '** Sub-Tasks' }, subtask_lines)
       or subtask_lines
@@ -63,7 +63,7 @@ local function populate_issue_details(issue_id)
   vim.api.nvim_buf_set_lines(0, line_nr, line_nr, false, lines)
 end
 
-function M.populate_issue()
+function M.get()
   vim.ui.input({
     prompt = 'Enter Issue ID: ',
   }, function(issue_id)
@@ -78,6 +78,6 @@ function M.populate_issue()
   end)
 end
 
-vim.keymap.set('n', '<leader>rt', M.populate_issue)
-vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
+-- vim.keymap.set('n', '<leader>rt', M.get)
+-- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 return M
