@@ -45,7 +45,7 @@ end
 
 ---@param subtasks SubTask[]
 local function get_subtask_lines(subtasks)
-  local subtask_lines = vim.tbl_map(subtask.subtask2line, subtasks)
+  local subtask_lines = vim.tbl_map(subtask.task2line, subtasks)
   return vim.tbl_isempty(subtask_lines)
       and vim.list_extend({ '** Sub-Tasks' }, subtask_lines)
       or subtask_lines
@@ -76,6 +76,10 @@ function M.get()
     end
     populate_issue_details(issue_id)
   end)
+end
+
+function M.open()
+
 end
 
 -- vim.keymap.set('n', '<leader>rt', M.get)

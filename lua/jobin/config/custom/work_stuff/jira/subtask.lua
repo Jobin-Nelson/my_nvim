@@ -10,25 +10,6 @@ local function get_remote_subtask(issue_id)
   ))
 end
 
----@param line string
----@return string? id
----@return string? summary
-local function get_id_summary(line)
-  local words = vim.split(line, ' ')
-  local id = vim.iter(words)
-      :take(4)
-      :map(function(word) return word:match('^%[([^#%]]*)%]$') end)
-      :find(function(word) return word end)
-  local summary_index = vim.iter(ipairs(words))
-      :skip(2)
-      :find(function(_, word) return not word:match('^%[') end)
-  if not summary_index then
-    return id, nil
-  end
-  return id, line:sub(vim.iter(words)
-    :take(summary_index - 1)
-    :fold(1, function(acc, word) return acc + #word + 1 end))
-end
 
 ---@param left_subtasks RLTask[]
 ---@param right_subtasks RLTask[]
@@ -61,13 +42,6 @@ local function get_subtask_header(cur_line_nr)
   return sub_task_line_nr, sub_task_line
 end
 
----@param line string
----@return LocalTask[]
-local function line2subtask(line)
-  local id, summary = get_id_summary(line)
-  return { key = id, summary = summary }
-end
-
 ---@param cur_line_nr integer
 ---@return LocalTask[] local_subtasks
 local function get_local_subtask(cur_line_nr)
@@ -87,18 +61,8 @@ local function get_local_subtask(cur_line_nr)
   till_line_nr = till_line_nr and sub_task_line_nr + till_line_nr or -1
   return vim.iter(vim.api.nvim_buf_get_lines(0, sub_task_line_nr, till_line_nr, false))
       :filter(function(l) return l:match(local_sub_task_header) end)
-      :map(line2subtask)
+      :map(jira.line2Localtask)
       :totable()
-end
-
----@param task SubTask
----@return string
-function M.subtask2line(task)
-    local line = string.format('*** TODO [%s] %s', task.key, task.fields.summary)
-    if task.fields.issuetype.id == '14' then
-      line = line .. ' :BUG:'
-    end
-    return line
 end
 
 function M.get()
@@ -106,11 +70,11 @@ function M.get()
   if not cur_line:match('^%*+ %w+') then
     return jira.notify('Cursor not on a heading')
   end
-  local issue_id = get_id_summary(cur_line)
+  local issue_id = jira.get_id_summary(cur_line)
   if not issue_id then
     return jira.notify('Invalid issue id received')
   end
-  local lines = vim.tbl_map(M.subtask2line, missing_subtasks(
+  local lines = vim.tbl_map(jira.task2Todo, missing_subtasks(
     get_remote_subtask(issue_id),
     get_local_subtask(cur_line_nr)
   ))

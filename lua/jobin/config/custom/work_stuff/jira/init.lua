@@ -103,6 +103,49 @@ function M.request(url, additional_headers, data)
   return response.stdout
 end
 
+---@param line string
+---@return string? id
+---@return string? summary
+function M.get_id_summary(line)
+  local words = vim.split(line, ' ')
+  local id = vim.iter(words)
+      :take(4)
+      :map(function(word) return word:match('^%[([^#%]]*)%]$') end)
+      :find(function(word) return word end)
+  local summary_index = vim.iter(ipairs(words))
+      :skip(2)
+      :find(function(_, word) return not word:match('^%[') end)
+  if not summary_index then
+    return id, nil
+  end
+  return id, line:sub(vim.iter(words)
+    :take(summary_index - 1)
+    :fold(1, function(acc, word) return acc + #word + 1 end))
+end
+
+---@param line string
+---@return LocalTask
+function M.line2Localtask(line)
+  local id, summary = M.get_id_summary(line)
+  return { key = id, summary = summary }
+end
+
+---@param task SubTask
+---@return string
+function M.task2Todo(task)
+    local line = string.format('*** TODO [%s] %s', task.key, task.fields.summary)
+    if task.fields.issuetype.id == '14' then
+      line = line .. ' :BUG:'
+    end
+    return line
+end
+
+---@param issue Issue
+---@return string
+function M.issue2List(issue)
+  return ('- [%s] %s'):format(issue.key, issue.fields.summary)
+end
+
 
 ---@param msg string
 ---@param level? integer
@@ -113,6 +156,7 @@ function M.notify(msg, level)
     { title = 'Jira' }
   )
 end
+
 
 -- vim.keymap.set('n', '<leader>rt', function() M.request('https://google.com') end)
 -- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')

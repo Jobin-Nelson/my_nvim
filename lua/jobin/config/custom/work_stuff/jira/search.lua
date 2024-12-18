@@ -37,15 +37,9 @@ local function get_search_results(jql, max_results, fields)
 end
 
 
----@param issue Issue
----@return string
-function M.issue2line(issue)
-  return ('- [%s] %s'):format(issue.key, issue.fields.summary)
-end
-
 ---@param issues Issue[]
 local function list_issue_summary(issues)
-  local lines = vim.tbl_map(M.issue2line, issues)
+  local lines = vim.tbl_map(jira.issue2List, issues)
   local line_nr = vim.fn.line('.')
   vim.api.nvim_buf_set_lines(0, line_nr, line_nr, false, lines)
 end
