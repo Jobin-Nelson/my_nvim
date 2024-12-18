@@ -156,7 +156,32 @@ M.fzf_org_agenda = function()
   )
 end
 
--- vim.keymap.set('n', '<leader>rt', function() M.fzf_org_agenda() end)
+M.fzf_search_jira = function()
+  local search = require('jobin.config.custom.work_stuff.jira.search')
+  local opts = {
+    prompt = "Issues ❯ ",
+    winopts = {
+      title = " Search Jira ",
+      title_pos = "center",
+    },
+    actions = {
+      ['default'] = function(selected, opts)
+        vim.api.nvim_buf_set_lines(
+          opts.__CTX.bufnr,
+          opts.__CTX.cursor[1],
+          opts.__CTX.cursor[1],
+          false,
+          selected
+        )
+      end
+    },
+  }
+  local results = search.query_jql(500)
+  if not results then return end
+  fzf_lua.fzf_exec(results, opts)
+end
+
+-- vim.keymap.set('n', '<leader>rt', function() M.fzf_search_jira() end)
 -- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 
 return M

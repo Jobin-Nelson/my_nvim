@@ -14,9 +14,9 @@ map('n', '<leader>fG', '<cmd>FzfLua git_files<cr>', { desc = 'Find Git Files (cw
 map('n', '<leader>fh', '<cmd>FzfLua helptags<cr>', { desc = 'Find Help' })
 map('n', '<leader>fc', '<cmd>FzfLua grep_cword<cr>', { desc = 'Find word under Cursor' })
 map('n', '<leader>fw',
-  '<cmd>lua require("fzf-lua").live_grep({cwd=require("jobin.config.custom.utils").get_git_root_buf()})<cr>',
+  '<cmd>lua require("fzf-lua").live_grep_glob({cwd=require("jobin.config.custom.utils").get_git_root_buf()})<cr>',
   { desc = 'Find words (root)' })
-map('n', '<leader>fW', '<cmd>FzfLua live_grep<cr>', { desc = 'Find words (cwd)' })
+map('n', '<leader>fW', '<cmd>FzfLua live_grep_glob<cr>', { desc = 'Find words (cwd)' })
 map('n', '<leader>fC', '<cmd>FzfLua commands<cr>', { desc = 'Find Commands' })
 map('n', '<leader>fk', '<cmd>FzfLua keymaps<cr>', { desc = 'Find Keymaps' })
 map('n', "<leader>f'", '<cmd>FzfLua marks<cr>', { desc = 'Find Marks' })
@@ -52,6 +52,7 @@ map('n', '<leader>fl', '<cmd>lua require("fzf-lua").files({cwd=vim.fs.joinpath(v
   { desc = 'Find profiles' })
 map('n', '<leader>fM', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_move_file()<cr>', { desc = 'Move File' })
 map('n', '<leader>fO', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_org_agenda()<cr>', { desc = 'Org Agenda' })
+map('n', '<leader>fj', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_search_jira()<cr>', { desc = 'Search Issues' })
 -- map('n', '<leader>fj', '<cmd>lua require("jobin.config.custom.my_pickers").find_journal()<cr>',
 --   { desc = 'Find Journal' })
 -- map('n', '<leader>fi', '<cmd>lua require("jobin.config.custom.my_pickers").find_docker_images()<cr>',
