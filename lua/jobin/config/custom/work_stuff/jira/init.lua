@@ -41,6 +41,13 @@
 
 ---@alias RLTask SubTask | LocalTask
 
+---@class SearchResult
+---@field issues Issue[]
+
+---@class FilterResult
+---@field jql string
+
+
 -- ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 -- ┃                   Core Implementation                    ┃
 -- ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
