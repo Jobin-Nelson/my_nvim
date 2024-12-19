@@ -10,7 +10,6 @@ local function get_remote_subtask(issue_id)
   ))
 end
 
-
 ---@param left_subtasks RLTask[]
 ---@param right_subtasks RLTask[]
 ---@param is_right? boolean

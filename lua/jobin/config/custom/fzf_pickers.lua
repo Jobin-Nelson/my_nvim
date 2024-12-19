@@ -156,7 +156,9 @@ M.fzf_org_agenda = function()
   )
 end
 
-M.fzf_search_jira = function()
+---@param jql string?
+---@param maxlimit integer?
+M.fzf_search_jira = function(jql, maxlimit)
   local search = require('jobin.config.custom.work_stuff.jira.search')
   local opts = {
     prompt = "Issues ❯ ",
@@ -176,7 +178,7 @@ M.fzf_search_jira = function()
       end
     },
   }
-  local results = search.query_jql(500)
+  local results = search.query_jql(jql, maxlimit or 500)
   if not results then return end
   fzf_lua.fzf_exec(results, opts)
 end

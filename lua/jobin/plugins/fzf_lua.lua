@@ -51,8 +51,8 @@ map('n', '<leader>fP', '<cmd>FzfLua profiles<cr>', { desc = 'Find profiles' })
 map('n', '<leader>fl', '<cmd>lua require("fzf-lua").files({cwd=vim.fs.joinpath(vim.fn.stdpath("data"), "lazy")})<cr>',
   { desc = 'Find profiles' })
 map('n', '<leader>fM', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_move_file()<cr>', { desc = 'Move File' })
-map('n', '<leader>fO', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_org_agenda()<cr>', { desc = 'Org Agenda' })
-map('n', '<leader>fj', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_search_jira()<cr>', { desc = 'Search Issues' })
+map('n', '<leader>fO', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_org_agenda()<cr>',
+  { desc = 'Org Agenda' })
 -- map('n', '<leader>fj', '<cmd>lua require("jobin.config.custom.my_pickers").find_journal()<cr>',
 --   { desc = 'Find Journal' })
 -- map('n', '<leader>fi', '<cmd>lua require("jobin.config.custom.my_pickers").find_docker_images()<cr>',
@@ -63,7 +63,7 @@ map('n', '<leader>fj', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_
 return {
   "ibhagwan/fzf-lua",
   cmd = {
-    'FzfLua'
+    'FzfLua', 'JQL'
   },
   -- optional for icon support
   dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -112,5 +112,13 @@ return {
       end
       return { winopts = { height = h, width = 0.50, row = 0.40 } }
     end)
+
+    -- Custom User command
+    vim.api.nvim_create_user_command('JQL',
+      function(opts)
+        require('jobin.config.custom.fzf_pickers').fzf_search_jira(opts.args)
+      end,
+      { nargs = 1 }
+    )
   end
 }
