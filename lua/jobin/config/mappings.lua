@@ -37,7 +37,8 @@ map('n', '<leader>pm', '<cmd>Mason<cr>', { desc = 'Mason Installer' })
 
 -- Terminal
 map('t', '<C-w>', '<C-\\><C-n><C-w>', { desc = 'Terminal window command' })
--- map({'n', 't'}, '<A-h>', '<cmd>lua require("jobin.config.custom.utils").term_toggle()<cr>', { desc = 'Toggle Horizontal Term' })
+map('t', '<esc><esc>', '<C-\\><C-n>', { desc = 'Terminal normal mode' })
+-- map({'n', 't'}, '<C-/>', '<cmd>lua require("jobin.config.custom.utils").toggle_term()<cr>', { desc = 'Toggle foating terminal' })
 
 -- UI
 map('n', '<leader>ur', '<cmd>nohlsearch <bar> diffupdate <bar> normal! <C-L><CR>', { desc = 'UI Refresh' })

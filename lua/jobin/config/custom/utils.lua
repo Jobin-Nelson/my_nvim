@@ -142,7 +142,7 @@ function M.leet()
   if vim.fn.executable('leet.py') ~= 1 then
     vim.notify(
       'leet.py not found',
-      vim.log.levels.INFO,
+      vim.log.levels.ERROR,
       { title = 'Leetcode' }
     )
     return
@@ -153,7 +153,7 @@ function M.leet()
   if response.code ~= 0 or response.stdout == nil then
     vim.notify(
       'leet.py failed execution',
-      vim.log.levels.INFO,
+      vim.log.levels.ERROR,
       { title = 'Leetcode' }
     )
     return
@@ -162,35 +162,45 @@ function M.leet()
   vim.cmd('tabedit ' .. leet_file)
 end
 
-function M.term_toggle()
-  local term_bufnr = vim.g.custom_terminal_bufnr
+local terminal_state = {
+  buf = -1,
+  win = -1,
+}
 
-  -- no prev terminal
-  if term_bufnr == nil or not is_valid_buf(term_bufnr) then
-    vim.cmd('botright new | term')
-    vim.opt_local.number = false
-    vim.opt_local.relativenumber = false
-    local custom_terminal_bufnr = vim.api.nvim_get_current_buf()
-    vim.g.custom_terminal_bufnr = custom_terminal_bufnr
-    -- to enter insert mode when switching buffers
-    vim.api.nvim_create_autocmd("BufEnter", {
-      buffer = custom_terminal_bufnr,
-      callback = function()
-        vim.cmd.startinsert()
-      end,
-    })
-    return
-  end
+---@param opts table?
+---@return table<string,integer>
+function M.create_floating_window(opts)
+  opts = opts or {}
+  local width = opts.width or math.floor(vim.o.columns * 0.8)
+  local height = opts.height or math.floor(vim.o.lines * 0.8)
 
-  -- use prev terminal
-  term_bufnr = vim.g.custom_terminal_bufnr
-  for _, win_id in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
-    if vim.api.nvim_win_get_buf(win_id) == term_bufnr then
-      -- return vim.api.nvim_set_current_win(win_id)
-      return vim.api.nvim_win_close(win_id, false)
+  local col = math.floor((vim.o.columns - width) / 2)
+  local row = math.floor((vim.o.lines - height) / 2)
+
+  local buf = vim.api.nvim_buf_is_valid(opts.buf)
+    and opts.buf or vim.api.nvim_create_buf(false, true)
+  local win = vim.api.nvim_open_win(buf, true, {
+    relative = 'editor',
+    width = width,
+    height = height,
+    col = col,
+    row = row,
+    style = 'minimal',
+    border = 'rounded',
+  })
+
+  return { buf = buf, win = win }
+end
+
+function M.toggle_term()
+  if not vim.api.nvim_win_is_valid(terminal_state.win) then
+    terminal_state = M.create_floating_window { buf = terminal_state.buf }
+    if vim.bo[terminal_state.buf].buftype ~= 'terminal' then
+      vim.cmd.term()
     end
+  else
+    vim.api.nvim_win_hide(terminal_state.win)
   end
-  vim.cmd('botright sb' .. term_bufnr)
 end
 
 ---@param buf_to_delete number|nil
@@ -269,7 +279,7 @@ function M.box()
   vim.api.nvim_buf_set_text(0, middle_line_nr, col_nr, middle_line_nr, col_nr + value_len, { value })
 end
 
--- vim.keymap.set('n', '<leader>rt', M.box)
+-- vim.keymap.set('n', '<leader>rt', function() M.toggle_term() end)
 -- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 
 return M
