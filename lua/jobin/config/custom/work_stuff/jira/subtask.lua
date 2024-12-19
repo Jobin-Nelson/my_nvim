@@ -29,56 +29,43 @@ local function missing_subtasks(left_subtasks, right_subtasks, is_right)
 end
 
 ---@param cur_line_nr integer
----@return integer? sub_task_line_nr
----@return string? sub_task_line
-local function get_subtask_header(cur_line_nr)
-  local sub_task_line_nr, sub_task_line = vim.iter(ipairs(
-    vim.api.nvim_buf_get_lines(0, cur_line_nr, -1, false)
-  )):find(function(_, l) return l:match('^%*+ Sub%-Tasks') end)
-  if not sub_task_line then
-    return nil, nil
-  end
-  sub_task_line_nr = sub_task_line_nr + cur_line_nr
-  return sub_task_line_nr, sub_task_line
-end
-
----@param cur_line_nr integer
+---@param cur_head_nr integer
 ---@return LocalTask[] local_subtasks
-local function get_local_subtask(cur_line_nr)
-  local sub_task_line_nr, sub_task_line = get_subtask_header(cur_line_nr)
+local function get_local_subtask(cur_line_nr, cur_head_nr)
+  local sub_task_line_nr, sub_task_line = jira.child_match(
+    cur_line_nr, cur_head_nr, '^%*+ Sub%-Tasks'
+  )
   if not (sub_task_line_nr and sub_task_line) then
     jira.notify('No Subtask found below cursor', vim.log.levels.INFO)
     return {}
   end
   local sub_task_header_nr = #sub_task_line:match('^(%*+)')
-  local local_sub_task_header = string.format('^%s ', string.rep('%*', sub_task_header_nr + 1))
-  -- look till a line with equal or bigger heading than the sub task heading
-  local till_line_nr = vim.iter(ipairs(
-    vim.api.nvim_buf_get_lines(0, sub_task_line_nr, -1, false)
-  )):find(function(_, l)
-    return l:match('^%*+ %w+') and #l:match('^(%*+)') <= sub_task_header_nr
-  end)
-  till_line_nr = till_line_nr and sub_task_line_nr + till_line_nr or -1
-  return vim.iter(vim.api.nvim_buf_get_lines(0, sub_task_line_nr, till_line_nr, false))
-      :filter(function(l) return l:match(local_sub_task_header) end)
-      :map(jira.line2Localtask)
-      :totable()
+  return vim.tbl_map(jira.line2Localtask,
+    jira.child_matches(
+      sub_task_line_nr,
+      sub_task_header_nr,
+      ('^%s '):format(('%*'):rep(sub_task_header_nr + 1))
+    )
+  )
 end
 
 function M.get()
-  local cur_line, cur_line_nr = vim.fn.getline('.'), vim.fn.line('.')
+  local cur_line_nr, cur_line = vim.fn.line('.'), vim.fn.getline('.')
   if not cur_line:match('^%*+ %w+') then
     return jira.notify('Cursor not on a heading')
   end
   local issue_id = jira.get_id_summary(cur_line)
   if not issue_id then
-    return jira.notify('Invalid issue id received')
+    return jira.notify('Current heading has no issue id')
   end
+  local cur_head_nr = #cur_line:match('^(%*+)')
   local lines = vim.tbl_map(jira.task2Todo, missing_subtasks(
     get_remote_subtask(issue_id),
-    get_local_subtask(cur_line_nr)
+    get_local_subtask(cur_line_nr, cur_head_nr)
   ))
-  local sub_task_line_nr = get_subtask_header(cur_line_nr) or cur_line_nr
+  local sub_task_line_nr = jira.child_match(
+    cur_line_nr, cur_head_nr, '^%*+ Sub%-Tasks'
+  ) or cur_line_nr
   vim.api.nvim_buf_set_lines(0, sub_task_line_nr, sub_task_line_nr, false, lines)
 end
 

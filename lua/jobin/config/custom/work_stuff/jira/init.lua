@@ -133,11 +133,11 @@ end
 ---@param task SubTask
 ---@return string
 function M.task2Todo(task)
-    local line = string.format('*** TODO [%s] %s', task.key, task.fields.summary)
-    if task.fields.issuetype.id == '14' then
-      line = line .. ' :BUG:'
-    end
-    return line
+  local line = string.format('*** TODO [%s] %s', task.key, task.fields.summary)
+  if task.fields.issuetype.id == '14' then
+    line = line .. ' :BUG:'
+  end
+  return line
 end
 
 ---@param issue Issue
@@ -146,6 +146,45 @@ function M.issue2List(issue)
   return ('- [%s] %s'):format(issue.key, issue.fields.summary)
 end
 
+---@param cur_line_nr integer
+---@param header_nr integer
+---@return integer? line_nr the next sib/ancSib line number
+---@return string?  line    the next sib/ancSib line
+function M.next_sibling_or_ancestor_sibling(cur_line_nr, header_nr)
+  local next_sibling_line_nr, next_sibling_line = vim.iter(ipairs(
+    vim.api.nvim_buf_get_lines(0, cur_line_nr, -1, false)
+  )):find(function(_, l)
+    -- look till a line with equal or bigger heading than the header_nr
+    return l:match('^%*+ %w+') and #l:match('^(%*+)') <= header_nr
+  end)
+  return next_sibling_line_nr and next_sibling_line_nr + cur_line_nr, next_sibling_line
+end
+
+---@param cur_line_nr integer
+---@param cur_head_nr integer
+---@param line_reg string
+---@return integer? child_nr  the child line number
+---@return string? child_line the child line that matched line_reg
+function M.child_match(cur_line_nr, cur_head_nr, line_reg)
+  local child_nr, child_line = vim.iter(ipairs(
+    vim.api.nvim_buf_get_lines(0, cur_line_nr,
+      M.next_sibling_or_ancestor_sibling(cur_line_nr, cur_head_nr) or -1,
+      false)
+  )):find(function(_, l) return l:match(line_reg) end)
+  return child_nr and child_nr + cur_line_nr, child_line
+end
+
+---@param cur_line_nr integer
+---@param cur_head_nr integer
+---@param line_reg string
+---@return string[] child_lines list of child lines that matched line_reg
+function M.child_matches(cur_line_nr, cur_head_nr, line_reg)
+  return vim.tbl_filter(
+    function(l) return l:match(line_reg) end,
+    vim.api.nvim_buf_get_lines(0, cur_line_nr,
+      M.next_sibling_or_ancestor_sibling(cur_line_nr, cur_head_nr) or -1,
+      false))
+end
 
 ---@param msg string
 ---@param level? integer
@@ -156,7 +195,6 @@ function M.notify(msg, level)
     { title = 'Jira' }
   )
 end
-
 
 -- vim.keymap.set('n', '<leader>rt', function() M.request('https://google.com') end)
 -- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
