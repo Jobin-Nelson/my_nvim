@@ -2,7 +2,7 @@ return {
   'saghen/blink.cmp',
   event = 'InsertEnter',
   -- optional: provides snippets for the snippet source
-  dependencies = { 'rafamadriz/friendly-snippets' },
+  dependencies = { 'L3M0N4D3/LuaSnip' },
   -- use a release tag to download pre-built binaries
   version = 'v0.*',
 
@@ -17,7 +17,7 @@ return {
       kind_icons = require('jobin.config.icons').kind,
     },
     enabled = function()
-      -- TODO: remove when blink supports cmdline completion
+      -- TODO: remove when blink supports cmd preview window completion
       return not vim.tbl_contains({ 'vim' }, vim.bo.filetype) and vim.bo.buftype ~= "prompt"
     end,
     completion = {
@@ -34,7 +34,16 @@ return {
       },
       { accept = { auto_brackets = { enabled = true } } },
     },
-
+    snippets = {
+      expand = function(snippet) require('luasnip').lsp_expand(snippet) end,
+      active = function(filter)
+        if filter and filter.direction then
+          return require('luasnip').jumpable(filter.direction)
+        end
+        return require('luasnip').in_snippet()
+      end,
+      jump = function(direction) require('luasnip').jump(direction) end,
+    },
     -- default list of enabled providers defined so that you can extend it
     -- elsewhere in your config, without redefining it, via `opts_extend`
     sources = {
@@ -48,10 +57,10 @@ return {
           module = 'orgmode.org.autocompletion.blink',
         },
       },
-      default = { 'lsp', 'path', 'snippets', 'buffer' },
+      default = { 'luasnip', 'lsp', 'path', 'buffer' },
       per_filetype = {
-        sql = { 'snippets', 'dadbod', 'buffer', },
-        org = { 'snippets', 'orgmode', 'buffer', },
+        sql = { 'luasnip', 'dadbod', 'buffer', },
+        org = { 'luasnip', 'orgmode', 'buffer', },
       },
       -- optionally disable cmdline completions
       -- cmdline = {},
