@@ -82,7 +82,7 @@ return {
     Scopes = "",
     Watches = "󰂥",
     DebugConsole = "",
-    Calendar = "",
+    Calendar = "",
     Check = "",
     FoldClosed = "",
     FoldOpened = "",

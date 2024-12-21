@@ -53,6 +53,7 @@
 -- ┃                   Core Implementation                    ┃
 -- ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
+local utils = require('jobin.config.custom.utils')
 
 local M = {}
 
@@ -80,23 +81,12 @@ function M.request(url, additional_headers, data)
     'Authorization: Bearer ' .. get_token(),
     'Content-Type: application/json'
   }
-  local headers = vim.iter(vim.tbl_map(
-    function(header) return { '--header', header } end,
-    vim.list_extend(default_headers, additional_headers or {})
-  )):flatten():totable()
+  local headers = vim.iter(vim.list_extend(default_headers, additional_headers or {}))
+      :map(function(header) return { '--header', header } end)
+      :flatten()
+      :totable()
 
-  -- POST request data
-  if data then
-    vim.list_extend(headers, { '-X', 'POST', '-d', data })
-  end
-
-  local cmd = vim.iter({
-    { 'curl', '-sSfL' }, -- flags
-    headers,             -- headers + data?
-    { url }              -- query url
-  }):flatten():totable()
-
-  local response = vim.system(cmd, { text = true }):wait()
+  local response = utils.request(url, headers, data)
   if response.code ~= 0 or response.stdout == nil then
     error('Jira request failed')
   end

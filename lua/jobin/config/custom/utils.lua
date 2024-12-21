@@ -178,7 +178,7 @@ function M.create_floating_window(opts)
   local row = math.floor((vim.o.lines - height) / 2)
 
   local buf = vim.api.nvim_buf_is_valid(opts.buf)
-    and opts.buf or vim.api.nvim_create_buf(false, true)
+      and opts.buf or vim.api.nvim_create_buf(false, true)
   local win = vim.api.nvim_open_win(buf, true, {
     relative = 'editor',
     width = width,
@@ -278,6 +278,54 @@ function M.box()
 
   vim.api.nvim_buf_set_text(0, middle_line_nr, col_nr, middle_line_nr, col_nr + value_len, { value })
 end
+
+---@param url string
+---@param headers string[]?
+---@param data string?
+---@return table response
+function M.request(url, headers, data)
+  headers = vim.iter(headers)
+      :map(function(header) return { '--header', header } end)
+      :flatten()
+      :totable()
+
+  -- POST request data
+  if data then
+    vim.list_extend(headers, { '-X', 'POST', '-d', data })
+  end
+
+  local cmd = vim.iter({
+    { 'curl', '-sSfL' }, -- flags
+    headers,             -- headers + data?
+    { url }              -- query url
+  }):flatten():totable()
+
+  return vim.system(cmd, { text = true }):wait()
+end
+
+---@param text string
+---@return string[]
+function M.shellsplit(text)
+  local words = {}
+  local spat, epat, buf, quoted = [=[^(['"])]=], [=[(['"])$]=], nil, nil
+  for str in text:gmatch("%S+") do
+    local squoted = str:match(spat)
+    local equoted = str:match(epat)
+    local escaped = str:match([=[(\*)['"]$]=])
+    if squoted and not quoted and not equoted then
+      buf, quoted = str, squoted
+    elseif buf and equoted == quoted and #escaped % 2 == 0 then
+      str, buf, quoted = buf .. ' ' .. str, nil, nil
+    elseif buf then
+      buf = buf .. ' ' .. str
+    end
+    if not buf then
+      table.insert(words, (str:gsub(spat, ""):gsub(epat, "")))
+    end
+  end
+  return words
+end
+
 
 -- vim.keymap.set('n', '<leader>rt', function() M.toggle_term() end)
 -- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')

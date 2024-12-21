@@ -70,7 +70,7 @@ return {
     { "<leader>n",  function() Snacks.notifier.show_history() end,   desc = "Notification History" },
     { "<leader>bd", function() Snacks.bufdelete() end,               desc = "Delete Buffer" },
     { "<leader>cR", function() Snacks.rename.rename_file() end,      desc = "Rename File" },
-    { "<leader>gB", function() Snacks.gitbrowse() end,               desc = "Git Browse" },
+    { "<leader>gB", function() Snacks.gitbrowse() end,               desc = "Git Browse",               mode = { 'n', 'v' } },
     { "<leader>un", function() Snacks.notifier.hide() end,           desc = "Dismiss All Notifications" },
     { "<c-/>",      function() Snacks.terminal() end,                desc = "Toggle Terminal" },
     { "<c-_>",      function() Snacks.terminal() end,                desc = "which_key_ignore",         mode = { 'n', 't' } },

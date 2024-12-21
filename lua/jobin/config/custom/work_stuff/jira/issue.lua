@@ -83,9 +83,7 @@ function M.open()
   if not id then
     return jira.notify('Ticket ID not present in current line')
   end
-  vim.system({ 'xdg-open',
-    ('https://jira.illumina.com/browse/%s'):format(id)
-  }):wait()
+  vim.ui.open(('https://jira.illumina.com/browse/%s'):format(id)):wait()
 end
 
 -- vim.keymap.set('n', '<leader>rt', M.open)

@@ -16,10 +16,10 @@ return {
       nerd_font_variant = 'mono',
       kind_icons = require('jobin.config.icons').kind,
     },
-    enabled = function()
-      -- TODO: remove when blink supports cmd preview window completion
-      return not vim.tbl_contains({ 'vim' }, vim.bo.filetype) and vim.bo.buftype ~= "prompt"
-    end,
+    -- enabled = function()
+    --   -- TODO: remove when blink supports cmd preview window completion
+    --   return not vim.tbl_contains({ 'vim' }, vim.bo.filetype) and vim.bo.buftype ~= "prompt"
+    -- end,
     completion = {
       menu = {
         border = 'single',
@@ -27,12 +27,12 @@ return {
       },
       documentation = {
         -- disable if you run into performance issues
+        auto_show = true,
         treesitter_highlighting = true,
         window = {
           border = 'single',
         }
       },
-      { accept = { auto_brackets = { enabled = true } } },
     },
     snippets = {
       expand = function(snippet) require('luasnip').lsp_expand(snippet) end,

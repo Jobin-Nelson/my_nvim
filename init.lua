@@ -23,6 +23,7 @@ require('lazy').setup({
   install = {
     colorscheme = { 'default', 'habamax' },
   },
+  rocks = { enabled = false },
   change_detection = {
     enabled = true,
     notify = false,

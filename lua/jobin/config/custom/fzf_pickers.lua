@@ -183,7 +183,51 @@ M.fzf_search_jira = function(jql, maxlimit)
   fzf_lua.fzf_exec(results, opts)
 end
 
--- vim.keymap.set('n', '<leader>rt', function() M.fzf_search_jira() end)
+---@param cmd string
+---@param opts table?
+M.fzf_todoist = function(cmd, opts)
+  local close_or_delete = function(op)
+    return function(selected)
+      local indices = vim.tbl_map(function(t)
+        return vim.iter(vim.gsplit(vim.trim(t), ' ')):next():sub(1, -2)
+      end, selected)
+      vim.system(vim.list_extend({ 'todo.py', op, 'task', }, indices), {}, function(res)
+        vim.schedule(function()
+          if res.code == 0 then
+            vim.notify(('Successfully %s Tasks: %s'):format(op, table.concat(indices, ', ')), vim.log.levels.INFO,
+              { title = 'Todo' })
+          else
+            vim.notify(('Failed to %s Tasks: %s'):format(op, table.concat(indices, ', ')), vim.log.levels.INFO,
+              { title = 'Todo' })
+          end
+        end)
+      end)
+    end
+  end
+  local default_opts = {
+    prompt = "Todo ❯ ",
+    winopts = {
+      title = " Search Todoist ",
+      title_pos = "center",
+    },
+    actions = {
+      ['default'] = function(selected, lopts)
+        vim.api.nvim_buf_set_lines(
+          lopts.__CTX.bufnr,
+          lopts.__CTX.cursor[1],
+          lopts.__CTX.cursor[1],
+          false,
+          selected
+        )
+      end,
+      ['ctrl-l'] = { fn = close_or_delete('delete'), exec_silent = true },
+      ['ctrl-d'] = { fn = close_or_delete('close'), exec_silent = true },
+    },
+  }
+  fzf_lua.fzf_exec(cmd, vim.tbl_deep_extend('force', default_opts, opts or {}))
+end
+
+-- vim.keymap.set('n', '<leader>rt', function() M.fzf_todoist('todo.py get task') end)
 -- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 
 return M
