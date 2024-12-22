@@ -220,8 +220,8 @@ M.fzf_todoist = function(cmd, opts)
           selected
         )
       end,
-      ['ctrl-l'] = { fn = close_or_delete('delete'), exec_silent = true },
-      ['ctrl-d'] = { fn = close_or_delete('close'), exec_silent = true },
+      ['ctrl-l'] = close_or_delete('delete'),
+      ['ctrl-d'] = close_or_delete('close'),
     },
   }
   fzf_lua.fzf_exec(cmd, vim.tbl_deep_extend('force', default_opts, opts or {}))

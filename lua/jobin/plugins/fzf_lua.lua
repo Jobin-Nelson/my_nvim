@@ -161,7 +161,7 @@ return {
         if #arg_list >= 2 then
           local flag = arg_list[#arg_list - 1]
           if vim.tbl_contains({ '-l', '--label' }, flag) then
-            return vim.fn.systemlist({ 'todo.py', 'list', '--labels' })
+            return vim.fn.systemlist({ 'todo.py', 'list', '--label' })
           elseif vim.tbl_contains({ '-p', '--priority' }, flag) then
             return vim.fn.systemlist({ 'todo.py', 'list', '--priority' })
           elseif '--project' == flag then
