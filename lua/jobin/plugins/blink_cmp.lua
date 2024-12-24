@@ -2,7 +2,7 @@ return {
   'saghen/blink.cmp',
   event = 'InsertEnter',
   -- optional: provides snippets for the snippet source
-  dependencies = { 'L3M0N4D3/LuaSnip' },
+  dependencies = { 'L3MON4D3/LuaSnip' },
   -- use a release tag to download pre-built binaries
   version = 'v0.*',
 
