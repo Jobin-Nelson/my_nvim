@@ -16,10 +16,6 @@ return {
       nerd_font_variant = 'mono',
       kind_icons = require('jobin.config.icons').kind,
     },
-    -- enabled = function()
-    --   -- TODO: remove when blink supports cmd preview window completion
-    --   return not vim.tbl_contains({ 'vim' }, vim.bo.filetype) and vim.bo.buftype ~= "prompt"
-    -- end,
     completion = {
       menu = {
         border = 'single',

@@ -9,7 +9,7 @@ return {
         '~/playground/projects/org_files/**/*',
         '~/playground/dev/illumina/ticket_notes/work_org_files/**/*',
       },
-      org_default_notes_file = '~/playground/projects/org_files/refile.org',
+      org_default_notes_file = '~/playground/projects/org_files/inbox.org',
       org_todo_keywords = { 'TODO(t)', 'NEXT(n)', 'WAITING(w)', 'ON_HOLD(h)', 'REVIEW(r)', '|', 'DONE(d)', 'CANCELLED(c)' },
       -- org_archive_location = '~/playground/projects/org_files/archive_file.org_archive',
       org_hide_leading_stars = false,

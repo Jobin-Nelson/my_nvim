@@ -130,8 +130,8 @@ M.fzf_second_brain = function()
   })
 end
 
-M.fzf_org_agenda = function()
-  local org_dir = '~/playground/dev/illumina/ticket_notes/work_org_files'
+---@param org_dir string
+M.fzf_org_live_grep = function(org_dir)
   fzf_lua.live_grep({
     cwd = org_dir,
     search = "* TODO",
