@@ -52,7 +52,9 @@ map('n', '<leader>fl', '<cmd>lua require("fzf-lua").files({cwd=vim.fs.joinpath(v
   { desc = 'Find profiles' })
 map('n', '<leader>fM', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_move_file()<cr>', { desc = 'Move File' })
 map('n', '<leader>fO', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_org_live_grep("~/playground/dev/illumina/ticket_notes/work_org_files")<cr>',
-  { desc = 'Org live grep (Work)' })
+  { desc = 'Org Todo grep (Work)' })
+map('n', '<leader>fT', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_org_live_grep("~/playground/projects/org_files")<cr>',
+  { desc = 'Org Todo grep' })
 -- map('n', '<leader>fj', '<cmd>lua require("jobin.config.custom.my_pickers").find_journal()<cr>',
 --   { desc = 'Find Journal' })
 -- map('n', '<leader>fi', '<cmd>lua require("jobin.config.custom.my_pickers").find_docker_images()<cr>',

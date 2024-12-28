@@ -132,9 +132,10 @@ end
 
 ---@param org_dir string
 M.fzf_org_live_grep = function(org_dir)
-  fzf_lua.live_grep({
+  fzf_lua.grep({
+    no_esc = true,
     cwd = org_dir,
-    search = "* TODO",
+    search = "^\\*+ (TODO|NEXT|WAITING|ON_HOLD|REVIEW)",
     rg_opts = "--column --type org --line-number --no-heading --color=always --smart-case --max-columns=4096 -e",
     fzf_opts = {
       ['--delimiter'] = '/',
@@ -142,7 +143,7 @@ M.fzf_org_live_grep = function(org_dir)
       ['--with-nth'] = '-1',
     },
     winopts = {
-      title = " Org Agenda ",
+      title = " Org Todo ",
       title_pos = "center",
       preview = {
         layout = 'vertical',
@@ -150,10 +151,6 @@ M.fzf_org_live_grep = function(org_dir)
       }
     }
   })
-  vim.api.nvim_feedkeys(
-    vim.api.nvim_replace_termcodes('<C-a>^<C-e>', true, false, true),
-    'i', false
-  )
 end
 
 ---@param jql string?
