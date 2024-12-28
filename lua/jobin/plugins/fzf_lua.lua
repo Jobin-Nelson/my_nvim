@@ -51,9 +51,11 @@ map('n', '<leader>fP', '<cmd>FzfLua profiles<cr>', { desc = 'Find profiles' })
 map('n', '<leader>fl', '<cmd>lua require("fzf-lua").files({cwd=vim.fs.joinpath(vim.fn.stdpath("data"), "lazy")})<cr>',
   { desc = 'Find profiles' })
 map('n', '<leader>fM', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_move_file()<cr>', { desc = 'Move File' })
-map('n', '<leader>fO', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_org_live_grep("~/playground/dev/illumina/ticket_notes/work_org_files")<cr>',
+map('n', '<leader>fO',
+  '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_org_live_grep("~/playground/dev/illumina/ticket_notes/work_org_files")<cr>',
   { desc = 'Org Todo grep (Work)' })
-map('n', '<leader>fT', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_org_live_grep("~/playground/projects/org_files")<cr>',
+map('n', '<leader>fT',
+  '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_org_live_grep("~/playground/projects/org_files")<cr>',
   { desc = 'Org Todo grep' })
 -- map('n', '<leader>fj', '<cmd>lua require("jobin.config.custom.my_pickers").find_journal()<cr>',
 --   { desc = 'Find Journal' })
@@ -96,9 +98,17 @@ return {
         }
       },
       grep = {
+        rg_glob = true,
+        glob_flag = "--iglob",
+        glob_separator = "%s%-%-",
         actions = {
           ["alt-h"] = actions.toggle_hidden,
           ["alt-i"] = actions.toggle_ignore,
+        }
+      },
+      previewers = {
+        builtin = {
+          syntax_limit_b = 1024 * 100, -- 100KB
         }
       }
     })
