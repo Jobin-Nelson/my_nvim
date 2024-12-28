@@ -2,8 +2,9 @@ return {
   "nvim-neotest/neotest",
   dependencies = {
     "nvim-neotest/nvim-nio",
+    "nvim-lua/plenary.nvim",
+    "nvim-treesitter/nvim-treesitter",
     "nvim-neotest/neotest-python",
-    "rcasia/neotest-java",
   },
   keys = {
     { "<leader>t",  "",                                                                                 desc = "+test" },
@@ -18,10 +19,10 @@ return {
     { "<leader>tw", function() require("neotest").watch.toggle(vim.fn.expand("%")) end,                 desc = "Toggle Watch" },
   },
   config = function()
+    ---@diagnostic disable-next-line: missing-fields
     require('neotest').setup({
       adapters = {
         require('neotest-python'),
-        require('neotest-java'),
       }
     })
   end

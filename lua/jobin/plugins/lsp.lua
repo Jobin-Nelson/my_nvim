@@ -39,47 +39,48 @@ return {
     }
   },
   config = function()
-    local on_attach = function(client, bufnr)
-      local nmap = function(keys, func, desc)
-        vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
+    vim.api.nvim_create_autocmd('LspAttach', {
+      group = vim.api.nvim_create_augroup('Lsp-Attach-KeyMaps', { clear = true }),
+      callback = function(args)
+        local nmap = function(keys, func, desc)
+          vim.keymap.set('n', keys, func, { buffer = args.buf, desc = desc })
+        end
+
+        nmap('<leader>lr', vim.lsp.buf.rename, 'Lsp Rename')
+        nmap('<leader>la', vim.lsp.buf.code_action, 'Lsp code Action')
+
+        nmap('gd', '<cmd>FzfLua lsp_definitions jump_to_single_result=true ignore_current_line=true<cr>',
+          'Goto [D]efinition')
+        nmap('gr', '<cmd>FzfLua lsp_references jump_to_single_result=true ignore_current_line=true<cr>',
+          'Goto [R]eferences')
+        nmap('gI', '<cmd>FzfLua lsp_implementations jump_to_single_result=true ignore_current_line=true<cr>',
+          'Goto [I]mplementation')
+        nmap('gy', '<cmd>FzfLua lsp_typedefs jump_to_single_result=true ignore_current_line=true<cr>',
+          'Goto T[y]pe Definition')
+        nmap('gD', vim.lsp.buf.declaration, 'Goto [D]eclaration')
+        nmap(']d', vim.diagnostic.goto_next, 'Next diagnostic')
+        nmap('[d', vim.diagnostic.goto_prev, 'Previous diagnostic')
+        nmap('<leader>lq', vim.diagnostic.setloclist, 'Set diagnostic quickfix')
+        nmap('<leader>ld', '<cmd>FzfLua diagnostics_document jump_to_single_result=true ignore_current_line=true<cr>',
+          'Open diagnostic list')
+        nmap('<leader>ls', '<cmd>FzfLua lsp_document_symbols jump_to_single_result=true ignore_current_line=true<cr>',
+          'Lsp Document Symbols')
+        nmap('<leader>lS',
+          '<cmd>FzfLua lsp_live_workspace_symbols jump_to_single_result=true ignore_current_line=true<cr>',
+          'Lsp Workspace Symbols')
+        nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
+        nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+        nmap('<leader>lwa', vim.lsp.buf.add_workspace_folder, 'Lsp Workspace Add folder')
+        nmap('<leader>lwr', vim.lsp.buf.remove_workspace_folder, 'Lsp Workspace Remove folder')
+        nmap('<leader>lwl', function()
+          vim.notify(
+            vim.inspect(vim.lsp.buf.list_workspace_folders()),
+            vim.log.levels.INFO,
+            { title = 'LSP' }
+          )
+        end, 'Lsp Workspace List folders')
       end
-
-      nmap('<leader>lr', vim.lsp.buf.rename, 'Lsp Rename')
-      nmap('<leader>la', vim.lsp.buf.code_action, 'Lsp code Action')
-
-      nmap('gd', '<cmd>FzfLua lsp_definitions jump_to_single_result=true ignore_current_line=true<cr>', 'Goto [D]efinition')
-      nmap('gr', '<cmd>FzfLua lsp_references jump_to_single_result=true ignore_current_line=true<cr>', 'Goto [R]eferences')
-      nmap('gI', '<cmd>FzfLua lsp_implementations jump_to_single_result=true ignore_current_line=true<cr>', 'Goto [I]mplementation')
-      nmap('gy', '<cmd>FzfLua lsp_typedefs jump_to_single_result=true ignore_current_line=true<cr>', 'Goto T[y]pe Definition')
-      nmap('gD', vim.lsp.buf.declaration, 'Goto [D]eclaration')
-      nmap(']d', vim.diagnostic.goto_next, 'Next diagnostic')
-      nmap('[d', vim.diagnostic.goto_prev, 'Previous diagnostic')
-      nmap('<leader>lq', vim.diagnostic.setloclist, 'Set diagnostic quickfix')
-      nmap('<leader>ld', '<cmd>FzfLua diagnostics_document jump_to_single_result=true ignore_current_line=true<cr>', 'Open diagnostic list')
-      nmap('<leader>ls', '<cmd>FzfLua lsp_document_symbols jump_to_single_result=true ignore_current_line=true<cr>', 'Lsp Document Symbols')
-      nmap('<leader>lS', '<cmd>FzfLua lsp_live_workspace_symbols jump_to_single_result=true ignore_current_line=true<cr>', 'Lsp Workspace Symbols')
-      nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-      nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
-      nmap('<leader>lwa', vim.lsp.buf.add_workspace_folder, 'Lsp Workspace Add folder')
-      nmap('<leader>lwr', vim.lsp.buf.remove_workspace_folder, 'Lsp Workspace Remove folder')
-      nmap('<leader>lwl', function()
-        vim.notify(
-          vim.inspect(vim.lsp.buf.list_workspace_folders()),
-          vim.log.levels.INFO,
-          { title = 'LSP' }
-        )
-      end, 'Lsp Workspace List folders')
-      nmap('<leader>lf', vim.lsp.buf.format, 'Lsp Format buffer')
-
-      -- Create a command `:Format` local to the LSP buffer
-      -- vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-      --   vim.lsp.buf.format()
-      -- end, { desc = 'Format current buffer with LSP' })
-
-      -- if client.supports_method 'textDocument/inlayHint' then
-      --   vim.lsp.inlay_hint.enable(bufnr, true)
-      -- end
-    end
+    })
 
     -- Diagnostics icons
     local icons = require('jobin.config.icons')
@@ -177,9 +178,12 @@ return {
               ["http://json.schemastore.org/chart"] = "Chart.{yml,yaml}",
               ["https://json.schemastore.org/dependabot-v2"] = ".github/dependabot.{yml,yaml}",
               ["https://json.schemastore.org/gitlab-ci"] = "*gitlab-ci*.{yml,yaml}",
-              ["https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json"] = "*api*.{yml,yaml}",
-              ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "*docker-compose*.{yml,yaml}",
-              ["https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json"] = "*flow*.{yml,yaml}",
+              ["https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json"] =
+              "*api*.{yml,yaml}",
+              ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] =
+              "*docker-compose*.{yml,yaml}",
+              ["https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json"] =
+              "*flow*.{yml,yaml}",
             },
           },
         },
@@ -197,7 +201,7 @@ return {
       ensure_installed = vim.tbl_keys(servers),
     }
 
-    -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+    -- blink.cmp supports additional completion capabilities, so broadcast that to servers
     local capabilities = require('blink.cmp').get_lsp_capabilities()
     -- for ufo
     capabilities.textDocument.foldingRange = {
@@ -209,7 +213,6 @@ return {
       function(server_name)
         local server = servers[server_name] or {}
         server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-        server.on_attach = on_attach
         require('lspconfig')[server_name].setup(server)
       end,
       -- rust_analyzer will be set up by rustaceanvim
