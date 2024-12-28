@@ -32,7 +32,7 @@ map('v', '<leader>gC', '<cmd>FzfLua git_bcommits<cr>', { desc = 'Git Buffer Comm
 -- custom
 map('n', '<leader>fA', '<cmd>FzfLua files cwd=~/playground/projects/config-setup<cr>',
   { desc = 'Find Config Setup' })
-map('n', '<leader>fa', '<cmd>FzfLua files cwd=~/.config/nvim<cr>',
+map('n', '<leader>fa', '<cmd>lua require("fzf-lua").files({cwd=vim.fn.stdpath("config")})<cr>',
   { desc = 'Find Config' })
 map('n', '<leader>fd',
   '<cmd>lua require("fzf-lua").files({cwd="$HOME",cwd_prompt=false,prompt="~/",cmd="git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME ls-tree --name-only --full-tree -r HEAD"})<cr>',

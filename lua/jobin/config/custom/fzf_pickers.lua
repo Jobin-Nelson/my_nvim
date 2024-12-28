@@ -137,11 +137,6 @@ M.fzf_org_live_grep = function(org_dir)
     cwd = org_dir,
     search = "^\\*+ (TODO|NEXT|WAITING|ON_HOLD|REVIEW)",
     rg_opts = "--column --type org --line-number --no-heading --color=always --smart-case --max-columns=4096 -e",
-    fzf_opts = {
-      ['--delimiter'] = '/',
-      ['--nth'] = '-1',
-      ['--with-nth'] = '-1',
-    },
     winopts = {
       title = " Org Todo ",
       title_pos = "center",
