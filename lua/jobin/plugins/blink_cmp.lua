@@ -56,10 +56,10 @@ return {
           module = 'orgmode.org.autocompletion.blink',
         },
       },
-      default = { 'snippets', 'lsp', 'path', 'buffer' },
+      default = { 'luasnip', 'lsp', 'path', 'buffer' },
       per_filetype = {
-        sql = { 'snippets', 'dadbod', 'buffer', },
-        org = { 'snippets', 'orgmode', 'buffer', },
+        sql = { 'luasnip', 'dadbod', 'buffer', },
+        org = { 'luasnip', 'orgmode', 'buffer', },
       },
       -- optionally disable cmdline completions
       -- cmdline = {},
