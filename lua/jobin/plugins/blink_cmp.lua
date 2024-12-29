@@ -17,6 +17,9 @@ return {
       kind_icons = require('jobin.config.icons').kind,
     },
     completion = {
+      keyword = {
+        regex = '[-_#<]\\|\\k',
+      },
       menu = {
         border = 'single',
         winhighlight = '',
