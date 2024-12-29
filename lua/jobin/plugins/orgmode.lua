@@ -15,7 +15,7 @@ return {
       org_hide_leading_stars = false,
       org_hide_emphasis_markers = true,
       org_agenda_span = 'day',
-      org_blank_before_new_entry = { heading = false, plain_list_item = false },
+      org_blank_before_new_entry = { heading = true, plain_list_item = false },
       -- org_startup_intended = false,
       -- org_adapt_indentation = false,
       org_log_into_drawer = 'LOGBOOK',
@@ -26,8 +26,13 @@ return {
       org_capture_templates = {
         m = {
           description = 'Meeting',
-          template = '\n* %?\n %u',
+          template = '\n* %?\n  %u',
           target = '~/playground/dev/illumina/ticket_notes/work_org_files/ICI/ici-on-prem/meeting_notes.org',
+        },
+        w = {
+          description = 'Work Task',
+          template = '\n* TODO %?\n  SCHEDULED %t',
+          target = '~/playground/dev/illumina/ticket_notes/work_org_files/work_inbox.org',
         }
       },
     })

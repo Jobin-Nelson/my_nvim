@@ -59,7 +59,7 @@ return {
       default = { 'luasnip', 'lsp', 'path', 'buffer' },
       per_filetype = {
         sql = { 'luasnip', 'dadbod', 'buffer', },
-        org = { 'luasnip', 'orgmode', 'buffer', },
+        org = { 'luasnip', 'orgmode', 'path', 'buffer'},
       },
       -- optionally disable cmdline completions
       -- cmdline = {},
