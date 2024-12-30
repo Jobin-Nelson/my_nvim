@@ -55,6 +55,9 @@ return {
           name = 'Orgmode',
           module = 'orgmode.org.autocompletion.blink',
         },
+        luasnip = {
+          score_offset = 1000,
+        },
       },
       default = { 'luasnip', 'lsp', 'path', 'buffer' },
       per_filetype = {
