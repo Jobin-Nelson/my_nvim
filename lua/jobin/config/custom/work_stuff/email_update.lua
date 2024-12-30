@@ -61,51 +61,21 @@ local function setup_email(current_update, previous_update)
   end
 end
 
-local function email_win_leave_callback()
-  local tab_bufs = vim.fn.tabpagebuflist()
-
-  if tab_bufs == 0 then
-    return
-  end
-
-  for _, buf in ipairs(tab_bufs) do
-    utils.better_bufdelete(buf)
-  end
-
-  vim.notify(
-    "Updated today's email",
-    vim.log.levels.INFO,
-    { title = 'Email Update' }
-  )
-  if vim.fn.tabpagenr('$') == 1 then
-    vim.cmd.only()
-  else
-    vim.cmd.tabclose()
-  end
-end
-
-local function setup_keymap()
-  vim.keymap.set("n", "q", function()
-    email_win_leave_callback()
-  end, { buffer = 0, noremap = true })
-end
-
 ---@param _ any
 ---@param data string[]
 local function capture_email(_, data)
   local current_update = vim.fs.normalize(data[1])
   local previous_update = get_previous_update(current_update)
   setup_email(current_update, previous_update)
-  setup_keymap()
 end
 
 local M = {}
 
 M.open = function()
   local command = 'echo '
-  .. '$HOME/playground/dev/illumina/daily_updates/$(date -d '
-  .. '"$([[ $(date -d "+6 hours" +%u) -gt 5 ]] '
-  .. '&& echo "next Monday" || echo "+6 hours")" +%Y-%m-%d).md'
+      .. '$HOME/playground/dev/illumina/daily_updates/$(date -d '
+      .. '"$([[ $(date -d "+6 hours" +%u) -gt 5 ]] '
+      .. '&& echo "next Monday" || echo "+6 hours")" +%Y-%m-%d).md'
   vim.fn.jobstart(command, {
     stdout_buffered = true,
     on_stdout = capture_email,

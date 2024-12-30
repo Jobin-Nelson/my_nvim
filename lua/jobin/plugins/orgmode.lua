@@ -31,7 +31,7 @@ return {
         },
         w = {
           description = 'Work Task',
-          template = '\n* TODO %?\n  SCHEDULED %t',
+          template = '\n* TODO %?\n  SCHEDULED: %t',
           target = '~/playground/dev/illumina/ticket_notes/work_org_files/work_inbox.org',
         }
       },
