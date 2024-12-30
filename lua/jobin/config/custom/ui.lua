@@ -16,7 +16,7 @@ function M.set_indent()
     vim.bo.tabstop = new_indent
     vim.bo.softtabstop = new_indent
     vim.bo.shiftwidth = new_indent
-    vim.notify("Indent set to " .. new_indent)
+    vim.notify("Indent set to " .. new_indent, vim.log.levels.INFO, { title = 'UI' })
   end)
 end
 
@@ -28,19 +28,19 @@ end
 function M.toggle_diagnostics()
   if vim.diagnostic.is_enabled() then
     vim.diagnostic.enable(false)
-    vim.notify('Diagnostics Disabled')
+    vim.notify('Diagnostics Disabled', vim.log.levels.INFO, { title = 'UI' })
   else
     vim.diagnostic.enable()
-    vim.notify('Diagnostics Enabled')
+    vim.notify('Diagnostics Enabled', vim.log.levels.INFO, { title = 'UI' })
   end
 end
 
 function M.toggle_transparency()
-
   local transparent_hl = { bg = 'None', ctermbg = 'None' }
   local normal_hl = vim.api.nvim_get_hl(0, { name = 'Normal', link = false })
   local normalnc_hl = vim.api.nvim_get_hl(0, { name = 'NormalNC', link = false })
   local normalfloat_hl = vim.api.nvim_get_hl(0, { name = 'NormalFloat', link = false })
+  local msg = ''
 
   ---@diagnostic disable-next-line: undefined-field
   if vim.tbl_isempty(normal_hl) or (normal_hl.bg == nil and normal_hl.ctermbg == nil) then
@@ -49,6 +49,7 @@ function M.toggle_transparency()
     local status_hl = vim.api.nvim_get_hl(0, { name = 'StatusLine', link = false })
     status_hl = vim.tbl_extend('force', status_hl, { bold = true })
     vim.api.nvim_set_hl(0, "StatusLine", status_hl)
+    msg = 'Transparency Disabled'
   else
     normal_hl = vim.tbl_extend('force', normal_hl, transparent_hl)
     normalnc_hl = vim.tbl_extend('force', normalnc_hl, transparent_hl)
@@ -59,7 +60,10 @@ function M.toggle_transparency()
     vim.api.nvim_set_hl(0, "StatusLine", { bold = true })
     vim.api.nvim_set_hl(0, 'SignColumn', transparent_hl)
     -- vim.api.nvim_set_hl(0, 'WinSeparator', { cterm = nil })
+    msg = 'Transparency Enabled'
   end
+
+  vim.notify(msg, vim.log.levels.INFO, { title = 'UI' })
 end
 
 return M

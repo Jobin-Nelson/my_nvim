@@ -21,7 +21,7 @@ M.delete_hidden_buffers = function()
       vim.api.nvim_buf_delete(buf, {})
     end
   end
-  vim.notify("All hidden buffers have been deleted")
+  vim.notify("All hidden buffers have been deleted", vim.log.levels.INFO, { title = 'Utils' })
 end
 
 M.scratch_buffer = function()
@@ -121,33 +121,24 @@ function M.cd_git_root()
   if not git_root then
     vim.notify(
       'Not a git repo: ' .. vim.fn.expand('%:p:h'),
-      vim.log.levels.INFO,
+      vim.log.levels.WARN,
       { title = 'Git' }
     )
     return
   end
-  if git_root == vim.loop.cwd() then
-    vim.notify('Already at git root: ' .. git_root)
+  if git_root == vim.uv.cwd() then
+    vim.notify('Already at git root: ' .. git_root, vim.log.levels.INFO, { title = 'Git' })
     return
   end
-  if vim.loop.fs_stat(git_root) then
+  if vim.uv.fs_stat(git_root) then
     vim.cmd('lcd ' .. git_root)
-    vim.notify('Directory changed to ' .. git_root)
+    vim.notify('Directory changed to ' .. git_root, vim.log.levels.INFO, { title = 'Git' })
   else
     error(git_root .. ' not accessible')
   end
 end
 
 function M.leet()
-  if vim.fn.executable('leet.py') ~= 1 then
-    vim.notify(
-      'leet.py not found',
-      vim.log.levels.ERROR,
-      { title = 'Leetcode' }
-    )
-    return
-  end
-
   local cmd = { 'leet.py', '-n' }
   local response = vim.system(cmd, { text = true }):wait()
   if response.code ~= 0 or response.stdout == nil then
@@ -229,7 +220,7 @@ function M.box()
   if value == '' then
     return vim.notify(
       "No value provided",
-      vim.log.levels.INFO,
+      vim.log.levels.WARN,
       { title = 'Box' }
     )
   end
