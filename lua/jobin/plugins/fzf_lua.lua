@@ -1,7 +1,8 @@
 local map = vim.keymap.set
+-- General
 map('n', '<leader>f<cr>', '<cmd>FzfLua resume<cr>', { desc = 'Find Resume' })
 map('n', '<leader>fB', '<cmd>FzfLua builtin<cr>', { desc = 'Find Builtins' })
-map('n', '<leader>fo', '<cmd>FzfLua oldfiles<cr>', { desc = 'Find Oldfiles' })
+map('n', '<leader>fr', '<cmd>FzfLua oldfiles<cr>', { desc = 'Find Recent files' })
 map('n', '<leader>fb', '<cmd>FzfLua buffers<cr>', { desc = 'Find Buffers' })
 map('n', '<leader>ff',
   '<cmd>lua require("fzf-lua").files({cwd=require("jobin.config.custom.utils").get_git_root_buf()})<cr>',
@@ -29,6 +30,7 @@ map('n', '<leader>gb', '<cmd>FzfLua git_branches<cr>', { desc = 'Git Branches' }
 map('n', '<leader>gt', '<cmd>FzfLua git_status<cr>', { desc = 'Git Status' })
 map('n', '<leader>gc', '<cmd>FzfLua git_commits<cr>', { desc = 'Git Commits' })
 map('v', '<leader>gC', '<cmd>FzfLua git_bcommits<cr>', { desc = 'Git Buffer Commits' })
+
 -- custom
 map('n', '<leader>fA', '<cmd>FzfLua files cwd=~/playground/projects/config-setup<cr>',
   { desc = 'Find Config Setup' })
@@ -39,11 +41,6 @@ map('n', '<leader>fd',
   { desc = 'Find Dotfiles' })
 map('n', '<leader>fz', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_cd_dir("zoxide query -l")<cr>',
   { desc = 'Find Zoxide' })
-map('n', '<leader>fss', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_second_brain()<cr>',
-  { desc = 'Find Second brain files' })
-map('n', '<leader>fsi',
-  '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_read_file({cwd="~/playground/projects/second_brain/Resources/Templates/"})<cr>',
-  { desc = 'Insert Second brain Templates' })
 map('n', '<leader>fp',
   '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_cd_dir("find ~/playground/projects -maxdepth 1 -mindepth 1 -type d")<cr>',
   { desc = 'Find Projects' })
@@ -51,18 +48,29 @@ map('n', '<leader>fP', '<cmd>FzfLua profiles<cr>', { desc = 'Find profiles' })
 map('n', '<leader>fl', '<cmd>lua require("fzf-lua").files({cwd=vim.fs.joinpath(vim.fn.stdpath("data"), "lazy")})<cr>',
   { desc = 'Find profiles' })
 map('n', '<leader>fM', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_move_file()<cr>', { desc = 'Move File' })
-map('n', '<leader>fO',
-  '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_org_live_grep("~/playground/dev/illumina/ticket_notes/work_org_files")<cr>',
-  { desc = 'Org Todo grep (Work)' })
-map('n', '<leader>fT',
+
+-- Second brain
+map('n', '<leader>fss', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_second_brain()<cr>',
+  { desc = 'Find Second brain files' })
+map('n', '<leader>fsi',
+  '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_read_file({cwd="~/playground/projects/second_brain/Resources/Templates/"})<cr>',
+  { desc = 'Insert Second brain Templates' })
+
+-- Work
+map('n', '<leader>fit',
+  '<cmd>FzfLua files cwd=~/playground/dev/illumina/ticket_notes<cr>',
+  { desc = 'Find Ticket notes'})
+map('n', '<leader>fiu',
+  '<cmd>FzfLua files cwd=~/playground/dev/illumina/utils<cr>',
+  { desc = 'Find Utils'})
+
+-- Orgmode
+map('n', '<leader>fot',
   '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_org_live_grep("~/playground/projects/org_files")<cr>',
   { desc = 'Org Todo grep' })
--- map('n', '<leader>fj', '<cmd>lua require("jobin.config.custom.my_pickers").find_journal()<cr>',
---   { desc = 'Find Journal' })
--- map('n', '<leader>fi', '<cmd>lua require("jobin.config.custom.my_pickers").find_docker_images()<cr>',
---   { desc = 'Find Docker Images' })
--- map('n', '<leader>fe', '<cmd>lua require("jobin.config.custom.my_pickers").find_docker_containers()<cr>',
---   { desc = 'Find Docker Containers' })
+map('n', '<leader>foT',
+  '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_org_live_grep("~/playground/dev/illumina/ticket_notes/work_org_files")<cr>',
+  { desc = 'Org Todo grep (Work)' })
 
 return {
   "ibhagwan/fzf-lua",
