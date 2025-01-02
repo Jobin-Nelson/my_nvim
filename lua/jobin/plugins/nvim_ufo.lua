@@ -3,40 +3,42 @@ return {
   event = { 'BufReadPost', 'BufNewFile' },
   dependencies = {
     'kevinhwang91/promise-async',
-    'luukvbaal/statuscol.nvim',
-  },
-  config = function()
-    local builtin = require('statuscol.builtin')
-    local icons = require('jobin.config.icons')
-    local cfg = {
-      setopt = true,
-      relculright = true,
-      bt_ignore = {
-        'terminal',
-      },
-      ft_ignore = {
-        'toggleterm',
-        'alpha',
-        'NvimTree',
-        'man',
-      },
-      segments = {
-        { text = { builtin.foldfunc, ' ' }, click = 'v:lua.ScFa', hl = 'Comment' },
-        { text = { "%s" },                  click = "v:lua.ScSa" },
-        { text = { builtin.lnumfunc, ' ' }, click = "v:lua.ScLa" },
-      }
+    {
+      'luukvbaal/statuscol.nvim',
+      config = function()
+        local builtin = require('statuscol.builtin')
+        require('statuscol').setup({
+          setopt = true,
+          relculright = true,
+          bt_ignore = {
+            'terminal',
+          },
+          ft_ignore = {
+            'toggleterm',
+            'alpha',
+            'NvimTree',
+            'man',
+          },
+          segments = {
+            { text = { builtin.foldfunc, ' ' }, click = 'v:lua.ScFa', hl = 'Comment' },
+            { text = { "%s" },                  click = "v:lua.ScSa" },
+            { text = { builtin.lnumfunc, ' ' }, click = "v:lua.ScLa" },
+          }
+        })
+      end
     }
-    require('statuscol').setup(cfg)
-
+  },
+  init = function()
     vim.o.foldcolumn = '1'
     vim.o.foldlevel = 99
     vim.o.foldlevelstart = 99
     vim.o.foldenable = true
     vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
-
+  end,
+  config = function()
     local handler = function(virtText, lnum, endLnum, width, truncate)
       local newVirtText = {}
-      local suffix = string.format(" %s%d ", icons.ui.Folding, endLnum - lnum)
+      local suffix = string.format("  %d ", endLnum - lnum)
       local sufWidth = vim.fn.strdisplaywidth(suffix)
       local targetWidth = width - sufWidth
       local curWidth = 0
