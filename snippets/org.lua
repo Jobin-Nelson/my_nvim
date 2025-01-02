@@ -30,6 +30,43 @@ local snippets = {
       '#+ARCHIVE:   ~/playground/dev/illumina/ticket_notes/work_org_files/work_archive.org_archive',
       '', '' },
   }),
+  s({ trig = 'jbug' },
+    fmt([[
+*Test Environment*: {}
+
+*Build version*: {}
+
+*Expected Result*: {}
+
+*Actual Result*: {}
+
+*Pre-condition*:
+{}
+
+*Steps to reproduce*:
+{}
+
+*Observation*:
+{}
+
+*Workaround/Fix*:
+{}
+
+*Logs*:
+{}
+
+]], {
+        i(1),
+        i(2),
+        i(3),
+        i(4),
+        i(5),
+        i(6),
+        i(7),
+        i(8),
+        i(9),
+    })
+  ),
 }
 
 -- End snippets
