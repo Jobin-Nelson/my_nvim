@@ -42,37 +42,37 @@ return {
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('Lsp-Attach-KeyMaps', { clear = true }),
       callback = function(args)
-        local nmap = function(keys, func, desc)
-          vim.keymap.set('n', keys, func, { buffer = args.buf, desc = desc })
+        local map = function(keys, func, desc, mode)
+          vim.keymap.set(mode or 'n', keys, func, { buffer = args.buf, desc = desc })
         end
 
-        nmap('<leader>lr', vim.lsp.buf.rename, 'Lsp Rename')
-        nmap('<leader>la', vim.lsp.buf.code_action, 'Lsp code Action')
+        map('grn', vim.lsp.buf.rename, 'Lsp Rename')
+        map('gra', vim.lsp.buf.code_action, 'Lsp code Action')
 
-        nmap('gd', '<cmd>FzfLua lsp_definitions jump_to_single_result=true ignore_current_line=true<cr>',
+        map('gd', '<cmd>FzfLua lsp_definitions jump_to_single_result=true ignore_current_line=true<cr>',
           'Goto [D]efinition')
-        nmap('gr', '<cmd>FzfLua lsp_references jump_to_single_result=true ignore_current_line=true<cr>',
+        map('grr', '<cmd>FzfLua lsp_references jump_to_single_result=true ignore_current_line=true<cr>',
           'Goto [R]eferences')
-        nmap('gI', '<cmd>FzfLua lsp_implementations jump_to_single_result=true ignore_current_line=true<cr>',
+        map('gri', '<cmd>FzfLua lsp_implementations jump_to_single_result=true ignore_current_line=true<cr>',
           'Goto [I]mplementation')
-        nmap('gy', '<cmd>FzfLua lsp_typedefs jump_to_single_result=true ignore_current_line=true<cr>',
+        map('gy', '<cmd>FzfLua lsp_typedefs jump_to_single_result=true ignore_current_line=true<cr>',
           'Goto T[y]pe Definition')
-        nmap('gD', vim.lsp.buf.declaration, 'Goto [D]eclaration')
-        nmap(']d', vim.diagnostic.goto_next, 'Next diagnostic')
-        nmap('[d', vim.diagnostic.goto_prev, 'Previous diagnostic')
-        nmap('<leader>lq', vim.diagnostic.setloclist, 'Set diagnostic quickfix')
-        nmap('<leader>ld', '<cmd>FzfLua diagnostics_document jump_to_single_result=true ignore_current_line=true<cr>',
+        map('gD', vim.lsp.buf.declaration, 'Goto [D]eclaration')
+        map(']d', vim.diagnostic.goto_next, 'Next diagnostic')
+        map('[d', vim.diagnostic.goto_prev, 'Previous diagnostic')
+        map('<leader>lq', vim.diagnostic.setloclist, 'Set diagnostic quickfix')
+        map('<leader>ld', '<cmd>FzfLua diagnostics_document jump_to_single_result=true ignore_current_line=true<cr>',
           'Open diagnostic list')
-        nmap('<leader>ls', '<cmd>FzfLua lsp_document_symbols jump_to_single_result=true ignore_current_line=true<cr>',
+        map('gO', '<cmd>FzfLua lsp_document_symbols jump_to_single_result=true ignore_current_line=true<cr>',
           'Lsp Document Symbols')
-        nmap('<leader>lS',
+        map('<leader>lS',
           '<cmd>FzfLua lsp_live_workspace_symbols jump_to_single_result=true ignore_current_line=true<cr>',
           'Lsp Workspace Symbols')
-        nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-        nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
-        nmap('<leader>lwa', vim.lsp.buf.add_workspace_folder, 'Lsp Workspace Add folder')
-        nmap('<leader>lwr', vim.lsp.buf.remove_workspace_folder, 'Lsp Workspace Remove folder')
-        nmap('<leader>lwl', function()
+        map('K', vim.lsp.buf.hover, 'Hover Documentation')
+        map('<C-s>', vim.lsp.buf.signature_help, 'Signature Documentation', 'i')
+        map('<leader>lwa', vim.lsp.buf.add_workspace_folder, 'Lsp Workspace Add folder')
+        map('<leader>lwr', vim.lsp.buf.remove_workspace_folder, 'Lsp Workspace Remove folder')
+        map('<leader>lwl', function()
           vim.notify(
             vim.inspect(vim.lsp.buf.list_workspace_folders()),
             vim.log.levels.INFO,
