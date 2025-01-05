@@ -17,9 +17,6 @@ return {
       kind_icons = require('jobin.config.icons').kind,
     },
     completion = {
-      keyword = {
-        regex = '[-_#<]\\|\\k',
-      },
       menu = {
         border = 'single',
         winhighlight = '',
@@ -55,11 +52,18 @@ return {
           name = 'Orgmode',
           module = 'orgmode.org.autocompletion.blink',
         },
+        luasnip = {
+          score_offset = 1,
+        },
+        buffer = {
+          max_items = 3,
+          min_keyword_length = 3,
+        },
       },
       default = { 'luasnip', 'lsp', 'path', 'buffer' },
       per_filetype = {
         sql = { 'luasnip', 'dadbod', 'buffer', },
-        org = { 'luasnip', 'orgmode', 'path', 'buffer'},
+        org = { 'luasnip', 'orgmode', 'path', 'buffer' },
       },
       -- optionally disable cmdline completions
       -- cmdline = {},
@@ -72,9 +76,5 @@ return {
         border = 'single',
       },
     },
-
   },
-  -- allows extending the providers array elsewhere in your config
-  -- without having to redefine it
-  opts_extend = { "sources.default" },
 }
