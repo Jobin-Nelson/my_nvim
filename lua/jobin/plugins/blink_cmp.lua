@@ -31,14 +31,7 @@ return {
       },
     },
     snippets = {
-      expand = function(snippet) require('luasnip').lsp_expand(snippet) end,
-      active = function(filter)
-        if filter and filter.direction then
-          return require('luasnip').jumpable(filter.direction)
-        end
-        return require('luasnip').in_snippet()
-      end,
-      jump = function(direction) require('luasnip').jump(direction) end,
+      preset = 'luasnip',
     },
     -- default list of enabled providers defined so that you can extend it
     -- elsewhere in your config, without redefining it, via `opts_extend`
@@ -52,7 +45,7 @@ return {
           name = 'Orgmode',
           module = 'orgmode.org.autocompletion.blink',
         },
-        luasnip = {
+        snippets = {
           score_offset = 1,
         },
         buffer = {
@@ -60,10 +53,10 @@ return {
           min_keyword_length = 3,
         },
       },
-      default = { 'luasnip', 'lsp', 'path', 'buffer' },
+      default = { 'snippets', 'lsp', 'path', 'buffer' },
       per_filetype = {
-        sql = { 'luasnip', 'dadbod', 'buffer', },
-        org = { 'luasnip', 'orgmode', 'path', 'buffer' },
+        sql = { 'snippets', 'dadbod', 'buffer', },
+        org = { 'snippets', 'orgmode', 'path', 'buffer' },
       },
       -- optionally disable cmdline completions
       -- cmdline = {},
