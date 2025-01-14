@@ -11,7 +11,7 @@ return {
       desc = 'Harpoon Menu'
     },
     {
-      '<S-m>', function() require('harpoon'):list():add() end, desc = 'Harpoon Mark'
+      '<leader><S-m>', function() require('harpoon'):list():add() end, desc = 'Harpoon Mark'
     },
     {
       "<leader>1", function() require('harpoon'):list():select(1) end, desc = 'Harpoon Select 1'
