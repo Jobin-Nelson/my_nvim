@@ -34,6 +34,7 @@ return {
     Unit = "",
     Value = "",
     Variable = "󰆦",
+    Copilot = " ",
   },
   git = {
     LineAdded = " ",
@@ -163,6 +164,7 @@ return {
     Trace = "✎",
   },
   misc = {
+    Servers = " ",
     Robot = "󰚩 ",
     Squirrel = "",
     Tag = "",

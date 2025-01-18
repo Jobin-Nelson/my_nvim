@@ -75,6 +75,16 @@ return {
       }
     }
 
+    ---@return string
+    local function lsp()
+      local lsps = vim.tbl_map(function(client)
+        return client.name
+      end, vim.lsp.get_clients({ bufnr = 0 }))
+      return vim.tbl_isempty(lsps) and '' or
+          (vim.list_contains(lsps, 'copilot') and icons.kind.Copilot .. ' │ ' or '') ..
+          (icons.misc.Servers .. table.concat(vim.tbl_filter(function(c) return c ~= 'copilot' end, lsps), ', '))
+    end
+
     require("lualine").setup {
       options = {
         theme = 'auto',
@@ -103,6 +113,7 @@ return {
         },
         lualine_x = {
           -- diagnostics,
+          lsp,
         },
         lualine_y = { { "location", icon = icons.ui.Location } },
         lualine_z = { { "progress", icon = icons.ui.ProgressDown } },
