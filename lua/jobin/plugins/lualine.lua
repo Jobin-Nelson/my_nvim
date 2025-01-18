@@ -80,9 +80,11 @@ return {
       local lsps = vim.tbl_map(function(client)
         return client.name
       end, vim.lsp.get_clients({ bufnr = 0 }))
-      return vim.tbl_isempty(lsps) and '' or
-          (vim.list_contains(lsps, 'copilot') and icons.kind.Copilot .. ' │ ' or '') ..
-          (icons.misc.Servers .. table.concat(vim.tbl_filter(function(c) return c ~= 'copilot' end, lsps), ', '))
+      local res = {}
+      if vim.list_contains(lsps, 'copilot') then table.insert(res, icons.kind.Copilot) end
+      local lsps_string = vim.iter(lsps):filter(function(c) return c ~= 'copilot' end):join(', ')
+      if lsps_string ~= '' then table.insert(res, icons.misc.Servers .. lsps_string) end
+      return table.concat(res, ' │ ')
     end
 
     require("lualine").setup {
