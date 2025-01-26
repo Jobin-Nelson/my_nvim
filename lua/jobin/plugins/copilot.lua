@@ -6,16 +6,19 @@ return {
     config = function()
       require("copilot").setup({
         suggestion = {
-          enabled = false,
-          auto_trigger = true,
+          enabled = true,
+          auto_trigger = false,
+          keymap = {
+            accept_line = "<M-e>",
+            accept_word = "<M-w>",
+            accept = "<M-l>",
+            next = "<M-]>",
+            prev = "<M-[>",
+          },
         },
         panel = { enabled = false },
       })
     end,
-  },
-  {
-    "giuxtaposition/blink-cmp-copilot",
-    dependencies = { "zbirenbaum/copilot.lua" },
   },
   {
     "CopilotC-Nvim/CopilotChat.nvim",

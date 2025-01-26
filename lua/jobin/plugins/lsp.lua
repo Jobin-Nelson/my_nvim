@@ -63,7 +63,7 @@ return {
         map('<leader>lq', vim.diagnostic.setloclist, 'Set diagnostic quickfix')
         map('<leader>ld', '<cmd>FzfLua diagnostics_document jump_to_single_result=true ignore_current_line=true<cr>',
           'Open diagnostic list')
-        map('gO', '<cmd>FzfLua lsp_document_symbols jump_to_single_result=true ignore_current_line=true<cr>',
+        map('<leader>ls', '<cmd>FzfLua lsp_document_symbols jump_to_single_result=true ignore_current_line=true<cr>',
           'Lsp Document Symbols')
         map('<leader>lS',
           '<cmd>FzfLua lsp_live_workspace_symbols jump_to_single_result=true ignore_current_line=true<cr>',

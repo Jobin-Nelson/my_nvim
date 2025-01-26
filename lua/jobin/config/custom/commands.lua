@@ -55,6 +55,15 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
+vim.api.nvim_create_autocmd('ColorScheme', {
+  group = vim.api.nvim_create_augroup('jobin/Colorscheme', { clear = true }),
+  callback = function(_)
+    vim.api.nvim_set_hl(0, 'TreesitterContextBottom', {
+      underline = true,
+    })
+  end,
+})
+
 -- vim.api.nvim_create_autocmd({ 'FileType' }, {
 --   group = vim.api.nvim_create_augroup('bigfile', { clear = true }),
 --   pattern = 'bigfile',

@@ -298,22 +298,32 @@ end
 ---@return string[]
 function M.shellsplit(text)
   local words = {}
-  local spat, epat, buf, quoted = [=[^(['"])]=], [=[(['"])$]=], nil, nil
+  local spat, epat = [=[^(['"])]=], [=[(['"])$]=]
+  local buf, quoted = nil, nil
+
+  -- Iterate over each word in the input text
   for str in text:gmatch("%S+") do
-    local squoted = str:match(spat)
-    local equoted = str:match(epat)
-    local escaped = str:match([=[(\*)['"]$]=])
+    local squoted = str:match(spat)  -- Check if the word starts with a quote
+    local equoted = str:match(epat)  -- Check if the word ends with a quote
+    local escaped = str:match([=[(\*)['"]$]=])  -- Check if the quote is escaped
+
     if squoted and not quoted and not equoted then
+      -- Start of a quoted string
       buf, quoted = str, squoted
     elseif buf and equoted == quoted and #escaped % 2 == 0 then
+      -- End of a quoted string
       str, buf, quoted = buf .. ' ' .. str, nil, nil
     elseif buf then
+      -- Middle of a quoted string
       buf = buf .. ' ' .. str
     end
+
     if not buf then
+      -- Add the word to the result list, removing surrounding quotes
       table.insert(words, (str:gsub(spat, ""):gsub(epat, "")))
     end
   end
+
   return words
 end
 

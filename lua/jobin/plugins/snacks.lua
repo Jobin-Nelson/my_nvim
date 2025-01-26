@@ -39,6 +39,13 @@ local send_lines_to_terminal = function(mode)
   end)
 end
 
+local function toggle_term()
+  if vim.bo.filetype == 'snacks_terminal' then
+    vim.api.nvim_set_current_win(vim.fn.win_getid(vim.fn.winnr('#')))
+  end
+  Snacks.terminal()
+end
+
 return {
   "folke/snacks.nvim",
   priority = 1000,
@@ -62,18 +69,27 @@ return {
       notification = {
         wo = { wrap = true } -- Wrap notifications
       }
-    }
+    },
+    gitbrowse = {
+      url_patterns = {
+        ["git%.illumina%.com"] = {
+          branch = "/tree/{branch}",
+          file = "/blob/{branch}/{file}#L{line_start}-L{line_end}",
+          commit = "/commit/{commit}",
+        },
+      }
+    },
   },
   keys = {
     { "<leader>z",  function() Snacks.zen() end,                     desc = "Toggle Zen Mode" },
     { "<C-w>m",     function() Snacks.zen.zoom() end,                desc = "Toggle Zoom" },
-    { "<leader>n",  function() Snacks.notifier.show_history() end,   desc = "Notification History" },
+    { "<leader>un", function() Snacks.notifier.show_history() end,   desc = "Notification History" },
     { "<leader>bd", function() Snacks.bufdelete() end,               desc = "Delete Buffer" },
     { "<leader>cR", function() Snacks.rename.rename_file() end,      desc = "Rename File" },
     { "<leader>gB", function() Snacks.gitbrowse() end,               desc = "Git Browse",               mode = { 'n', 'v' } },
-    { "<leader>un", function() Snacks.notifier.hide() end,           desc = "Dismiss All Notifications" },
-    { "<c-/>",      function() Snacks.terminal() end,                desc = "Toggle Terminal" },
-    { "<c-_>",      function() Snacks.terminal() end,                desc = "which_key_ignore",         mode = { 'n', 't' } },
+    { "<leader>uN", function() Snacks.notifier.hide() end,           desc = "Dismiss All Notifications" },
+    { "<c-/>",      toggle_term,                                     desc = "Toggle Terminal",          mode = { 'n', 't' } },
+    { "<c-_>",      toggle_term,                                     desc = "which_key_ignore",         mode = { 'n', 't' } },
     { "<A-s>",      function() send_lines_to_terminal('normal') end, desc = "Send lines to terminal",   mode = { 'n' } },
     { "<A-s>",      function() send_lines_to_terminal('visual') end, desc = "Send lines to terminal",   mode = { 'v' } },
   },

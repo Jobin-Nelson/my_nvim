@@ -60,7 +60,7 @@ M.fzf_read_file = function(opts)
         for _, sel in ipairs(selected) do
           local entry = path.entry_to_file(sel, lopts, lopts._uri)
           local fullpath = entry.path
-          vim.cmd('0read ' .. fullpath)
+          vim.cmd('-1read ' .. fullpath)
           vim.notify(
             'Inserted ' .. vim.fs.basename(fullpath),
             vim.log.levels.INFO,
