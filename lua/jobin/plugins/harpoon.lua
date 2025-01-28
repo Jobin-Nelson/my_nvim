@@ -13,9 +13,6 @@ return {
     {
       '<leader><S-m>', function() require('harpoon'):list():add() end, desc = 'Harpoon Mark'
     },
-    {
-      "<leader>1", function() require('harpoon'):list():select(1) end, desc = 'Harpoon Select 1'
-    }
   },
   dependencies = {
     'nvim-lua/plenary.nvim',
@@ -25,10 +22,9 @@ return {
 
     harpoon:setup({})
 
-    -- vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end, { desc = 'Harpoon Select 1' })
-    vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end, { desc = 'Harpoon Select 2' })
-    vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end, { desc = 'Harpoon Select 3' })
-    vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end, { desc = 'Harpoon Select 4' })
+    for i = 1, 9 do
+      vim.keymap.set("n", "<leader>" .. i, function() harpoon:list():select(i) end, { desc = 'Harpoon Select ' .. i })
+    end
 
     -- Toggle previous & next buffers stored within Harpoon list
     -- vim.keymap.set("n", "<S-h>", function() harpoon:list():prev() end, { desc = 'Harpoon Previous' })
