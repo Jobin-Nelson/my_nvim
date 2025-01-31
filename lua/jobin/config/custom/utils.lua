@@ -153,47 +153,6 @@ function M.leet()
   vim.cmd('tabedit ' .. leet_file)
 end
 
-local terminal_state = {
-  buf = -1,
-  win = -1,
-}
-
----@param opts table?
----@return table<string,integer>
-function M.create_floating_window(opts)
-  opts = opts or {}
-  local width = opts.width or math.floor(vim.o.columns * 0.8)
-  local height = opts.height or math.floor(vim.o.lines * 0.8)
-
-  local col = math.floor((vim.o.columns - width) / 2)
-  local row = math.floor((vim.o.lines - height) / 2)
-
-  local buf = vim.api.nvim_buf_is_valid(opts.buf)
-      and opts.buf or vim.api.nvim_create_buf(false, true)
-  local win = vim.api.nvim_open_win(buf, true, {
-    relative = 'editor',
-    width = width,
-    height = height,
-    col = col,
-    row = row,
-    style = 'minimal',
-    border = 'rounded',
-  })
-
-  return { buf = buf, win = win }
-end
-
-function M.toggle_term()
-  if not vim.api.nvim_win_is_valid(terminal_state.win) then
-    terminal_state = M.create_floating_window { buf = terminal_state.buf }
-    if vim.bo[terminal_state.buf].buftype ~= 'terminal' then
-      vim.cmd.term()
-    end
-  else
-    vim.api.nvim_win_hide(terminal_state.win)
-  end
-end
-
 ---@param buf_to_delete number|nil
 function M.better_bufdelete(buf_to_delete)
   local bufnr = buf_to_delete or vim.api.nvim_get_current_buf()
@@ -215,59 +174,64 @@ function M.better_bufdelete(buf_to_delete)
   vim.api.nvim_buf_delete(bufnr, { force = true })
 end
 
-function M.box()
-  local value = vim.fn.input({ prompt = "Box value: " })
-  if value == '' then
-    return vim.notify(
-      "No value provided",
-      vim.log.levels.WARN,
-      { title = 'Box' }
-    )
-  end
+--- Box header
+---@param width integer? width of the box
+function M.box(width)
+  vim.ui.input({ prompt = "Box value: " }, function(value)
+    if value == nil or vim.trim(value) == '' then
+      return vim.notify(
+        "No value provided",
+        vim.log.levels.WARN,
+        { title = 'Utils' }
+      )
+    end
 
-  local top_component = {
-    left = "┏",
-    center = "━",
-    right = "┓",
-  }
-  local middle_component = {
-    left = "┃",
-    center = " ",
-    right = "┃",
-  }
-  local bottom_component = {
-    left = "┗",
-    center = "━",
-    right = "┛",
-  }
+    value = vim.trim(value)
 
-  local width = 60
+    local top_component = {
+      left = "┏",
+      center = "━",
+      right = "┓",
+    }
+    local middle_component = {
+      left = "┃",
+      center = " ",
+      right = "┃",
+    }
+    local bottom_component = {
+      left = "┗",
+      center = "━",
+      right = "┛",
+    }
 
-  ---Constructs lines from left, center and right components
-  ---@param comp table<string,string>
-  ---@return string
-  local function get_line(comp)
-    return comp.left .. string.rep(comp.center, width - 2) .. comp.right
-  end
+    local value_len = vim.fn.strchars(value)
+    width = width or value_len + 4
 
-  ---Helper for floor division
-  ---@param n integer
-  ---@return integer
-  local function get_half(n)
-    return math.floor(n / 2)
-  end
+    ---Constructs lines from left, center and right components
+    ---@param comp table<string,string>
+    ---@return string
+    local function get_line(comp)
+      return comp.left .. string.rep(comp.center, width - 2) .. comp.right
+    end
 
-  local lines = vim.tbl_map(get_line, { top_component, middle_component, bottom_component })
+    ---Helper for floor division
+    ---@param n integer
+    ---@return integer
+    local function get_half(n)
+      return math.floor(n / 2)
+    end
 
-  local line_nr = vim.fn.line('.')
-  vim.api.nvim_buf_set_lines(0, line_nr, line_nr, false, lines)
+    local lines = vim.tbl_map(get_line, { top_component, middle_component, bottom_component })
 
-  local middle_line_nr = line_nr + 1
-  local value_len = vim.fn.strchars(value)
+    local line_nr = vim.api.nvim_win_get_cursor(0)[1]
+    vim.api.nvim_buf_set_lines(0, line_nr, line_nr, false, lines)
 
-  local col_nr = get_half(width) - get_half(value_len) + 1
+    local middle_line_nr = line_nr + 1
 
-  vim.api.nvim_buf_set_text(0, middle_line_nr, col_nr, middle_line_nr, col_nr + value_len, { value })
+    local col_nr = get_half(width) - get_half(value_len) + (width % 2 == 0 and 1 or 2)
+
+    vim.api.nvim_buf_set_text(0, middle_line_nr, col_nr, middle_line_nr, col_nr + value_len, { value })
+  end)
 end
 
 ---@param url string
@@ -303,9 +267,9 @@ function M.shellsplit(text)
 
   -- Iterate over each word in the input text
   for str in text:gmatch("%S+") do
-    local squoted = str:match(spat)  -- Check if the word starts with a quote
-    local equoted = str:match(epat)  -- Check if the word ends with a quote
-    local escaped = str:match([=[(\*)['"]$]=])  -- Check if the quote is escaped
+    local squoted = str:match(spat)            -- Check if the word starts with a quote
+    local equoted = str:match(epat)            -- Check if the word ends with a quote
+    local escaped = str:match([=[(\*)['"]$]=]) -- Check if the quote is escaped
 
     if squoted and not quoted and not equoted then
       -- Start of a quoted string
@@ -327,8 +291,7 @@ function M.shellsplit(text)
   return words
 end
 
-
--- vim.keymap.set('n', '<leader>rt', function() M.toggle_term() end)
+-- vim.keymap.set('n', '<leader>rt', function() M.box() end)
 -- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 
 return M

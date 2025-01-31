@@ -57,15 +57,16 @@ map('n', '<leader>jy', '<cmd>let @+=@% | echo "Filepath copied to clipboard"<cr>
 map('n', '<leader>jx', '<cmd>.lua<cr>', { desc = 'Execute lua' })
 map('v', '<leader>jx', ':lua<cr>', { desc = 'Execute lua' })
 map('n', '<leader>ja', ':<Up><cr>', { desc = 'Run Last Command' })
+map('n', '<leader>jS', ':normal! [s1z=``<cr>', { desc = 'Fix last Spelling error' })
 map('n', '<leader>jp', '<cmd>set relativenumber! number! showmode! showcmd! hidden! ruler!<cr>',
   { desc = 'Presentation Mode' })
-map('n', '<leader>jt', '<cmd>.!toilet -w 200 -f term -F border<cr>', { desc = 'Box line' })
-map('n', '<leader>jb', '<cmd>lua require("jobin.config.custom.utils").box()<cr>', { desc = 'Box header' })
--- map('n', '<leader>jj', '<cmd>lua require("jobin.config.custom.utils").start_journal()<cr>', { desc = 'Start Journal' })
--- map('n', '<leader>jt', '<cmd>lua require("jobin.config.custom.org_tangle").tangle()<cr>', { desc = 'Org Tangle' })
+map('n', '<leader>jb', '<cmd>lua require("jobin.config.custom.utils").box(60)<cr>', { desc = 'Box header' })
+map('n', '<leader>jB', '<cmd>lua require("jobin.config.custom.utils").box()<cr>', { desc = 'Box word' })
 map('n', '<leader>jc', '<cmd>lua require("jobin.config.custom.utils").cd_git_root()<cr>', { desc = 'Cd Git Root' })
 map('n', '<leader>jr', '<cmd>lua require("jobin.config.custom.utils").rename_file()<cr>', { desc = 'Rename File' })
 map('n', '<leader>jl', '<cmd>lua require("jobin.config.custom.utils").leet()<cr>', { desc = 'Leetcode Daily' })
+-- map('n', '<leader>jj', '<cmd>lua require("jobin.config.custom.utils").start_journal()<cr>', { desc = 'Start Journal' })
+-- map('n', '<leader>jt', '<cmd>lua require("jobin.config.custom.org_tangle").tangle()<cr>', { desc = 'Org Tangle' })
 
 -- Work
 map('n', '<leader>we', '<cmd>lua require("jobin.config.custom.work_stuff.email_update").open()<cr>',

@@ -3,8 +3,8 @@ return {
   event = { "BufReadPre", "BufNewFile" },
   config = function()
     local map = vim.keymap.set
-    map('n', '[g', '<cmd>Gitsigns next_hunk<cr>', { desc = 'Goto Previous Hunk' })
-    map('n', ']g', '<cmd>Gitsigns prev_hunk<cr>', { desc = 'Goto Next Hunk' })
+    map('n', '[g', '<cmd>Gitsigns prev_hunk<cr>', { desc = 'Goto Previous Hunk' })
+    map('n', ']g', '<cmd>Gitsigns next_hunk<cr>', { desc = 'Goto Next Hunk' })
     map('n', '<leader>gp', '<cmd>Gitsigns preview_hunk<cr>', { desc = 'Preview Hunk' })
     map('n', '<leader>gr', '<cmd>Gitsigns reset_buffer<cr>', { desc = 'Git Reset Buffer' })
     map({'n', 'v'}, '<leader>gh', ':Gitsigns reset_hunk<cr>', { desc = 'Git Reset Hunk' })

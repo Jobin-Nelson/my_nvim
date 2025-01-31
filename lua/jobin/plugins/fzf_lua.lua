@@ -39,21 +39,21 @@ map('n', '<leader>fa', '<cmd>lua require("fzf-lua").files({cwd=vim.fn.stdpath("c
 map('n', '<leader>fd',
   '<cmd>lua require("fzf-lua").files({cwd="$HOME",cwd_prompt=false,prompt="~/",cmd="git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME ls-tree --name-only --full-tree -r HEAD"})<cr>',
   { desc = 'Find Dotfiles' })
-map('n', '<leader>fz', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_cd_dir("zoxide query -l")<cr>',
+map('n', '<leader>fz', '<cmd>lua require("jobin.config.custom.fzf.pickers").fzf_cd_dir("zoxide query -l")<cr>',
   { desc = 'Find Zoxide' })
 map('n', '<leader>fp',
-  '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_cd_dir("find ~/playground/projects -maxdepth 1 -mindepth 1 -type d")<cr>',
+  '<cmd>lua require("jobin.config.custom.fzf.pickers").fzf_cd_dir("find ~/playground/projects -maxdepth 1 -mindepth 1 -type d")<cr>',
   { desc = 'Find Projects' })
 map('n', '<leader>fP', '<cmd>FzfLua profiles<cr>', { desc = 'Find profiles' })
 map('n', '<leader>fl', '<cmd>lua require("fzf-lua").files({cwd=vim.fs.joinpath(vim.fn.stdpath("data"), "lazy")})<cr>',
   { desc = 'Find profiles' })
-map('n', '<leader>fM', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_move_file()<cr>', { desc = 'Move File' })
+map('n', '<leader>fM', '<cmd>lua require("jobin.config.custom.fzf.pickers").fzf_move_file()<cr>', { desc = 'Move File' })
 
 -- Second brain
-map('n', '<leader>fss', '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_second_brain()<cr>',
+map('n', '<leader>fss', '<cmd>lua require("jobin.config.custom.fzf.pickers").fzf_second_brain()<cr>',
   { desc = 'Find Second brain files' })
 map('n', '<leader>fsi',
-  '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_read_file({cwd="~/playground/projects/second_brain/Resources/Templates/"})<cr>',
+  '<cmd>lua require("jobin.config.custom.fzf.pickers").fzf_read_file({cwd="~/playground/projects/second_brain/Resources/Templates/"})<cr>',
   { desc = 'Insert Second brain Templates' })
 
 -- Work
@@ -66,10 +66,10 @@ map('n', '<leader>fiu',
 
 -- Orgmode
 map('n', '<leader>fot',
-  '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_org_live_grep("~/playground/projects/org_files")<cr>',
+  '<cmd>lua require("jobin.config.custom.fzf.pickers").fzf_org_live_grep("~/playground/projects/org_files")<cr>',
   { desc = 'Org Todo grep' })
 map('n', '<leader>foT',
-  '<cmd>lua require("jobin.config.custom.fzf_pickers").fzf_org_live_grep("~/playground/dev/illumina/ticket_notes/work_org_files")<cr>',
+  '<cmd>lua require("jobin.config.custom.fzf.pickers").fzf_org_live_grep("~/playground/dev/illumina/ticket_notes/work_org_files")<cr>',
   { desc = 'Org Todo grep (Work)' })
 
 return {
@@ -82,7 +82,7 @@ return {
   config = function()
     -- calling `setup` is optional for customization
     local actions = require "fzf-lua.actions"
-    local my_actions = require "jobin.config.custom.fzf_actions"
+    local my_actions = require "jobin.config.custom.fzf.actions"
 
     require("fzf-lua").setup({
       "default-title",
@@ -127,7 +127,7 @@ return {
     -- Custom User commands
     vim.api.nvim_create_user_command('JQL',
       function(opts)
-        require('jobin.config.custom.fzf_pickers').fzf_search_jira(opts.args)
+        require('jobin.config.custom.fzf.pickers').fzf_search_jira(opts.args)
       end,
       { nargs = 1 }
     )
@@ -156,7 +156,7 @@ return {
 
       -- default
       if vim.startswith(opts.args, 'get') or opts.args == '' then
-        return require('jobin.config.custom.fzf_pickers').fzf_todoist(
+        return require('jobin.config.custom.fzf.pickers').fzf_todoist(
           opts.args == '' and 'todo.py get task' or 'todo.py ' .. opts.args
         )
       end

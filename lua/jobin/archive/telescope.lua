@@ -69,7 +69,7 @@ return {
     config = function()
       -- setup
       local actions = require('telescope.actions')
-      local my_actions = require('jobin.config.custom.my_actions')
+      local my_actions = require('jobin.config.custom.telescope.my_actions')
       require('telescope').setup({
         pickers = {
           buffers = {
