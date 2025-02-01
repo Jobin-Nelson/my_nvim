@@ -60,11 +60,6 @@ return {
       timeout = 5000,
     },
     quickfile = { enabled = true },
-    dashboard = { enabled = false },
-    scroll = { enabled = false },
-    indent = { enabled = false },
-    statuscolumn = { enabled = false },
-    words = { enabled = false },
     styles = {
       notification = {
         wo = { wrap = true } -- Wrap notifications
@@ -79,6 +74,13 @@ return {
         },
       }
     },
+    zen = {
+      win = {
+        backdrop = {
+          transparent = false,
+        }
+      }
+    }
   },
   keys = {
     { "<leader>z",  function() Snacks.zen() end,                     desc = "Toggle Zen Mode" },

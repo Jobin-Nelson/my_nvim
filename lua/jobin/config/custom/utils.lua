@@ -291,7 +291,33 @@ function M.shellsplit(text)
   return words
 end
 
--- vim.keymap.set('n', '<leader>rt', function() M.box() end)
+function M.titleCase()
+  ---@param line string
+  ---@return string
+  local function titleCaseLine(line)
+    local titleCasedLine = line:gsub("(%a)([%w_']*)", function(first, rest)
+      return first:upper() .. rest:lower()
+    end)
+    return titleCasedLine
+  end
+
+  -- if not in visual apply on current line
+  -- if vim.api.nvim_get_mode()['mode']:lower() ~= 'v' then
+  --   return vim.api.nvim_set_current_line(titleCaseLine(vim.api.nvim_get_current_line()))
+  -- end
+
+  local start_pos = vim.api.nvim_buf_get_mark(0, '<')
+  local end_pos = vim.api.nvim_buf_get_mark(0, '>')
+  -- when in visual line mode, end col will have very large value
+  if end_pos[2] > 10000 then
+    end_pos[2] = vim.fn.col("'>") - 2
+  end
+  local input = vim.api.nvim_buf_get_text(0, start_pos[1] - 1, start_pos[2], end_pos[1] - 1, end_pos[2] + 1, {})
+  local output = vim.tbl_map(titleCaseLine, input)
+  vim.api.nvim_buf_set_text(0, start_pos[1] - 1, start_pos[2], end_pos[1] - 1, end_pos[2] + 1, output)
+end
+
+-- vim.keymap.set({ 'n', 'v' }, '<leader>rt', function() M.titleCase() end)
 -- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 
 return M

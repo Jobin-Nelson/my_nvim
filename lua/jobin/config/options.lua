@@ -5,6 +5,8 @@ vim.opt.relativenumber = true
 vim.opt.cursorline = true
 vim.opt.mouse = 'a'
 if vim.env.SSH_TTY then
+  -- NVIM by default uses osc52 clipboard
+  -- https://github.com/neovim/neovim/commit/a389dc2f950ef89492dfc2d8334e421d2252cddf/
   vim.g.clipboard = {
     name = 'OSC 52',
     copy = {
