@@ -51,9 +51,6 @@ return {
           name = 'Orgmode',
           module = 'orgmode.org.autocompletion.blink',
         },
-        snippets = {
-          score_offset = 1,
-        },
         buffer = {
           max_items = 3,
           min_keyword_length = 3,

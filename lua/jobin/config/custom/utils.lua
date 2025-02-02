@@ -312,6 +312,7 @@ function M.titleCase()
   if end_pos[2] > 10000 then
     end_pos[2] = vim.fn.col("'>") - 2
   end
+
   local input = vim.api.nvim_buf_get_text(0, start_pos[1] - 1, start_pos[2], end_pos[1] - 1, end_pos[2] + 1, {})
   local output = vim.tbl_map(titleCaseLine, input)
   vim.api.nvim_buf_set_text(0, start_pos[1] - 1, start_pos[2], end_pos[1] - 1, end_pos[2] + 1, output)

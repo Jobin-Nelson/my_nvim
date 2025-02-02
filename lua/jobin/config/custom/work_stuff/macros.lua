@@ -4,4 +4,4 @@ vim.fn.setreg('m', [[$hhdi[Bi[P](l2xf]C)j]]) -- convert org link to markdown 
 vim.fn.setreg('o', "$xa]]F(r[hca[[$P0") -- convert markdown link to org link 
 
 -- mappings
-vim.keymap.set('n', 'yl', '0$hhyi[0', { desc = 'Copy Test-Case ID', silent = true })
+vim.keymap.set('n', 'yl', "$F[yi[", { desc = 'Copy Test-Case ID', silent = true })
