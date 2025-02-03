@@ -1,5 +1,4 @@
 local jira = require('jobin.config.custom.work_stuff.jira')
-local subtask = require('jobin.config.custom.work_stuff.jira.subtask')
 
 local M = {}
 
@@ -45,10 +44,10 @@ end
 
 ---@param subtasks SubTask[]
 local function get_subtask_lines(subtasks)
-  local subtask_lines = vim.tbl_map(subtask.task2line, subtasks)
+  local subtask_lines = vim.tbl_map(jira.task2Todo, subtasks)
   return vim.tbl_isempty(subtask_lines)
-      and vim.list_extend({ '** Sub-Tasks' }, subtask_lines)
-      or subtask_lines
+      and subtask_lines
+      or vim.list_extend({ '** Sub-Tasks' }, subtask_lines)
 end
 
 ---@param issue_id string
