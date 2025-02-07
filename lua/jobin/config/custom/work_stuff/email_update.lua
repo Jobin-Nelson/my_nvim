@@ -74,8 +74,8 @@ local M = {}
 M.open = function()
   local command = 'echo '
       .. '$HOME/playground/dev/illumina/daily_updates/$(date -d '
-      .. '"$([[ $(date -d "+6 hours" +%u) -gt 5 ]] '
-      .. '&& echo "next Monday" || echo "+6 hours")" +%Y-%m-%d).md'
+      .. '"$([[ $(date -d "+2 hours" +%u) -gt 5 ]] '
+      .. '&& echo "next Monday" || echo "+2 hours")" +%Y-%m-%d).md'
   vim.fn.jobstart(command, {
     stdout_buffered = true,
     on_stdout = capture_email,
