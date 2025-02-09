@@ -4,23 +4,11 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.cursorline = true
 vim.opt.mouse = 'a'
-if vim.env.SSH_TTY then
-  -- NVIM by default uses osc52 clipboard
-  -- https://github.com/neovim/neovim/commit/a389dc2f950ef89492dfc2d8334e421d2252cddf/
-  vim.g.clipboard = {
-    name = 'OSC 52',
-    copy = {
-      ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
-      ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
-    },
-    paste = {
-      ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
-      ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
-    },
-  }
-else
-  vim.opt.clipboard = 'unnamedplus'
-end
+-- only set clipboard if not in ssh, to make sure the OSC 52
+-- integration works automatically. Requires Neovim >= 0.10.0
+-- https://github.com/neovim/neovim/commit/a389dc2f950ef89492dfc2d8334e421d2252cddf/
+vim.opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus" -- Sync with system clipboard
+vim.opt.list = true
 vim.opt.linebreak = true
 vim.opt.breakindent = true
 vim.opt.breakindentopt = 'list:2,min:20,sbr'
@@ -37,20 +25,34 @@ vim.opt.conceallevel = 2
 vim.opt.signcolumn = 'yes'
 vim.opt.laststatus = 3
 -- vim.opt.statuscolumn = '%=%C%s%{v:relnum?v:relnum:v:lnum } '
-vim.o.fillchars = 'eob: ,fold: ,foldopen:,foldsep: ,foldclose:'
+
+-- Folding
+vim.opt.fillchars = {
+  foldopen = "",
+  foldclose = "",
+  fold = " ",
+  foldsep = " ",
+  diff = "╱",
+  eob = " ",
+}
 vim.opt.foldenable = false
 vim.opt.foldlevelstart = 99
--- vim.opt.foldcolumn = '1'
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldmethod = "expr"
+
 -- vim.opt.winbar = '%=%m %t'
 vim.opt.splitbelow = true
 vim.opt.splitright = true
+
+-- Indent
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
+vim.opt.smartindent = true
+
 vim.opt.scrolloff = 8
 vim.opt.sidescrolloff = 8
-vim.opt.smartindent = true
 vim.opt.wrap = false
 vim.opt.incsearch = true
 vim.opt.undodir = vim.fn.stdpath('config') .. '/undodir'
@@ -58,6 +60,7 @@ vim.opt.undofile = true
 vim.opt.swapfile = false
 vim.opt.pumheight = 10
 vim.opt.pumblend = 0
+vim.opt.virtualedit = 'block'
 vim.opt.sessionoptions = 'curdir,folds,globals,help,tabpages,terminal,winsize'
 -- vim.opt.iskeyword = vim.opt.iskeyword + '-'
 vim.opt.formatoptions = vim.opt.formatoptions

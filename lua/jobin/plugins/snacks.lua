@@ -1,3 +1,8 @@
+-- ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+-- ┃                        Terminal                          ┃
+-- ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+
 ---@param mode "visual" | "normal"
 local send_lines_to_terminal = function(mode)
   local modes = {
@@ -46,6 +51,34 @@ local function toggle_term()
   Snacks.terminal()
 end
 
+
+-- ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+-- ┃                        Mappings                          ┃
+-- ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+
+local map = vim.keymap.set
+
+-- general
+map('n', "<leader>z", function() Snacks.zen() end, { desc = "Toggle Zen Mode" })
+map('n', "<C-w>m", function() Snacks.zen.zoom() end, { desc = "Toggle Zoom" })
+map('n', "<leader>un", function() Snacks.notifier.show_history() end, { desc = "Notification History" })
+map('n', "<leader>bd", function() Snacks.bufdelete() end, { desc = "Delete Buffer" })
+map('n', "<leader>cR", function() Snacks.rename.rename_file() end, { desc = "Rename File" })
+map({ 'n', 'v' }, "<leader>gB", function() Snacks.gitbrowse() end, { desc = "Git Browse" })
+map('n', "<leader>uN", function() Snacks.notifier.hide() end, { desc = "Dismiss All Notifications" })
+map({ 'n', 't' }, "<c-/>", toggle_term, { desc = "Toggle Terminal" })
+map({ 'n', 't' }, "<c-_>", toggle_term, { desc = "which_key_ignore" })
+map('n', "<A-s>", function() send_lines_to_terminal('normal') end, { desc = "Send lines to terminal" })
+map('v', "<A-s>", function() send_lines_to_terminal('visual') end, { desc = "Send lines to terminal" })
+
+-- require('jobin.config.custom.snacks.picker')
+
+
+-- ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+-- ┃                          Setup                           ┃
+-- ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
 return {
   "folke/snacks.nvim",
   priority = 1000,
@@ -54,10 +87,10 @@ return {
   ---@type snacks.Config
   opts = {
     bigfile = { enabled = true },
-    input = { enabled = true },
+    statuscolumn = { enabled = true },
     notifier = {
       enabled = true,
-      timeout = 5000,
+      timeout = 3000,
     },
     quickfile = { enabled = true },
     styles = {
@@ -81,19 +114,6 @@ return {
         }
       }
     }
-  },
-  keys = {
-    { "<leader>z",  function() Snacks.zen() end,                     desc = "Toggle Zen Mode" },
-    { "<C-w>m",     function() Snacks.zen.zoom() end,                desc = "Toggle Zoom" },
-    { "<leader>un", function() Snacks.notifier.show_history() end,   desc = "Notification History" },
-    { "<leader>bd", function() Snacks.bufdelete() end,               desc = "Delete Buffer" },
-    { "<leader>cR", function() Snacks.rename.rename_file() end,      desc = "Rename File" },
-    { "<leader>gB", function() Snacks.gitbrowse() end,               desc = "Git Browse",               mode = { 'n', 'v' } },
-    { "<leader>uN", function() Snacks.notifier.hide() end,           desc = "Dismiss All Notifications" },
-    { "<c-/>",      toggle_term,                                     desc = "Toggle Terminal",          mode = { 'n', 't' } },
-    { "<c-_>",      toggle_term,                                     desc = "which_key_ignore",         mode = { 'n', 't' } },
-    { "<A-s>",      function() send_lines_to_terminal('normal') end, desc = "Send lines to terminal",   mode = { 'n' } },
-    { "<A-s>",      function() send_lines_to_terminal('visual') end, desc = "Send lines to terminal",   mode = { 'v' } },
   },
   init = function()
     vim.api.nvim_create_autocmd("User", {

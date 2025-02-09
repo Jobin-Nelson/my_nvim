@@ -23,13 +23,13 @@ map('n', '<leader>fk', '<cmd>FzfLua keymaps<cr>', { desc = 'Find Keymaps' })
 map('n', "<leader>f'", '<cmd>FzfLua marks<cr>', { desc = 'Find Marks' })
 map('n', "<leader>fm", '<cmd>FzfLua manpages<cr>', { desc = 'Find Man Pages' })
 map('n', '<leader>ft', '<cmd>FzfLua colorschemes<cr>', { desc = 'Find Themes' })
-map('n', '<leader>fD', '<cmd>FzfLua diagnostics_workspace<cr>', { desc = 'Find Diagnostics worksapce' })
+map('n', '<leader>fD', '<cmd>FzfLua diagnostics_workspace<cr>', { desc = 'Find Diagnostics workspace' })
 map('n', '<leader>f/', '<cmd>FzfLua blines<cr>', { desc = 'Buffer Search' })
 -- git
 map('n', '<leader>gb', '<cmd>FzfLua git_branches<cr>', { desc = 'Git Branches' })
 map('n', '<leader>gt', '<cmd>FzfLua git_status<cr>', { desc = 'Git Status' })
 map('n', '<leader>gc', '<cmd>FzfLua git_commits<cr>', { desc = 'Git Commits' })
-map('v', '<leader>gC', '<cmd>FzfLua git_bcommits<cr>', { desc = 'Git Buffer Commits' })
+map({'n', 'v'}, '<leader>gC', '<cmd>FzfLua git_bcommits<cr>', { desc = 'Git Buffer Commits' })
 
 -- custom
 map('n', '<leader>fA', '<cmd>FzfLua files cwd=~/playground/projects/config-setup<cr>',

@@ -295,10 +295,7 @@ function M.titleCase()
   ---@param line string
   ---@return string
   local function titleCaseLine(line)
-    local titleCasedLine = line:gsub("(%a)([%w_']*)", function(first, rest)
-      return first:upper() .. rest:lower()
-    end)
-    return titleCasedLine
+    return string.gsub(line, '%f[%l].', string.upper)
   end
 
   -- if not in visual apply on current line
