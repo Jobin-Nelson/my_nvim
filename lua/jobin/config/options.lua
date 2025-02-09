@@ -2,7 +2,7 @@ vim.opt.showmode = false
 vim.opt.hlsearch = false
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 vim.opt.mouse = 'a'
 -- only set clipboard if not in ssh, to make sure the OSC 52
 -- integration works automatically. Requires Neovim >= 0.10.0

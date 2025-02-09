@@ -219,7 +219,128 @@ M.fzf_todoist = function(cmd, opts)
   fzf_lua.fzf_exec(cmd, vim.tbl_deep_extend('force', default_opts, opts or {}))
 end
 
--- vim.keymap.set('n', '<leader>rt', function() M.fzf_todoist('todo.py get task') end)
+M.fzf_icons = function()
+  local nerdfonts_sets = {
+    cod = "Codicons",
+    dev = "Devicons",
+    fa = "Font Awesome",
+    fae = "Font Awesome Extension",
+    iec = "IEC Power Symbols",
+    linux = "Font Logos",
+    logos = "Font Logos",
+    oct = "Octicons",
+    ple = "Powerline Extra",
+    pom = "Pomicons",
+    seti = "Seti-UI",
+    weather = "Weather Icons",
+    md = "Material Design Icons",
+  }
+
+  local sources = {
+    nerd_fonts = {
+      url = "https://github.com/ryanoasis/nerd-fonts/raw/refs/heads/master/glyphnames.json",
+      v = 4,
+      build = function(data)
+        local ret = {}
+        for name, info in pairs(data) do
+          if name ~= "METADATA" then
+            local font, icon = name:match("^([%w_]+)%-(.*)$")
+            if not font then
+              error("Invalid icon name: " .. name)
+            end
+            table.insert(ret, {
+              name = icon,
+              icon = info.char,
+              source = "nerd fonts",
+              category = nerdfonts_sets[font] or font,
+              text = ("%s  %s - %s"):format(info.char, icon, nerdfonts_sets[font] or font)
+            })
+          end
+        end
+        return ret
+      end,
+    },
+    emoji = {
+      url = "https://raw.githubusercontent.com/muan/unicode-emoji-json/refs/heads/main/data-by-emoji.json",
+      v = 4,
+      build = function(data)
+        local ret = {}
+        for icon, info in pairs(data) do
+          table.insert(ret, {
+            name = info.name,
+            icon = icon,
+            source = "emoji",
+            category = info.group,
+            text = ("%s  %s - %s"):format(icon, info.name, info.group)
+          })
+        end
+        return ret
+      end,
+    },
+  }
+
+  ---@param source_name string
+  ---@return table<string,string> icons table
+  local function load(source_name)
+    local source = sources[source_name]
+    local file = vim.fn.stdpath("cache") .. "/fzf/picker/icons/" .. source_name .. "-v" .. (source.v or 1) .. ".json"
+    vim.fn.mkdir(vim.fn.fnamemodify(file, ":h"), "p")
+    if vim.fn.filereadable(file) == 1 then
+      local fd = assert(io.open(file, "r"))
+      local data = fd:read("*a")
+      fd:close()
+      return vim.json.decode(data)
+    end
+
+    vim.notify("Fetching `" .. source_name .. "` icons", vim.log.levels.INFO, { title = 'Fzf Icon Picker' })
+    if vim.fn.executable("curl") == 0 then
+      vim.notify("`curl` is required to fetch icons", vim.log.levels.ERROR, { title = 'Fzf Icon Picker' })
+      return {}
+    end
+    local out = vim.fn.system({ "curl", "-s", "-L", source.url })
+    if vim.v.shell_error ~= 0 then
+      vim.notify(out, vim.log.levels.ERROR, { title = 'Fzf Icon Picker' })
+      return {}
+    end
+    local icons = source.build(vim.json.decode(out))
+    local fd = assert(io.open(file, "w"))
+    fd:write(vim.json.encode(icons))
+    fd:close()
+    return icons
+  end
+
+  ---@return string[]
+  local function icons()
+    local ret = {}
+    for source, _ in pairs(sources) do
+      vim.list_extend(ret, vim.tbl_map(function(i) return i.text end, load(source)))
+    end
+    return ret
+  end
+
+  local default_opts = {
+    prompt = "Pick ❯ ",
+    winopts = {
+      title = " Icons ",
+      title_pos = "center",
+      height = 0.50,
+      width = 0.40,
+      row = 0.50,
+      col = 0.50,
+    },
+    actions = {
+      ['default'] = function(selected)
+        vim.api.nvim_put(vim.tbl_map(function(line)
+          return line:match("^(%S+)")
+        end, selected), "", true, true)
+      end
+    },
+  }
+  fzf_lua.fzf_exec(icons(), default_opts)
+end
+
+
+-- vim.keymap.set('n', '<leader>rt', function() M.fzf_icons() end)
 -- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 
 return M

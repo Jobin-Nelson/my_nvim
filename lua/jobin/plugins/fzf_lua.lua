@@ -48,6 +48,7 @@ map('n', '<leader>fP', '<cmd>FzfLua profiles<cr>', { desc = 'Find profiles' })
 map('n', '<leader>fl', '<cmd>lua require("fzf-lua").files({cwd=vim.fs.joinpath(vim.fn.stdpath("data"), "lazy")})<cr>',
   { desc = 'Find profiles' })
 map('n', '<leader>fM', '<cmd>lua require("jobin.config.custom.fzf.pickers").fzf_move_file()<cr>', { desc = 'Move File' })
+map('n', '<leader>fI', '<cmd>lua require("jobin.config.custom.fzf.pickers").fzf_icons()<cr>', { desc = 'Pick Icon' })
 
 -- Second brain
 map('n', '<leader>fss', '<cmd>lua require("jobin.config.custom.fzf.pickers").fzf_second_brain()<cr>',
