@@ -72,7 +72,7 @@ map({ 'n', 't' }, "<c-_>", toggle_term, { desc = "which_key_ignore" })
 map('n', "<A-s>", function() send_lines_to_terminal('normal') end, { desc = "Send lines to terminal" })
 map('v', "<A-s>", function() send_lines_to_terminal('visual') end, { desc = "Send lines to terminal" })
 
--- require('jobin.config.custom.snacks.picker')
+-- require('jobin.config.custom.snacks.mappings')
 
 
 -- ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
@@ -88,6 +88,8 @@ return {
   opts = {
     bigfile = { enabled = true },
     statuscolumn = { enabled = true },
+    picker = { enabled = true },
+    explorer = { enabled = true },
     notifier = {
       enabled = true,
       timeout = 3000,

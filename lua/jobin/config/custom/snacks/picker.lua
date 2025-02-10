@@ -1,38 +1,135 @@
-local map = vim.keymap.set
+local M = {}
 
--- General
-map('n', '<leader>f<cr>', function() Snacks.picker.resume() end, { desc = 'Find Resume' })
-map('n', '<leader>fB', function() Snacks.picker() end, { desc = 'Find Builtins' })
-map('n', '<leader>fr', function() Snacks.picker.recent() end, { desc = 'Find Recent files' })
-map('n', '<leader>fb', function() Snacks.picker.buffers() end, { desc = 'Find Buffers' })
-map('n', '<leader>ff',
-  function() Snacks.picker.files({ cwd = require("jobin.config.custom.utils").get_git_root_buf() }) end,
-  { desc = 'Find Files' })
-map('n', '<leader>fF', function() Snacks.picker.files() end, { desc = 'Find Files (cwd)' })
-map('n', '<leader>fg',
-  function() Snacks.picker.git_files({ cwd = require("jobin.config.custom.utils").get_git_root_buf() }) end,
-  { desc = 'Find Git Files' })
-map('n', '<leader>fG', function() Snacks.picker.git_files() end, { desc = 'Find Git Files (cwd)' })
-map('n', '<leader>fh', function() Snacks.picker.help() end, { desc = 'Find Help' })
-map('n', '<leader>fc', function() Snacks.picker.grep_word() end, { desc = 'Find word under Cursor' })
-map('n', '<leader>fw',
-  function() Snacks.picker.grep({ cwd = require("jobin.config.custom.utils").get_git_root_buf() }) end,
-  { desc = 'Find words (root)' })
-map('n', '<leader>fW', function() Snacks.picker.grep() end, { desc = 'Find words (cwd)' })
-map('n', '<leader>fC', function() Snacks.picker.commands() end, { desc = 'Find Commands' })
-map('n', '<leader>fk', function() Snacks.picker.keymaps() end, { desc = 'Find Keymaps' })
-map('n', "<leader>f'", function() Snacks.picker.marks() end, { desc = 'Find Marks' })
-map('n', "<leader>fm", function() Snacks.picker.man() end, { desc = 'Find Man Pages' })
-map('n', '<leader>ft', function() Snacks.picker.colorschemes() end, { desc = 'Find Themes' })
-map('n', '<leader>fD', function() Snacks.picker.diagnostics() end, { desc = 'Find Diagnostics workspace' })
-map('n', '<leader>f/', function() Snacks.picker.lines() end, { desc = 'Buffer Search' })
+function M.dot_files()
+  local find_dot_files = function(opts, ctx)
+    ---@diagnostic disable-next-line: missing-fields
+    return require("snacks.picker.source.proc").proc({
+      opts,
+      {
+        cmd = "git",
+        args = {
+          "--git-dir",
+          vim.fs.joinpath(vim.env.HOME, ".dotfiles"),
+          "--work-tree",
+          vim.env.HOME,
+          "ls-tree",
+          "--name-only",
+          "--full-tree",
+          "-r",
+          "HEAD",
+        },
+        transform = function(item)
+          item.file = item.text
+        end
+      },
+    }, ctx)
+  end
 
--- git
-map('n', '<leader>gb', function() Snacks.picker.git_branches() end, { desc = 'Git Branches' })
-map('n', '<leader>gt', function() Snacks.picker.git_status() end, { desc = 'Git Status' })
-map('n', '<leader>gc', function() Snacks.picker.git_log() end, { desc = 'Git Commits' })
-map('n', '<leader>gC', function() Snacks.picker.git_log_file() end, { desc = 'Git Buffer Commits' })
-map('v', '<leader>gC', function() Snacks.picker.git_log_line() end, { desc = 'Git Buffer Commits line' })
+  ---@diagnostic disable-next-line: missing-fields
+  Snacks.picker.pick({
+    source = 'dotfiles',
+    title = 'Dot Files',
+    finder = find_dot_files,
+  })
+end
 
-map('n', '<leader>fa',  function() Snacks.picker.files({cwd=vim.fn.stdpath("config")}) end,
-  { desc = 'Find Config' })
+function M.move_file()
+  local from_bufnr = vim.api.nvim_get_current_buf()
+  local from = vim.api.nvim_buf_get_name(0)
+  local root = require('jobin.config.custom.utils').get_git_root_buf() or vim.uv.cwd()
+  local find_directory = function(opts, ctx)
+    ---@diagnostic disable-next-line: missing-fields
+    return require("snacks.picker.source.proc").proc({
+      opts,
+      {
+        cmd = "fd",
+        args = {
+          "--type",
+          "d",
+          "--hidden",
+          "--exclude",
+          ".git",
+          "--exclude",
+          ".npm",
+          "--exclude",
+          "node_modules",
+          ".",
+          root,
+        },
+      },
+    }, ctx)
+  end
+
+  local move = function(picker)
+    picker:close()
+    local item = picker:current()
+    if not item then
+      return
+    end
+    local dir = item.text
+    local to = vim.fs.joinpath(dir, vim.fn.fnamemodify(from, ":t"))
+    Snacks.rename.on_rename_file(from, to, function()
+      local ok, err = pcall(vim.fn.rename, from, to)
+      if not ok then
+        Snacks.notify.error("Failed to move `" .. from .. "`:\n- " .. err)
+      end
+      vim.cmd.edit(to)
+      vim.api.nvim_buf_delete(from_bufnr, { force = true })
+    end)
+  end
+
+  ---@diagnostic disable-next-line: missing-fields
+  Snacks.picker.pick({
+    source = "move",
+    title = "Move File",
+    finder = find_directory,
+    format = "text",
+    confirm = move,
+    preview = "none",
+    layout = {
+      preset = "select",
+    },
+  })
+end
+
+function M.second_brain()
+  local second_brain_path = "~/playground/projects/second_brain/"
+  Snacks.picker.files({
+    cwd = second_brain_path,
+    win = {
+      input = {
+        keys = {
+          ["<C-Space>"] = { "create_file", mode = "i" },
+        },
+      },
+    },
+    actions = {
+      create_file = function(picker, item)
+        picker:close()
+        local new_file = picker.finder.filter.pattern
+        local new_file_path = vim.fs.joinpath(second_brain_path,
+          vim.endswith(new_file, ".md") and new_file or new_file .. ".md")
+        vim.cmd.edit(new_file_path)
+      end
+    }
+  })
+end
+
+function M.second_brain_template()
+  local template_file_path = "~/playground/projects/second_brain/Resources/Templates"
+  Snacks.picker.files({
+    cwd = template_file_path,
+    confirm = function(picker, item)
+      picker:close()
+      vim.cmd('-1read ' .. vim.fs.joinpath(template_file_path, item.text))
+      Snacks.notify.info(
+        'Inserted ' .. vim.fs.basename(item.text)
+      )
+    end
+  })
+end
+
+vim.keymap.set({ 'n', 'v' }, '<leader>rt', function() M.second_brain_template() end)
+vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
+
+return M
