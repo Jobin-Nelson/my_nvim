@@ -21,7 +21,11 @@ return {
       org_log_into_drawer = 'LOGBOOK',
       org_use_tag_inheritance = false,
       mappings = {
-        org_return_uses_meta_return = true
+        org_return_uses_meta_return = true,
+        org = {
+          org_forward_heading_same_level = ']n',
+          org_backward_heading_same_level = '[p',
+        },
       },
       org_capture_templates = {
         m = {

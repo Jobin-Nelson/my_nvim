@@ -269,6 +269,7 @@ end
 function M.titleCase()
   ---@param line string
   ---@return string
+  ---@return integer
   local function titleCaseLine(line)
     return string.gsub(line, '%f[%l].', string.upper)
   end
@@ -324,14 +325,23 @@ function M.create_bottom_window(buf)
   local win = vim.api.nvim_get_current_win()
 
   local options = {
-    number = false,
-    relativenumber = false,
-    winfixheight = true,
+    win = {
+      number = false,
+      relativenumber = false,
+      winfixheight = true,
+    },
+    buf = {
+      buflisted = false,
+    }
   }
 
   vim.schedule(function()
-    for field, value in pairs(options) do
+    for field, value in pairs(options.win) do
       vim.api.nvim_set_option_value(field, value, { scope = 'local', win = win })
+    end
+
+    for field, value in pairs(options.buf) do
+      vim.api.nvim_set_option_value(field, value, { buf = buf })
     end
   end)
 
