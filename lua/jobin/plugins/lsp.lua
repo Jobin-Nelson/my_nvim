@@ -50,29 +50,29 @@ return {
         map('gra', vim.lsp.buf.code_action, 'Lsp code Action')
 
         -- Fzf mappings
-        -- map('gd', '<cmd>FzfLua lsp_definitions jump_to_single_result=true ignore_current_line=true<cr>',
-        --   'Goto [D]efinition')
-        -- map('grr', '<cmd>FzfLua lsp_references jump_to_single_result=true ignore_current_line=true<cr>',
-        --   'Goto [R]eferences')
-        -- map('gri', '<cmd>FzfLua lsp_implementations jump_to_single_result=true ignore_current_line=true<cr>',
-        --   'Goto [I]mplementation')
-        -- map('gy', '<cmd>FzfLua lsp_typedefs jump_to_single_result=true ignore_current_line=true<cr>',
-        --   'Goto T[y]pe Definition')
-        -- map('<leader>ld', '<cmd>FzfLua diagnostics_document jump_to_single_result=true ignore_current_line=true<cr>',
-        --   'Open diagnostic list')
-        -- map('<leader>ls', '<cmd>FzfLua lsp_document_symbols jump_to_single_result=true ignore_current_line=true<cr>',
-        --   'Lsp Document Symbols')
-        -- map('<leader>lS',
-        --   '<cmd>FzfLua lsp_live_workspace_symbols jump_to_single_result=true ignore_current_line=true<cr>',
-        --   'Lsp Workspace Symbols')
+        map('gd', '<cmd>FzfLua lsp_definitions jump_to_single_result=true ignore_current_line=true<cr>',
+          'Goto [D]efinition')
+        map('grr', '<cmd>FzfLua lsp_references jump_to_single_result=true ignore_current_line=true<cr>',
+          'Goto [R]eferences')
+        map('gri', '<cmd>FzfLua lsp_implementations jump_to_single_result=true ignore_current_line=true<cr>',
+          'Goto [I]mplementation')
+        map('gy', '<cmd>FzfLua lsp_typedefs jump_to_single_result=true ignore_current_line=true<cr>',
+          'Goto T[y]pe Definition')
+        map('<leader>ld', '<cmd>FzfLua diagnostics_document jump_to_single_result=true ignore_current_line=true<cr>',
+          'Open diagnostic list')
+        map('<leader>ls', '<cmd>FzfLua lsp_document_symbols jump_to_single_result=true ignore_current_line=true<cr>',
+          'Lsp Document Symbols')
+        map('<leader>lS',
+          '<cmd>FzfLua lsp_live_workspace_symbols jump_to_single_result=true ignore_current_line=true<cr>',
+          'Lsp Workspace Symbols')
 
         -- Snacks mappings
-        map("gd", function() Snacks.picker.lsp_definitions() end, "Goto Definition")
-        map("grr", function() Snacks.picker.lsp_references() end,  "References" )
-        map("gri", function() Snacks.picker.lsp_implementations() end, "Goto Implementation")
-        map("gy", function() Snacks.picker.lsp_type_definitions() end, "Goto T[y]pe Definition")
-        map("<leader>ls", function() Snacks.picker.lsp_symbols() end, "LSP Symbols")
-        map("<leader>lS", function() Snacks.picker.lsp_workspace_symbols() end, "LSP Workspace Symbols")
+        -- map("gd", function() Snacks.picker.lsp_definitions() end, "Goto Definition")
+        -- map("grr", function() Snacks.picker.lsp_references() end,  "References" )
+        -- map("gri", function() Snacks.picker.lsp_implementations() end, "Goto Implementation")
+        -- map("gy", function() Snacks.picker.lsp_type_definitions() end, "Goto T[y]pe Definition")
+        -- map("<leader>ls", function() Snacks.picker.lsp_symbols() end, "LSP Symbols")
+        -- map("<leader>lS", function() Snacks.picker.lsp_workspace_symbols() end, "LSP Workspace Symbols")
 
         map('gD', vim.lsp.buf.declaration, 'Goto [D]eclaration')
         map(']d', vim.diagnostic.goto_next, 'Next diagnostic')

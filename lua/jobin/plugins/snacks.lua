@@ -88,8 +88,8 @@ return {
   opts = {
     bigfile = { enabled = true },
     statuscolumn = { enabled = true },
-    picker = { enabled = true },
-    explorer = { enabled = true },
+    -- picker = { enabled = true },
+    -- explorer = { enabled = true },
     notifier = {
       enabled = true,
       timeout = 3000,
