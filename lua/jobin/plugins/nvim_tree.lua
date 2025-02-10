@@ -1,5 +1,5 @@
 -- mappings
-vim.keymap.set('n', '<leader>e', '<cmd>lua require("nvim-tree.api").tree.toggle({find_file=true, path=require("jobin.config.custom.utils").get_git_root_buf() or vim.fn.expand("%:p:h")})<cr>', { desc = 'Open Explorer' })
+vim.keymap.set('n', '<leader>e', '<cmd>lua require("nvim-tree.api").tree.toggle({find_file=true, path=require("jobin.config.custom.git").get_git_root_buf() or vim.fn.expand("%:p:h")})<cr>', { desc = 'Open Explorer' })
 vim.keymap.set('n', '<leader>E', '<cmd>lua require("nvim-tree.api").tree.toggle({file_file=true, path=vim.loop.cwd()})<cr>', { desc = 'Open Explorer (cwd)' })
 
 return {
@@ -31,6 +31,11 @@ return {
       view = {
         relativenumber = true,
       },
+      renderer = {
+        indent_markers = {
+          enable = true,
+        }
+      }
     })
   end,
 }
