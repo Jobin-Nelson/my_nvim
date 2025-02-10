@@ -36,7 +36,7 @@ end
 function M.move_file()
   local from_bufnr = vim.api.nvim_get_current_buf()
   local from = vim.api.nvim_buf_get_name(0)
-  local root = require('jobin.config.custom.utils').get_git_root_buf() or vim.uv.cwd()
+  local root = require('jobin.config.custom.git').get_git_root_buf() or vim.uv.cwd()
   local find_directory = function(opts, ctx)
     ---@diagnostic disable-next-line: missing-fields
     return require("snacks.picker.source.proc").proc({

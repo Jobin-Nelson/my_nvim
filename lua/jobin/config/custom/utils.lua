@@ -1,6 +1,16 @@
 -- Major shoutout to
 -- https://github.com/ibhagwan/nvim-lua/blob/main/lua/utils.lua
 
+
+---@class FWinOpts
+---@field width integer?
+---@field height integer?
+---@field buf integer
+
+---@class JWin
+---@field buf integer
+---@field win integer
+
 local M = {}
 
 local function is_valid_buf(buf)
@@ -101,41 +111,6 @@ M.start_journal = function()
   vim.cmd('lcd ' .. second_brain)
   vim.opt_local.wrap = true
   vim.opt_local.linebreak = true
-end
-
----@param cwd? string
----@return string|nil
-local function get_git_root(cwd)
-  local git_root = vim.fs.find('.git', { path = cwd, upward = true })[1]
-  return git_root and vim.fn.fnamemodify(git_root, ':h') or nil
-end
-
----@return string|nil
-function M.get_git_root_buf()
-  local parent = vim.fs.dirname(vim.api.nvim_buf_get_name(0))
-  return get_git_root(parent)
-end
-
-function M.cd_git_root()
-  local git_root = M.get_git_root_buf()
-  if not git_root then
-    vim.notify(
-      'Not a git repo: ' .. vim.fn.expand('%:p:h'),
-      vim.log.levels.WARN,
-      { title = 'Git' }
-    )
-    return
-  end
-  if git_root == vim.uv.cwd() then
-    vim.notify('Already at git root: ' .. git_root, vim.log.levels.INFO, { title = 'Git' })
-    return
-  end
-  if vim.uv.fs_stat(git_root) then
-    vim.cmd('lcd ' .. git_root)
-    vim.notify('Directory changed to ' .. git_root, vim.log.levels.INFO, { title = 'Git' })
-  else
-    error(git_root .. ' not accessible')
-  end
 end
 
 function M.leet()
@@ -313,6 +288,54 @@ function M.titleCase()
   local input = vim.api.nvim_buf_get_text(0, start_pos[1] - 1, start_pos[2], end_pos[1] - 1, end_pos[2] + 1, {})
   local output = vim.tbl_map(titleCaseLine, input)
   vim.api.nvim_buf_set_text(0, start_pos[1] - 1, start_pos[2], end_pos[1] - 1, end_pos[2] + 1, output)
+end
+
+---@param opts FWinOpts
+---@return JWin
+function M.create_floating_window(opts)
+  opts = opts or {}
+  local width = opts.width or math.floor(vim.o.columns * 0.8)
+  local height = opts.height or math.floor(vim.o.lines * 0.8)
+
+  local col = math.floor((vim.o.columns - width) / 2)
+  local row = math.floor((vim.o.lines - height) / 2)
+
+  local buf = vim.api.nvim_buf_is_valid(opts.buf)
+      and opts.buf or vim.api.nvim_create_buf(false, true)
+  local win = vim.api.nvim_open_win(buf, true, {
+    relative = 'editor',
+    width = width,
+    height = height,
+    col = col,
+    row = row,
+    style = 'minimal',
+    border = 'rounded',
+  })
+
+  return { buf = buf, win = win }
+end
+
+---@param buf integer
+---@return JWin
+function M.create_bottom_window(buf)
+  buf = vim.api.nvim_buf_is_valid(buf)
+      and buf or vim.api.nvim_create_buf(false, true)
+  vim.cmd(('botright sb%s'):format(buf))
+  local win = vim.api.nvim_get_current_win()
+
+  local options = {
+    number = false,
+    relativenumber = false,
+    winfixheight = true,
+  }
+
+  vim.schedule(function()
+    for field, value in pairs(options) do
+      vim.api.nvim_set_option_value(field, value, { scope = 'local', win = win })
+    end
+  end)
+
+  return { buf = buf, win = win }
 end
 
 -- vim.keymap.set({ 'n', 'v' }, '<leader>rt', function() M.titleCase() end)
