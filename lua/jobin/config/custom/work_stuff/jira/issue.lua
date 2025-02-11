@@ -78,7 +78,7 @@ function M.get()
 end
 
 function M.open()
-  local id = jira.get_id_summary(vim.fn.getline('.'))
+  local id = vim.api.nvim_get_current_line():match('%[([A-Z]+%-%d+)%]')
   if not id then
     return jira.notify('Ticket ID not present in current line')
   end
