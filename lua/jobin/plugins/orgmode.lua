@@ -23,8 +23,8 @@ return {
       mappings = {
         org_return_uses_meta_return = true,
         org = {
-          org_forward_heading_same_level = ']n',
-          org_backward_heading_same_level = '[p',
+          org_forward_heading_same_level = ']}',
+          org_backward_heading_same_level = '[{',
         },
       },
       org_capture_templates = {

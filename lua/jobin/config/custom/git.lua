@@ -1,5 +1,5 @@
 ---@class Git.State
----@field url_patterns? table<string, table<string, string|fun(fields:snacks.gitbrowse.Fields):string>>
+---@field url_patterns? table<string, table<string, string|fun(fields:Git.Fields):string>>
 
 ---@class Git.Fields
 ---@field branch? string
