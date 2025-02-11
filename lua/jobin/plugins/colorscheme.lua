@@ -59,25 +59,6 @@ return {
     end
   },
   {
-    'sainnhe/gruvbox-material',
-    -- lazy = false,
-    -- priority = 1000,
-    config = function()
-      vim.g.gruvbox_material_background = 'hard'
-      vim.g.gruvbox_material_enable_italic = true
-      vim.g.gruvbox_material_enable_bold = true
-      vim.g.gruvbox_material_transparent_background = 0
-      vim.g.gruvbox_material_dim_inactive_windows = 1
-      vim.g.gruvbox_material_float_style = 'dim'
-      vim.g.gruvbox_material_better_performance = 1
-      vim.g.gruvbox_material_colors_override = {
-        bg_dim = { '#151515', '232' },
-        bg0 = { '#101010', '234' },
-      }
-      vim.cmd.colorscheme('gruvbox-material')
-    end
-  },
-  {
     'EdenEast/nightfox.nvim',
     -- lazy = false,
     -- priority = 1000,
@@ -96,4 +77,21 @@ return {
       vim.cmd('colorscheme terafox')
     end,
   },
+  {
+    "neanias/everforest-nvim",
+    version = false,
+    -- lazy = false,
+    -- priority = 1000, -- make sure to load this before all the other start plugins
+    -- Optional; default configuration will be used if setup isn't called.
+    config = function()
+      require("everforest").setup({
+        -- Your config here
+        -- colours_override = function(palette)
+        --   palette.bg_dim = "#151515"
+        --   palette.bg0 = "#202025"
+        -- end
+      })
+      vim.cmd('colorscheme everforest')
+    end,
+  }
 }
