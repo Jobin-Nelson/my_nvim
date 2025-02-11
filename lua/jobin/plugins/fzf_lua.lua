@@ -87,6 +87,12 @@ return {
 
     require("fzf-lua").setup({
       "default-title",
+      winopts = {
+        preview = {
+          vertical = "down:45%",
+          horizontal = "right:45%",
+        },
+      },
       defaults = {
         git_icons = false,
         file_icons = false,

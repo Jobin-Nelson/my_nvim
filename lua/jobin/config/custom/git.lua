@@ -108,7 +108,7 @@ local function get_repo(remote, opts)
 end
 
 ---@param repo string
----@param fields snacks.gitbrowse.Fields
+---@param fields Git.Fields
 ---@param opts? Git.State
 ---@return string
 local function get_url(repo, fields, opts)

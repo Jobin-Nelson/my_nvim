@@ -98,7 +98,7 @@ M.fzf_move_file = function(opts)
     }
   }
   opts = vim.tbl_deep_extend('force', default_opts, opts or {})
-  local cwd = require('jobin.config.custom.utils').get_git_root_buf() or vim.uv.cwd()
+  local cwd = require('jobin.config.custom.git').get_git_root_buf() or vim.uv.cwd()
   local cmd = string.format(
     [[find %s \( -path '*/.git' -o -path '*/.obsidian' -o -path '*/node_modules' -o -path '*/.venv' \) -prune -o -type d -print]],
     cwd)
