@@ -5,17 +5,17 @@ map('n', '<leader>fB', '<cmd>FzfLua builtin<cr>', { desc = 'Find Builtins' })
 map('n', '<leader>fr', '<cmd>FzfLua oldfiles<cr>', { desc = 'Find Recent files' })
 map('n', '<leader>fb', '<cmd>FzfLua buffers<cr>', { desc = 'Find Buffers' })
 map('n', '<leader>ff',
-  '<cmd>lua require("fzf-lua").files({cwd=require("jobin.config.custom.utils").get_git_root_buf()})<cr>',
+  '<cmd>lua require("fzf-lua").files({cwd=require("jobin.config.custom.git").get_git_root_buf()})<cr>',
   { desc = 'Find Files' })
 map('n', '<leader>fF', '<cmd>FzfLua files<cr>', { desc = 'Find Files (cwd)' })
 map('n', '<leader>fg',
-  '<cmd>lua require("fzf-lua").git_files({cwd=require("jobin.config.custom.utils").get_git_root_buf()})<cr>',
+  '<cmd>lua require("fzf-lua").git_files({cwd=require("jobin.config.custom.git").get_git_root_buf()})<cr>',
   { desc = 'Find Git Files' })
 map('n', '<leader>fG', '<cmd>FzfLua git_files<cr>', { desc = 'Find Git Files (cwd)' })
 map('n', '<leader>fh', '<cmd>FzfLua helptags<cr>', { desc = 'Find Help' })
 map('n', '<leader>fc', '<cmd>FzfLua grep_cword<cr>', { desc = 'Find word under Cursor' })
 map('n', '<leader>fw',
-  '<cmd>lua require("fzf-lua").live_grep_glob({cwd=require("jobin.config.custom.utils").get_git_root_buf()})<cr>',
+  '<cmd>lua require("fzf-lua").live_grep_glob({cwd=require("jobin.config.custom.git").get_git_root_buf()})<cr>',
   { desc = 'Find words (root)' })
 map('n', '<leader>fW', '<cmd>FzfLua live_grep_glob<cr>', { desc = 'Find words (cwd)' })
 map('n', '<leader>fC', '<cmd>FzfLua commands<cr>', { desc = 'Find Commands' })
