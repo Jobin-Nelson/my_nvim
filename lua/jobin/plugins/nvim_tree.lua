@@ -1,6 +1,10 @@
 -- mappings
-vim.keymap.set('n', '<leader>e', '<cmd>lua require("nvim-tree.api").tree.toggle({find_file=true, path=require("jobin.config.custom.git").get_git_root_buf() or vim.fn.expand("%:p:h")})<cr>', { desc = 'Open Explorer' })
-vim.keymap.set('n', '<leader>E', '<cmd>lua require("nvim-tree.api").tree.toggle({file_file=true, path=vim.loop.cwd()})<cr>', { desc = 'Open Explorer (cwd)' })
+vim.keymap.set('n', '<leader>e',
+  '<cmd>lua require("nvim-tree.api").tree.toggle({find_file=true, path=require("jobin.config.custom.git").get_git_root_buf() or vim.fn.expand("%:p:h")})<cr>',
+  { desc = 'Open Explorer' })
+vim.keymap.set('n', '<leader>E',
+  '<cmd>lua require("nvim-tree.api").tree.toggle({file_file=true, path=vim.loop.cwd()})<cr>',
+  { desc = 'Open Explorer (cwd)' })
 
 return {
   'nvim-tree/nvim-tree.lua',
@@ -13,7 +17,7 @@ return {
       local api = require('nvim-tree.api')
 
       local function opts(desc)
-        return { desc='nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+        return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
       end
 
       api.config.mappings.default_on_attach(bufnr)
@@ -34,8 +38,10 @@ return {
       renderer = {
         indent_markers = {
           enable = true,
-        }
-      }
+        },
+      },
+      git = { enable = false },
+      diagnostics = { enable = false },
     })
   end,
 }

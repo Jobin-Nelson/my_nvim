@@ -58,9 +58,10 @@ return {
           'Goto [I]mplementation')
         map('gy', '<cmd>FzfLua lsp_typedefs jump_to_single_result=true ignore_current_line=true<cr>',
           'Goto T[y]pe Definition')
-        map('<leader>ld', '<cmd>FzfLua diagnostics_document jump_to_single_result=true ignore_current_line=true<cr>',
-          'Open diagnostic list')
-        map('<leader>ls', '<cmd>FzfLua lsp_document_symbols jump_to_single_result=true ignore_current_line=true<cr>',
+        map('<leader>ld', '<cmd>FzfLua diagnostics_document jump_to_single_result=true<cr>',
+          'Open [D]iagnostic Buffer')
+        map('<leader>lD', '<cmd>FzfLua diagnostics_workspace<cr>', 'Open [D]iagnostics Workspace')
+        map('<leader>ls', '<cmd>FzfLua lsp_document_symbols jump_to_single_result=true<cr>',
           'Lsp Document Symbols')
         map('<leader>lS',
           '<cmd>FzfLua lsp_live_workspace_symbols jump_to_single_result=true ignore_current_line=true<cr>',
