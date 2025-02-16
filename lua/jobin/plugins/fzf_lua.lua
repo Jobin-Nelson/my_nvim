@@ -139,6 +139,11 @@ return {
         builtin = {
           syntax_limit_b = 1024 * 100, -- 100KB
         }
+      },
+      hls = {
+        backdrop = 'Normal',
+        border = 'Normal',
+        preview_border = 'Normal',
       }
     })
 

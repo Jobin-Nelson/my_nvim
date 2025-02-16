@@ -50,21 +50,21 @@ return {
         map('gra', vim.lsp.buf.code_action, 'Lsp code Action')
 
         -- Fzf mappings
-        map('gd', '<cmd>FzfLua lsp_definitions jump_to_single_result=true ignore_current_line=true<cr>',
+        map('gd', '<cmd>FzfLua lsp_definitions jump1=true ignore_current_line=true<cr>',
           'Goto [D]efinition')
-        map('grr', '<cmd>FzfLua lsp_references jump_to_single_result=true ignore_current_line=true<cr>',
+        map('grr', '<cmd>FzfLua lsp_references jump1=true ignore_current_line=true<cr>',
           'Goto [R]eferences')
-        map('gri', '<cmd>FzfLua lsp_implementations jump_to_single_result=true ignore_current_line=true<cr>',
+        map('gri', '<cmd>FzfLua lsp_implementations jump1=true ignore_current_line=true<cr>',
           'Goto [I]mplementation')
-        map('gy', '<cmd>FzfLua lsp_typedefs jump_to_single_result=true ignore_current_line=true<cr>',
+        map('gy', '<cmd>FzfLua lsp_typedefs jump1=true ignore_current_line=true<cr>',
           'Goto T[y]pe Definition')
-        map('<leader>ld', '<cmd>FzfLua diagnostics_document jump_to_single_result=true<cr>',
+        map('<leader>ld', '<cmd>FzfLua diagnostics_document jump1=true<cr>',
           'Open [D]iagnostic Buffer')
         map('<leader>lD', '<cmd>FzfLua diagnostics_workspace<cr>', 'Open [D]iagnostics Workspace')
-        map('<leader>ls', '<cmd>FzfLua lsp_document_symbols jump_to_single_result=true<cr>',
+        map('<leader>ls', '<cmd>FzfLua lsp_document_symbols jump1=true<cr>',
           'Lsp Document Symbols')
         map('<leader>lS',
-          '<cmd>FzfLua lsp_live_workspace_symbols jump_to_single_result=true ignore_current_line=true<cr>',
+          '<cmd>FzfLua lsp_live_workspace_symbols jump1=true ignore_current_line=true<cr>',
           'Lsp Workspace Symbols')
 
         -- Snacks mappings
