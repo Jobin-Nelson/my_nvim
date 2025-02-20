@@ -90,6 +90,9 @@ return {
         --   palette.bg_dim = "#151515"
         --   palette.bg0 = "#202025"
         -- end
+        on_highlights = function(hl, palette)
+          hl.FloatBorder = { bg = palette.none }
+        end
       })
       vim.cmd('colorscheme everforest')
     end,
