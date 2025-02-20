@@ -72,6 +72,12 @@ return {
           },
           modules = integrations,
         },
+        groups = {
+          all = {
+            BlinkCmpDoc = { bg = "NONE" },
+            BlinkCmpDocBorder = { bg = "NONE" },
+          }
+        }
       })
 
       vim.cmd('colorscheme terafox')
@@ -81,9 +87,9 @@ return {
     "neanias/everforest-nvim",
     version = false,
     -- lazy = false,
-    -- priority = 1000, -- make sure to load this before all the other start plugins
-    -- Optional; default configuration will be used if setup isn't called.
+    -- priority = 1000,
     config = function()
+      ---@diagnostic disable-next-line: missing-fields
       require("everforest").setup({
         -- Your config here
         -- colours_override = function(palette)
@@ -92,6 +98,7 @@ return {
         -- end
         on_highlights = function(hl, palette)
           hl.FloatBorder = { bg = palette.none }
+          hl.NormalFloat = { bg = palette.none }
         end
       })
       vim.cmd('colorscheme everforest')
