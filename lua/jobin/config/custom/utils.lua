@@ -266,14 +266,16 @@ function M.shellsplit(text)
   return words
 end
 
-function M.titleCase()
-  ---@param line string
-  ---@return string
-  ---@return integer
-  local function titleCaseLine(line)
-    return string.gsub(line, '%f[%l].', string.upper)
-  end
+---@param line string
+---@return string
+---@return integer
+function M.titleCaseLine(line)
+  return line:gsub("(%a)([%w_']*)", function(first, rest)
+    return first:upper() .. rest:lower()
+  end)
+end
 
+function M.titleCase()
   -- if not in visual apply on current line
   -- if vim.api.nvim_get_mode()['mode']:lower() ~= 'v' then
   --   return vim.api.nvim_set_current_line(titleCaseLine(vim.api.nvim_get_current_line()))
@@ -287,7 +289,7 @@ function M.titleCase()
   end
 
   local input = vim.api.nvim_buf_get_text(0, start_pos[1] - 1, start_pos[2], end_pos[1] - 1, end_pos[2] + 1, {})
-  local output = vim.tbl_map(titleCaseLine, input)
+  local output = vim.tbl_map(M.titleCaseLine, input)
   vim.api.nvim_buf_set_text(0, start_pos[1] - 1, start_pos[2], end_pos[1] - 1, end_pos[2] + 1, output)
 end
 
