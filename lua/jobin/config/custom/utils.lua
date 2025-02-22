@@ -64,6 +64,25 @@ M.rename_file = function(target_dir)
       return
     end
 
+    local changes = {
+      files = { {
+        oldUri = vim.uri_from_fname(original_filename),
+        newUri = vim.uri_from_fname(new_filename)
+      } }
+    }
+
+    -- Let lsp know about the rename
+    local clients = vim.lsp.get_clients({ bufnr = original_bufnr })
+    for _, client in ipairs(clients) do
+      if client.supports_method("workspace/willRenameFiles") then
+        local res = client.request_sync("workspace/willRenameFiles", changes, 1000, original_bufnr)
+        if res and res.result ~= nil then
+          vim.lsp.util.apply_workspace_edit(res.result, client.offset_encoding)
+        end
+      end
+    end
+
+    -- Move the file
     os.rename(original_filename, new_filename)
     vim.cmd('keepalt edit ' .. new_filename)
     local new_bufnr = vim.api.nvim_get_current_buf()
@@ -71,8 +90,15 @@ M.rename_file = function(target_dir)
     for _, win_id in ipairs(vim.fn.win_findbuf(original_bufnr)) do
       vim.api.nvim_win_set_buf(win_id, new_bufnr)
     end
-    if vim.fn.bufexists(original_bufnr) then
+    if vim.api.nvim_buf_is_valid(original_bufnr) then
       vim.api.nvim_buf_delete(original_bufnr, { force = true })
+    end
+
+    -- Let lsp know that file has been renamed
+    for _, client in ipairs(clients) do
+      if client.supports_method("workspace/didRenameFiles") then
+        client.notify("workspace/didRenameFiles", changes)
+      end
     end
 
     vim.notify(
@@ -350,7 +376,7 @@ function M.create_bottom_window(buf)
   return { buf = buf, win = win }
 end
 
--- vim.keymap.set({ 'n', 'v' }, '<leader>rt', function() M.titleCase() end)
+-- vim.keymap.set({ 'n', 'v' }, '<leader>rt', function() M.rename_file() end)
 -- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 
 return M
