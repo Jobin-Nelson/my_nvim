@@ -12,10 +12,47 @@ return {
     'nvim-tree/nvim-web-devicons',
   },
   config = function()
-    -- setup
-    local function on_attach(bufnr)
-      local api = require('nvim-tree.api')
+    -- Lsp aware renames
+    local api = require("nvim-tree.api")
+    local Event = api.events.Event
 
+    api.events.subscribe(Event.WillRenameNode, function(data)
+      local changes = {
+        files = { {
+          oldUri = vim.uri_from_fname(data.old_name),
+          newUri = vim.uri_from_fname(data.new_name)
+        } }
+      }
+
+      -- Let lsp know about the rename
+      local clients = vim.lsp.get_clients()
+      for _, client in ipairs(clients) do
+        if client.supports_method("workspace/willRenameFiles") then
+          local res = client.request_sync("workspace/willRenameFiles", changes, 1000, 0)
+          if res and res.result ~= nil then
+            vim.lsp.util.apply_workspace_edit(res.result, client.offset_encoding)
+          end
+        end
+      end
+    end)
+    api.events.subscribe(Event.NodeRenamed, function(data)
+      local changes = {
+        files = { {
+          oldUri = vim.uri_from_fname(data.old_name),
+          newUri = vim.uri_from_fname(data.new_name)
+        } }
+      }
+      -- Let lsp know that file has been renamed
+      local clients = vim.lsp.get_clients()
+      for _, client in ipairs(clients) do
+        if client.supports_method("workspace/didRenameFiles") then
+          client.notify("workspace/didRenameFiles", changes)
+        end
+      end
+    end)
+
+    -- Setup h, l keybinds
+    local function on_attach(bufnr)
       local function opts(desc)
         return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
       end
