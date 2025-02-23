@@ -60,6 +60,10 @@ function M.toggle_transparency()
     vim.api.nvim_set_hl(0, "StatusLine", { bold = true })
     vim.api.nvim_set_hl(0, 'SignColumn', transparent_hl)
     -- vim.api.nvim_set_hl(0, 'WinSeparator', { cterm = nil })
+
+    vim.api.nvim_set_hl(0, 'NvimTreeNormal', { link = 'Normal' })
+    vim.api.nvim_set_hl(0, 'NvimTreeEndOfBuffer', { link = 'Normal' })
+
     msg = 'Transparency Enabled'
   end
 
