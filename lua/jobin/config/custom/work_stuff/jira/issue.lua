@@ -18,11 +18,11 @@ local function get_header_lines(fields, issue_id)
   end
 
   table.insert(lines, '** Description')
+  local function jira_list2org_list(hash)
+    return string.rep(' ', #hash - 1) .. '- '
+  end
   return vim.list_extend(lines, vim.tbl_map(
     function(description_line)
-      local function jira_list2org_list(hash)
-        return string.rep(' ', #hash - 1) .. '- '
-      end
       return '   ' .. description_line
           :gsub('\r', '')                         -- remove carriage return
           :gsub('{%*}', '*')                      -- remove curly braces

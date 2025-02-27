@@ -24,24 +24,16 @@ local function search(json_data)
 end
 
 ---@param jql string
----@param max_results integer
----@param fields string[]
----@return Issue[]
-local function get_search_results(jql, max_results, fields)
-  local data = {
-    ["jql"] = jql,
-    ["maxResults"] = max_results,
-    ["fields"] = fields,
-  }
-  return search(vim.json.encode(data)).issues
-end
-
----@param jql string
----@param max_limit integer?
+---@param max_results integer?
 ---@param fields string[]?
 ---@return Issue[]
-function M.query_jql(jql, max_limit, fields)
-  return get_search_results(jql, max_limit or 100, fields or { 'summary' })
+function M.query_jql(jql, max_results, fields)
+  local data = {
+    ["jql"] = jql,
+    ["maxResults"] = max_results or 100,
+    ["fields"] = fields or { 'summary' },
+  }
+  return search(vim.json.encode(data)).issues
 end
 
 function M.query()
