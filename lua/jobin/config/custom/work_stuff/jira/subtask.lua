@@ -1,4 +1,5 @@
 local jira = require('jobin.config.custom.work_stuff.jira')
+local jira_search = require('jobin.config.custom.work_stuff.jira.search')
 
 local M = {}
 
@@ -8,6 +9,16 @@ local function get_remote_subtask(issue_id)
   return vim.json.decode(jira.request(
     ('https://jira.illumina.com/rest/api/2/issue/%s/subtask'):format(issue_id)
   ))
+end
+
+---@param issue_id string
+---@return Issue[]
+function M.get_my_remote_subtask(issue_id)
+  return jira_search.query_jql(
+    ('parent = %s and assignee = currentUser()'):format(issue_id),
+    100,
+    { 'summary', 'issuetype' }
+  )
 end
 
 ---@param left_subtasks RLTask[]
@@ -49,7 +60,7 @@ local function get_local_subtask(cur_line_nr, cur_head_nr)
 end
 
 function M.get()
-  local cur_line_nr, cur_line = vim.fn.line('.'), vim.fn.getline('.')
+  local cur_line_nr, cur_line = vim.fn.line('.'), vim.api.nvim_get_current_line()
   if not cur_line:match('^%*+ %w+') then
     return jira.notify('Cursor not on a heading')
   end
@@ -59,7 +70,7 @@ function M.get()
   end
   local cur_head_nr = #cur_line:match('^(%*+)')
   local lines = vim.tbl_map(jira.task2Todo, missing_subtasks(
-    get_remote_subtask(issue_id),
+    M.get_my_remote_subtask(issue_id),
     get_local_subtask(cur_line_nr, cur_head_nr)
   ))
   local sub_task_line_nr = jira.child_match(

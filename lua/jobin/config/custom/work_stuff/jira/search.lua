@@ -6,8 +6,9 @@ local M = {}
 ---@return FilterResult
 local function filter(filter_id)
   return vim.json.decode(jira.request(
-     ('https://jira.illumina.com/rest/api/2/filter/%s')
-      :format(filter_id), {}))
+    ('https://jira.illumina.com/rest/api/2/filter/%s')
+    :format(filter_id), {}
+  ))
 end
 
 ---@param filter_id string
@@ -26,7 +27,7 @@ end
 ---@param max_results integer
 ---@param fields string[]
 ---@return Issue[]
-function M.get_search_results(jql, max_results, fields)
+local function get_search_results(jql, max_results, fields)
   local data = {
     ["jql"] = jql,
     ["maxResults"] = max_results,
@@ -35,29 +36,29 @@ function M.get_search_results(jql, max_results, fields)
   return search(vim.json.encode(data)).issues
 end
 
----@param jql string?
+---@param jql string
 ---@param max_limit integer?
----@return string[]?
-function M.query_jql(jql, max_limit)
-  if not jql then
-    jql = vim.fn.input({
-      prompt = 'JQL > ',
-      default = 'status not in (Done,Closed) AND assignee in (currentUser())',
-    })
-  end
-  if jql == '' then return end
-  local ok, results = pcall(M.get_search_results, jql, max_limit or 100, { 'summary' })
-  if not ok then
-    return jira.notify('Invalid JQL entered')
-  end
-  return vim.tbl_map(jira.issue2List, results)
+---@param fields string[]?
+---@return Issue[]
+function M.query_jql(jql, max_limit, fields)
+  return get_search_results(jql, max_limit or 100, fields or { 'summary' })
 end
 
 function M.query()
-  local results = M.query_jql()
+  local jql = vim.fn.input({
+    prompt = 'JQL > ',
+    default = 'status not in (Done,Closed) AND assignee in (currentUser())',
+  })
+  if jql == '' then return end
+  local results = M.query_jql(jql)
   if not results then return end
   local cur_line = vim.fn.line('.')
-  vim.api.nvim_buf_set_lines(0, cur_line, cur_line, false, results)
+  vim.api.nvim_buf_set_lines(0,
+    cur_line,
+    cur_line,
+    false,
+    vim.tbl_map(jira.issue2List, results)
+  )
 end
 
 function M.list_filter_issues()
@@ -66,7 +67,7 @@ function M.list_filter_issues()
       return jira.notify('Invalid filter_id entered')
     end
     local filter_jql = get_filter_jql(filter_id)
-    local search_results = M.get_search_results(filter_jql, 100, { 'summary' })
+    local search_results = M.query_jql(filter_jql)
     if vim.tbl_isempty(search_results) then
       return jira.notify('No issues found for this filter', vim.log.levels.WARN)
     end
@@ -79,7 +80,6 @@ function M.list_filter_issues()
     )
   end)
 end
-
 
 -- vim.keymap.set('n', '<leader>rt', M.populate_issue)
 -- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')

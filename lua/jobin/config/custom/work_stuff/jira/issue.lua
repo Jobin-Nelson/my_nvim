@@ -1,4 +1,5 @@
 local jira = require('jobin.config.custom.work_stuff.jira')
+local jira_subtask = require('jobin.config.custom.work_stuff.jira.subtask')
 
 local M = {}
 
@@ -37,7 +38,7 @@ end
 ---@return Issue
 local function get_issue(issue_id)
   return vim.json.decode(jira.request(string.format(
-    'https://jira.illumina.com/rest/api/2/issue/%s?fields=summary,description,issuetype,subtasks',
+    'https://jira.illumina.com/rest/api/2/issue/%s?fields=summary,description,issuetype',
     issue_id
   )))
 end
@@ -55,7 +56,7 @@ local function populate_issue_details(issue_id)
   local response = get_issue(issue_id)
   local lines = vim.iter({
     get_header_lines(response.fields, issue_id),
-    get_subtask_lines(response.fields.subtasks)
+    get_subtask_lines(jira_subtask.get_my_remote_subtask(issue_id)),
   }):flatten():totable()
 
   local line_nr = vim.fn.line('.')
@@ -85,6 +86,6 @@ function M.open()
   vim.ui.open(('https://jira.illumina.com/browse/%s'):format(id)):wait()
 end
 
--- vim.keymap.set('n', '<leader>rt', M.open)
+-- vim.keymap.set('n', '<leader>rt', M.get)
 -- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 return M
