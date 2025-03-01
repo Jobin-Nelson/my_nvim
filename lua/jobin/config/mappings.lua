@@ -22,6 +22,7 @@ map('n', '[q', '<cmd>cprevious<cr>', { desc = 'Previous Quickfix' })
 map('n', ']q', '<cmd>cnext<cr>', { desc = 'Next Quickfix' })
 map('n', '[b', '<cmd>bprevious<cr>', { desc = 'Next Buffer' })
 map('n', ']b', '<cmd>bnext<cr>', { desc = 'Previous Buffer' })
+map('n', '<C-w>m', '<cmd>wincmd | | wincmd _<cr>', { desc = 'Zoom Window' })
 
 -- Buffer
 map('n', '<leader>bo', '<cmd>update <bar> %bdelete <bar> edit# <bar> bdelete #<CR>', { desc = 'Delete Other buffers' })
