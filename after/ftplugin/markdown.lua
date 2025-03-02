@@ -6,9 +6,9 @@ local function toggle_checkbox()
   local line = vim.api.nvim_get_current_line()
   local new_line
   if line:match('^%s*%- %[ %]') then
-    new_line = line:gsub('%[ %]', '[x]', 1)
-  elseif line:match('^%s*%- %[x%]') then
-    new_line = line:gsub('%[x%]', '[ ]', 1)
+    new_line = line:gsub('%[ %]', '[X]', 1)
+  elseif line:match('^%s*%- %[X%]') then
+    new_line = line:gsub('%[X%]', '[ ]', 1)
   else
     return vim.notify(
       'Current line not a checkbox',

@@ -47,9 +47,7 @@ map('n', '<leader>fd', function()
     "git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME ls-tree --name-only --full-tree -r HEAD"
   })
 end, { desc = 'Find Dotfiles' })
-map('n', '<leader>fz', function()
-  require("jobin.config.custom.fzf.pickers").fzf_cd_dir("zoxide query -l")
-end, { desc = 'Find Zoxide' })
+map('n', '<leader>fz', function() require('fzf-lua').zoxide() end, { desc = 'Find Zoxide' })
 map('n', '<leader>fp', function()
   require("jobin.config.custom.fzf.pickers").fzf_cd_dir("find ~/playground/projects -maxdepth 1 -mindepth 1 -type d")
 end, { desc = 'Find Projects' })
@@ -103,6 +101,10 @@ return {
 
     require("fzf-lua").setup({
       "default-title",
+      fzf_opts= {
+        ["--style"] = 'default',
+        ["--info"] = 'inline-right',
+      },
       winopts = {
         preview = {
           vertical = "down:45%",
