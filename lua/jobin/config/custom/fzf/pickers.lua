@@ -151,7 +151,13 @@ end
 ---@param jql string?
 ---@param maxlimit integer?
 M.fzf_search_jira = function(jql, maxlimit)
+  if not jql or jql == '' then
+    return vim.notify('JQL is empty, aborting', vim.log.levels.WARN, { title = 'FZF' })
+  end
+
   local search = require('jobin.config.custom.work_stuff.jira.search')
+  local jira = require('jobin.config.custom.work_stuff.jira')
+
   local opts = {
     prompt = "Issues ❯ ",
     winopts = {
@@ -170,8 +176,13 @@ M.fzf_search_jira = function(jql, maxlimit)
       end
     },
   }
-  local results = search.query_jql(jql, maxlimit or 500)
-  if not results then return end
+  local results = search.query_jql2list(jql, maxlimit or 500)
+  if vim.tbl_isempty(results) then
+    return jira.notify(
+      ('No issues found for JQL: %s'):format(jql),
+      vim.log.levels.INFO
+    )
+  end
   fzf_lua.fzf_exec(results, opts)
 end
 

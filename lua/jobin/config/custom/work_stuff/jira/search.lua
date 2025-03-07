@@ -1,3 +1,5 @@
+-- https://support.atlassian.com/jira-service-management-cloud/docs/use-advanced-search-with-jira-query-language-jql/
+
 local jira = require('jobin.config.custom.work_stuff.jira')
 
 local M = {}
@@ -30,10 +32,17 @@ end
 function M.query_jql(jql, max_results, fields)
   local data = {
     ["jql"] = jql,
+    ["startAt"] = 0,
     ["maxResults"] = max_results or 100,
     ["fields"] = fields or { 'summary' },
   }
   return search(vim.json.encode(data)).issues
+end
+
+---@param jql string
+---@param max_results integer?
+function M.query_jql2list(jql, max_results)
+  return vim.tbl_map(jira.issue2List, M.query_jql(jql, max_results or 100))
 end
 
 function M.query()
@@ -42,14 +51,17 @@ function M.query()
     default = 'status not in (Done,Closed) AND assignee in (currentUser())',
   })
   if jql == '' then return end
-  local results = M.query_jql(jql)
-  if not results then return end
+
+  local results = M.query_jql2list(jql)
+  if vim.tbl_isempty(results) then
+    return jira.notify(('No issues found for JQL: %s'):format(jql), vim.log.levels.WARN)
+  end
   local cur_line = vim.fn.line('.')
   vim.api.nvim_buf_set_lines(0,
     cur_line,
     cur_line,
     false,
-    vim.tbl_map(jira.issue2List, results)
+    results
   )
 end
 
@@ -59,16 +71,16 @@ function M.list_filter_issues()
       return jira.notify('Invalid filter_id entered')
     end
     local filter_jql = get_filter_jql(filter_id)
-    local search_results = M.query_jql(filter_jql)
+    local search_results = M.query_jql2list(filter_jql)
     if vim.tbl_isempty(search_results) then
-      return jira.notify('No issues found for this filter', vim.log.levels.WARN)
+      return jira.notify(('No issues found for filter: %s'):format(filter_id), vim.log.levels.WARN)
     end
     local line_nr = vim.fn.line('.')
     vim.api.nvim_buf_set_lines(0,
       line_nr,
       line_nr,
       false,
-      vim.tbl_map(jira.issue2List, search_results)
+      search_results
     )
   end)
 end
