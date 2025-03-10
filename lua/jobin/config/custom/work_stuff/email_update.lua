@@ -1,5 +1,3 @@
-local utils = require('jobin.config.custom.utils')
-
 ---@param current_update string
 ---@return boolean
 local function has_previous_update(current_update)
