@@ -39,10 +39,14 @@ map('n', '<leader>pm', '<cmd>Mason<cr>', { desc = 'Mason Installer' })
 -- Terminal
 map('t', '<C-w>', '<C-\\><C-n><C-w>', { desc = 'Terminal window command' })
 map('t', '<esc><esc>', '<C-\\><C-n>', { desc = 'Terminal normal mode' })
-map({'n', 't'}, '<C-/>', function() require("jobin.config.custom.terminal").toggle_term() end, { desc = 'Toggle foating terminal' })
-map({'n', 't'}, '<C-_>', function() require("jobin.config.custom.terminal").toggle_term() end, { desc = 'which_key_ignore' })
-map('n', "<A-s>", function() require("jobin.config.custom.terminal").send_lines_term('normal') end, { desc = "Send lines to terminal" })
-map('v', "<A-s>", function() require("jobin.config.custom.terminal").send_lines_term('visual') end, { desc = "Send lines to terminal" })
+map({ 'n', 't' }, '<C-/>', function() require("jobin.config.custom.terminal").toggle_term() end,
+  { desc = 'Toggle foating terminal' })
+map({ 'n', 't' }, '<C-_>', function() require("jobin.config.custom.terminal").toggle_term() end,
+  { desc = 'which_key_ignore' })
+map('n', "<A-s>", function() require("jobin.config.custom.terminal").send_lines_term('normal') end,
+  { desc = "Send lines to terminal" })
+map('v', "<A-s>", function() require("jobin.config.custom.terminal").send_lines_term('visual') end,
+  { desc = "Send lines to terminal" })
 
 -- UI
 map('n', '<leader>ur', '<cmd>nohlsearch <bar> diffupdate <bar> normal! <C-L><CR>', { desc = 'UI Refresh' })
@@ -70,7 +74,7 @@ map('n', '<leader>jc', '<cmd>lua require("jobin.config.custom.git").cd_git_root(
 map('n', '<leader>jr', '<cmd>lua require("jobin.config.custom.utils").rename_file()<cr>', { desc = 'Rename File' })
 map('n', '<leader>jl', '<cmd>lua require("jobin.config.custom.utils").leet()<cr>', { desc = 'Leetcode Daily' })
 map('v', '<leader>jt', ':lua require("jobin.config.custom.utils").titleCase()<cr>', { desc = 'TitleCase' })
-map('v', '<leader>gB', function() require('jobin.config.custom.git').open() end, { desc = 'Git Browse' })
+map({ 'n', 'v' }, '<leader>gB', function() require('jobin.config.custom.git').open() end, { desc = 'Git Browse' })
 -- map('n', '<leader>jj', '<cmd>lua require("jobin.config.custom.utils").start_journal()<cr>', { desc = 'Start Journal' })
 -- map('n', '<leader>jt', '<cmd>lua require("jobin.config.custom.org_tangle").tangle()<cr>', { desc = 'Org Tangle' })
 
