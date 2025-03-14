@@ -17,7 +17,6 @@ return {
             progress_icon = { pattern = 'meter', period = 1 },
           },
         },
-
         notification = {
           poll_rate = 60, -- FPS
           view = {
@@ -25,7 +24,6 @@ return {
             icon_separator = " ",
             group_separator = "---",
           },
-
           window = {
             normal_hl = "Comment", -- Base highlight group in the notification window
             winblend = 0,          -- Background color opacity in the notification window
@@ -95,14 +93,13 @@ return {
 
     -- Diagnostics icons
     local icons = require('jobin.config.icons')
-    local default_diagnostic_config = {
+    vim.diagnostic.config {
       signs = {
-        active = true,
-        values = {
-          { name = "DiagnosticSignError", text = icons.diagnostics.BoldError },
-          { name = "DiagnosticSignWarn",  text = icons.diagnostics.BoldWarning },
-          { name = "DiagnosticSignHint",  text = icons.diagnostics.BoldHint },
-          { name = "DiagnosticSignInfo",  text = icons.diagnostics.BoldInformation },
+        text = {
+          [vim.diagnostic.severity.ERROR] = icons.diagnostics.BoldError,
+          [vim.diagnostic.severity.WARN] = icons.diagnostics.BoldWarning,
+          [vim.diagnostic.severity.HINT] = icons.diagnostics.BoldHint,
+          [vim.diagnostic.severity.INFO] = icons.diagnostics.BoldInformation,
         },
       },
       virtual_text = true,
@@ -113,13 +110,11 @@ return {
         focusable = true,
         style = "minimal",
         border = "rounded",
-        source = "always",
+        source = true,
         header = "",
         prefix = "",
       },
     }
-
-    vim.diagnostic.config(default_diagnostic_config)
 
     for _, sign in ipairs(vim.tbl_get(vim.diagnostic.config(), "signs", "values") or {}) do
       vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
