@@ -123,7 +123,7 @@ setup_colors() {
 }
 
 msg() {
-  echo >&2 -e "${1-}"
+  echo >&2 -e "${GREEN}${1-}${NOFORMAT}"
 }
 
 die() {

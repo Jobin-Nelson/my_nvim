@@ -106,7 +106,7 @@ M.fzf_move_file = function(opts)
 end
 
 M.fzf_second_brain = function()
-  local second_brain = "~/playground/projects/second_brain"
+  local second_brain = "~/playground/second_brain"
   fzf_lua.files({
     cwd = second_brain,
     actions = {

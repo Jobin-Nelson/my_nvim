@@ -75,6 +75,9 @@ map('n', '<leader>jr', '<cmd>lua require("jobin.config.custom.utils").rename_fil
 map('n', '<leader>jl', '<cmd>lua require("jobin.config.custom.utils").leet()<cr>', { desc = 'Leetcode Daily' })
 map('v', '<leader>jt', ':lua require("jobin.config.custom.utils").titleCase()<cr>', { desc = 'TitleCase' })
 map({ 'n', 'v' }, '<leader>gB', function() require('jobin.config.custom.git').open() end, { desc = 'Git Browse' })
+map('n', '<leader>Ls', function() require('jobin.config.custom.lsp').stop_lsp() end, { desc = 'Stop all LSP clients' })
+map('n', '<leader>Li', function() require('jobin.config.custom.lsp').stop_inactive_lsp() end, { desc = 'Stop inactive LSP clients' })
+map('n', '<leader>Lp', function() require('jobin.config.custom.lsp').get_all_lsp() end, { desc = 'Get all LSP clients' })
 -- map('n', '<leader>jj', '<cmd>lua require("jobin.config.custom.utils").start_journal()<cr>', { desc = 'Start Journal' })
 -- map('n', '<leader>jt', '<cmd>lua require("jobin.config.custom.org_tangle").tangle()<cr>', { desc = 'Org Tangle' })
 

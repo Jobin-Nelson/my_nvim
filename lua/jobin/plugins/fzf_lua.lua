@@ -41,6 +41,7 @@ end, { desc = 'Find Config' })
 map('n', '<leader>fd', function()
   require("fzf-lua").files({
     cwd = "$HOME",
+    hidden = false,
     cwd_prompt = false,
     prompt = "~/",
     cmd =
@@ -54,7 +55,7 @@ end, { desc = 'Find Projects' })
 map('n', '<leader>fP', '<cmd>FzfLua profiles<cr>', { desc = 'Find profiles' })
 map('n', '<leader>fl', function()
   require("fzf-lua").files({ cwd = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy") })
-end, { desc = 'Find profiles' })
+end, { desc = 'Find plugin' })
 map('n', '<leader>fM', function()
   require("jobin.config.custom.fzf.pickers").fzf_move_file()
 end, { desc = 'Move File' })
@@ -68,7 +69,7 @@ map('n', '<leader>fss', function()
 end, { desc = 'Find Second brain files' })
 map('n', '<leader>fsi', function()
   require("jobin.config.custom.fzf.pickers").fzf_read_file({ cwd =
-  "~/playground/projects/second_brain/Resources/Templates/" })
+  "~/playground/second_brain/Resources/Templates/" })
 end, { desc = 'Insert Second brain Templates' })
 
 -- Work

@@ -93,7 +93,7 @@ function M.move_file()
 end
 
 function M.second_brain()
-  local second_brain_path = "~/playground/projects/second_brain/"
+  local second_brain_path = "~/playground/second_brain"
   Snacks.picker.files({
     cwd = second_brain_path,
     win = {
@@ -116,7 +116,7 @@ function M.second_brain()
 end
 
 function M.second_brain_template()
-  local template_file_path = "~/playground/projects/second_brain/Resources/Templates"
+  local template_file_path = "~/playground/second_brain/Resources/Templates"
   Snacks.picker.files({
     cwd = template_file_path,
     confirm = function(picker, item)

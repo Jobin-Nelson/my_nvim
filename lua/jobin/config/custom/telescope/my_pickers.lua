@@ -8,7 +8,7 @@ local action_state = require('telescope.actions.state')
 local conf = require('telescope.config').values
 local dropdown_theme = require('telescope.themes').get_dropdown()
 
-local second_brain = vim.fs.normalize('~/playground/projects/second_brain')
+local second_brain = vim.fs.normalize('~/playground/second_brain')
 
 ---@return string[]
 local function get_dotfiles()
@@ -262,7 +262,7 @@ M.find_dotfiles = function()
 end
 
 M.find_journal = function()
-  local journal_dir = '~/playground/projects/second_brain/Resources/journal/'
+  local journal_dir = vim.fs.joinpath(second_brain, 'Resources', 'journal')
   require('telescope.builtin').live_grep({
     prompt_title = 'Find Journal',
     search_dirs = { journal_dir }

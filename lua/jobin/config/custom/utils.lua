@@ -123,7 +123,7 @@ M.rename_file = function(target_dir)
 end
 
 M.start_journal = function()
-  local second_brain = vim.fs.normalize("~/playground/projects/second_brain")
+  local second_brain = vim.fs.normalize("~/playground/second_brain")
   local journal_dir = second_brain .. '/Resources/journal'
   local template_file = second_brain .. '/Resources/Templates/daily_note_template.md'
 
