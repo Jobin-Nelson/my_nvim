@@ -82,7 +82,7 @@ map('n', '<leader>fiu',
 
 -- Orgmode
 map('n', '<leader>fot', function()
-  require("jobin.config.custom.fzf.pickers").fzf_org_live_grep("~/playground/projects/org_files")
+  require("jobin.config.custom.fzf.pickers").fzf_org_live_grep("~/playground/org_files")
 end, { desc = 'Org Todo grep' })
 map('n', '<leader>foT', function()
   require("jobin.config.custom.fzf.pickers").fzf_org_live_grep("~/playground/dev/illumina/ticket_notes/work_org_files")

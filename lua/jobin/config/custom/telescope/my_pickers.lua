@@ -164,7 +164,7 @@ end
 M.find_org_files = function()
   require('telescope.builtin').find_files({
     search_dirs = {
-      '~/playground/projects/org_files/',
+      '~/playground/org_files/',
       '~/playground/dev/illumina/ticket_notes/work_org_files/',
     },
     prompt_title = 'Org Files',
