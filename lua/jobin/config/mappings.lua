@@ -27,10 +27,10 @@ map('n', '<C-w>m', '<cmd>wincmd | | wincmd _<cr>', { desc = 'Zoom Window' })
 -- Buffer
 map('n', '<leader>bo', '<cmd>update <bar> %bdelete <bar> edit# <bar> bdelete #<CR>', { desc = 'Delete Other buffers' })
 map('n', '<leader>bk', '<cmd>call delete(expand("%:p")) <bar> bdelete!<cr>', { desc = 'Buffer Kill' })
-map('n', '<leader>bh', '<cmd>lua require("jobin.config.custom.utils").delete_hidden_buffers()<cr>',
+map('n', '<leader>bh', function() require('jobin.config.custom.utils').delete_hidden_buffers() end,
   { desc = 'Delete Hidden buffers' })
--- use snacks bufdelete
--- map('n', '<leader>bd', '<cmd>lua require("jobin.config.custom.utils").better_bufdelete()<cr>', { desc = 'Bufdelete' })
+map('n', '<leader>bd', function() require('jobin.config.custom.utils').better_bufdelete() end,
+  { desc = 'Better bufdelete' })
 
 -- Packages
 map('n', '<leader>ps', '<cmd>Lazy<cr>', { desc = 'Plugin Status' })
@@ -50,11 +50,11 @@ map('v', "<A-s>", function() require("jobin.config.custom.terminal").send_lines_
 
 -- UI
 map('n', '<leader>ur', '<cmd>nohlsearch <bar> diffupdate <bar> normal! <C-L><CR>', { desc = 'UI Refresh' })
-map('n', '<leader>ui', '<cmd>lua require("jobin.config.custom.ui").set_indent()<cr>', { desc = 'Set Indent' })
-map('n', '<leader>us', '<cmd>lua require("jobin.config.custom.ui").toggle_spell()<cr>', { desc = 'Toggle Spell' })
-map('n', '<leader>ud', '<cmd>lua require("jobin.config.custom.ui").toggle_diagnostics()<cr>',
+map('n', '<leader>ui', function() require("jobin.config.custom.ui").set_indent() end, { desc = 'Set Indent' })
+map('n', '<leader>us', function() require("jobin.config.custom.ui").toggle_spell() end, { desc = 'Toggle Spell' })
+map('n', '<leader>ud', function() require("jobin.config.custom.ui").toggle_diagnostics() end,
   { desc = 'Toggle Diagnostics' })
-map('n', '<leader>ut', '<cmd>lua require("jobin.config.custom.ui").toggle_transparency()<cr>',
+map('n', '<leader>ut', function() require("jobin.config.custom.ui").toggle_transparency() end,
   { desc = 'Toggle Transparency' })
 map('n', '<leader>uh', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({})) end,
   { desc = 'Toggle Inlay Hints' })
@@ -68,27 +68,28 @@ map('n', '<leader>ja', ':<Up><cr>', { desc = 'Run Last Command' })
 map('n', '<leader>jS', ':normal! [s1z=``<cr>', { desc = 'Fix last Spelling error' })
 map('n', '<leader>jp', '<cmd>set relativenumber! number! showmode! showcmd! hidden! ruler!<cr>',
   { desc = 'Presentation Mode' })
-map('n', '<leader>jb', '<cmd>lua require("jobin.config.custom.utils").box(60)<cr>', { desc = 'Box header' })
-map('n', '<leader>jB', '<cmd>lua require("jobin.config.custom.utils").box()<cr>', { desc = 'Box word' })
-map('n', '<leader>jc', '<cmd>lua require("jobin.config.custom.git").cd_git_root()<cr>', { desc = 'Cd Git Root' })
-map('n', '<leader>jr', '<cmd>lua require("jobin.config.custom.utils").rename_file()<cr>', { desc = 'Rename File' })
-map('n', '<leader>jl', '<cmd>lua require("jobin.config.custom.utils").leet()<cr>', { desc = 'Leetcode Daily' })
-map('v', '<leader>jt', ':lua require("jobin.config.custom.utils").titleCase()<cr>', { desc = 'TitleCase' })
+map('n', '<leader>jb', function() require("jobin.config.custom.utils").box(60) end, { desc = 'Box header' })
+map('n', '<leader>jB', function() require("jobin.config.custom.utils").box() end, { desc = 'Box word' })
+map('n', '<leader>jc', function() require("jobin.config.custom.git").cd_git_root() end, { desc = 'Cd Git Root' })
+map('n', '<leader>jr', function() require("jobin.config.custom.utils").rename_file() end, { desc = 'Rename File' })
+map('n', '<leader>jl', function() require("jobin.config.custom.utils").leet() end, { desc = 'Leetcode Daily' })
+map('v', '<leader>jt', function() require("jobin.config.custom.utils").titleCase() end, { desc = 'TitleCase' })
 map({ 'n', 'v' }, '<leader>gB', function() require('jobin.config.custom.git').open() end, { desc = 'Git Browse' })
 map('n', '<leader>Ls', function() require('jobin.config.custom.lsp').stop_lsp() end, { desc = 'Stop all LSP clients' })
-map('n', '<leader>Li', function() require('jobin.config.custom.lsp').stop_inactive_lsp() end, { desc = 'Stop inactive LSP clients' })
+map('n', '<leader>Li', function() require('jobin.config.custom.lsp').stop_inactive_lsp() end,
+  { desc = 'Stop inactive LSP clients' })
 map('n', '<leader>Lp', function() require('jobin.config.custom.lsp').get_all_lsp() end, { desc = 'Get all LSP clients' })
--- map('n', '<leader>jj', '<cmd>lua require("jobin.config.custom.utils").start_journal()<cr>', { desc = 'Start Journal' })
--- map('n', '<leader>jt', '<cmd>lua require("jobin.config.custom.org_tangle").tangle()<cr>', { desc = 'Org Tangle' })
+-- map('n', '<leader>jj', function() require("jobin.config.custom.utils").start_journal() end, { desc = 'Start Journal' })
+-- map('n', '<leader>jt', function() require("jobin.config.custom.org_tangle").tangle() end, { desc = 'Org Tangle' })
 
 -- Work
-map('n', '<leader>we', '<cmd>lua require("jobin.config.custom.work_stuff.email_update").open()<cr>',
+map('n', '<leader>we', function() require("jobin.config.custom.work_stuff.email_update").open() end,
   { desc = 'Send Email' })
-map('n', '<leader>wt', '<cmd>lua require("jobin.config.custom.work_stuff.jira.issue").get()<cr>',
+map('n', '<leader>wt', function() require("jobin.config.custom.work_stuff.jira.issue").get() end,
   { desc = 'Source Ticket' })
-map('n', '<leader>ws', '<cmd>lua require("jobin.config.custom.work_stuff.jira.subtask").get()<cr>',
+map('n', '<leader>ws', function() require("jobin.config.custom.work_stuff.jira.subtask").get() end,
   { desc = 'Source SubTask' })
-map('n', '<leader>wo', '<cmd>lua require("jobin.config.custom.work_stuff.jira.issue").open()<cr>',
+map('n', '<leader>wo', function() require("jobin.config.custom.work_stuff.jira.issue").open() end,
   { desc = 'Open Ticket' })
-map('n', '<leader>wf', '<cmd>lua require("jobin.config.custom.work_stuff.jira.search").list_filter_issues()<cr>',
+map('n', '<leader>wf', function() require("jobin.config.custom.work_stuff.jira.search").list_filter_issues() end,
   { desc = 'Source Filter Issues' })

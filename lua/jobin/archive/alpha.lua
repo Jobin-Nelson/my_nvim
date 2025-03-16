@@ -36,8 +36,8 @@ return {
     dashboard.section.buttons.val = {
       button("f", icons.ui.Lens .. " Find file", "<cmd>FzfLua files<CR>"),
       button("n", icons.ui.NewFile .. " New file", "<cmd>ene <BAR> startinsert<CR>"),
-      button("s", icons.ui.History .. " Load session", "<cmd> lua require('persistence').load()<CR>"),
-      button("p", icons.git.Repo .. " Find project", "<cmd>lua require('jobin.config.custom.my_pickers').find_projects()<CR>"),
+      button("s", icons.ui.History .. " Load session", function() require('persistence').load() end),
+      button("p", icons.git.Repo .. " Find project", function() require('jobin.config.custom.my_pickers').find_projects() end),
       button("o", icons.ui.Files .. " Recent files", "<cmd>FzfLua oldfiles<CR>"),
       button("w", icons.ui.Text .. " Find text", "<cmd>FzfLua live_grep<CR>"),
       button("a", icons.ui.Gear .. " Config", '<cmd>FzfLua files cwd=~/.config/nvim<cr>'),

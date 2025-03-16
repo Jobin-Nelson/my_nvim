@@ -12,7 +12,7 @@ map('n', '<leader>fG', '<cmd>Telescope git_files use_file_path=False use_git_roo
 map('n', '<leader>fh', '<cmd>Telescope help_tags<cr>', { desc = 'Find Help' })
 map('n', '<leader>fc', '<cmd>Telescope grep_string<cr>', { desc = 'Find word under Cursor' })
 map('n', '<leader>fw',
-  '<cmd>lua require("telescope.builtin").live_grep({cwd=require("jobin.config.custom.utils").get_git_root_buf()})<cr>',
+  function() require("telescope.builtin").live_grep({cwd=require("jobin.config.custom.utils").get_git_root_buf()}) end,
   { desc = 'Find words (root)' })
 map('n', '<leader>fW', '<cmd>Telescope live_grep<cr>', { desc = 'Find words (cwd)' })
 map('n', '<leader>fC', '<cmd>Telescope commands<cr>', { desc = 'Find Commands' })
@@ -30,25 +30,25 @@ map('v', '<leader>gc', '<cmd>Telescope git_bcommits_range<cr>', { desc = 'Git Ra
 -- custom
 map('n', '<leader>fA', '<cmd>Telescope find_files search_dirs=~/playground/projects/config-setup<cr>',
   { desc = 'Find Config Setup' })
-map('n', '<leader>fa', '<cmd>lua require("jobin.config.custom.my_pickers").find_config()<cr>',
+map('n', '<leader>fa', function() require("jobin.config.custom.my_pickers").find_config() end,
   { desc = 'Find Config' })
-map('n', '<leader>fd', '<cmd>lua require("jobin.config.custom.my_pickers").find_dotfiles()<cr>',
+map('n', '<leader>fd', function() require("jobin.config.custom.my_pickers").find_dotfiles() end,
   { desc = 'Find Dotfiles' })
-map('n', '<leader>fz', '<cmd>lua require("jobin.config.custom.my_pickers").find_zoxide()<cr>',
+map('n', '<leader>fz', function() require("jobin.config.custom.my_pickers").find_zoxide() end,
   { desc = 'Find Zoxide' })
-map('n', '<leader>fss', '<cmd>lua require("jobin.config.custom.my_pickers").find_second_brain_files()<cr>',
+map('n', '<leader>fss', function() require("jobin.config.custom.my_pickers").find_second_brain_files() end,
   { desc = 'Find Second brain files' })
-map('n', '<leader>fsi', '<cmd>lua require("jobin.config.custom.my_pickers").insert_second_brain_template()<cr>',
+map('n', '<leader>fsi', function() require("jobin.config.custom.my_pickers").insert_second_brain_template() end,
   { desc = 'Insert Second brain Templates' })
-map('n', '<leader>fO', '<cmd>lua require("jobin.config.custom.my_pickers").find_org_files()<cr>',
+map('n', '<leader>fO', function() require("jobin.config.custom.my_pickers").find_org_files() end,
   { desc = 'Find Org files' })
-map('n', '<leader>fp', '<cmd>lua require("jobin.config.custom.my_pickers").find_projects()<cr>',
+map('n', '<leader>fp', function() require("jobin.config.custom.my_pickers").find_projects() end,
   { desc = 'Find Projects' })
-map('n', '<leader>fj', '<cmd>lua require("jobin.config.custom.my_pickers").find_journal()<cr>',
+map('n', '<leader>fj', function() require("jobin.config.custom.my_pickers").find_journal() end,
   { desc = 'Find Journal' })
-map('n', '<leader>fi', '<cmd>lua require("jobin.config.custom.my_pickers").find_docker_images()<cr>',
+map('n', '<leader>fi', function() require("jobin.config.custom.my_pickers").find_docker_images() end,
   { desc = 'Find Docker Images' })
-map('n', '<leader>fe', '<cmd>lua require("jobin.config.custom.my_pickers").find_docker_containers()<cr>',
+map('n', '<leader>fe', function() require("jobin.config.custom.my_pickers").find_docker_containers() end,
   { desc = 'Find Docker Containers' })
 
 return {
