@@ -108,13 +108,13 @@ return {
         lualine_a = { { "mode", fmt = function(m) return modes[m:sub(1, 1)] end } },
         lualine_b = { branch },
         lualine_c = {
-          -- diff,
+          diff,
           filler,
           filetype,
           filename,
         },
         lualine_x = {
-          -- diagnostics,
+          diagnostics,
           lsp,
         },
         lualine_y = { { "location", icon = icons.ui.Location } },
