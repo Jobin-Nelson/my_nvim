@@ -88,7 +88,10 @@ function M.request(url, additional_headers, data)
 
   local response = utils.request(url, headers, data)
   if response.code ~= 0 or response.stdout == nil then
-    error('Jira request failed')
+    error(([[Jira request failed
+    STDOUT: %s
+    STDERR: %s
+    ]]):format(response.stdout, response.stderr))
   end
 
   return response.stdout

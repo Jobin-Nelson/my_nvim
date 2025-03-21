@@ -6,10 +6,10 @@ return {
     ---@diagnostic disable-next-line: missing-fields
     require('orgmode').setup({
       org_agenda_files = {
-        '~/playground/org_files/**/*.org',
+        '~/playground/dev/sequoia/**/*.org',
         '~/playground/dev/illumina/ticket_notes/work_org_files/**/*.org',
       },
-      org_default_notes_file = '~/playground/org_files/inbox.org',
+      org_default_notes_file = '~/playground/dev/sequoia/sequoia_inbox.org',
       org_todo_keywords = { 'TODO(t)', 'NEXT(n)', 'WAITING(w)', 'REVIEW(r)', '|', 'DONE(d)', 'CANCELLED(c)', 'DELEGATED(e)' },
       -- org_archive_location = '~/playground/org_files/archive_file.org_archive',
       org_todo_repeat_to_state = 'NEXT',
