@@ -40,7 +40,7 @@ vim.opt.foldlevelstart = 99
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldmethod = "expr"
 
--- vim.opt.winbar = '%=%m %t'
+vim.opt.winbar = '%=%m %t'
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 

@@ -22,7 +22,7 @@ end
 
 function M.toggle_spell()
   vim.wo.spell = not vim.wo.spell
-  vim.notify("Spell set to " .. bool2str(vim.wo.spell))
+  vim.notify("Spell set to " .. bool2str(vim.wo.spell), vim.log.levels.INFO, { title = 'UI' })
 end
 
 function M.toggle_diagnostics()

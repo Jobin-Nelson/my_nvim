@@ -76,9 +76,9 @@ map('n', '<leader>jl', function() require("jobin.config.custom.utils").leet() en
 map('v', '<leader>jt', function() require("jobin.config.custom.utils").titleCase() end, { desc = 'TitleCase' })
 map({ 'n', 'v' }, '<leader>gB', function() require('jobin.config.custom.git').open() end, { desc = 'Git Browse' })
 map('n', '<leader>Ls', function() require('jobin.config.custom.lsp').stop_lsp() end, { desc = 'Stop all LSP clients' })
-map('n', '<leader>Li', function() require('jobin.config.custom.lsp').stop_inactive_lsp() end,
-  { desc = 'Stop inactive LSP clients' })
-map('n', '<leader>Lp', function() require('jobin.config.custom.lsp').get_all_lsp() end, { desc = 'Get all LSP clients' })
+map('n', '<leader>Lh', function() require('jobin.config.custom.lsp').stop_hidden_lsp() end,
+  { desc = 'Stop hidden LSP clients' })
+map('n', '<leader>Lp', function() require('jobin.config.custom.lsp').display_active_lsp() end, { desc = 'Display active LSP clients' })
 -- map('n', '<leader>jj', function() require("jobin.config.custom.utils").start_journal() end, { desc = 'Start Journal' })
 -- map('n', '<leader>jt', function() require("jobin.config.custom.org_tangle").tangle() end, { desc = 'Org Tangle' })
 

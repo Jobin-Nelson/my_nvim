@@ -121,12 +121,12 @@ return {
         lualine_z = { { "progress", icon = icons.ui.ProgressDown } },
       },
       extensions = { 'quickfix', 'man' },
-      winbar = {
-        lualine_x = { winbar_filename },
-      },
-      inactive_winbar = {
-        lualine_x = { winbar_filename },
-      }
+      -- winbar = {
+      --   lualine_x = { winbar_filename },
+      -- },
+      -- inactive_winbar = {
+      --   lualine_x = { winbar_filename },
+      -- }
     }
   end,
 }

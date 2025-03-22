@@ -92,13 +92,15 @@ return {
       ---@diagnostic disable-next-line: missing-fields
       require("everforest").setup({
         -- Your config here
-        -- colours_override = function(palette)
-        --   palette.bg_dim = "#151515"
-        --   palette.bg0 = "#202025"
-        -- end
+        colours_override = function(palette)
+          palette.bg_dim = "#151515"
+          palette.bg0 = "#202025"
+        end,
         on_highlights = function(hl, palette)
           hl.FloatBorder = { bg = palette.none }
           hl.NormalFloat = { bg = palette.none }
+          hl.WinBar = { bg = palette.bg_dim }
+          hl.WinBarNC = { bg = palette.bg_dim }
         end
       })
       vim.cmd('colorscheme everforest')
