@@ -85,7 +85,7 @@ map('n', '<leader>Lp', function() require('jobin.config.custom.lsp').display_act
 
 -- Work
 map('n', '<leader>we', function() require("jobin.config.custom.work_stuff.email_update").open() end,
-  { desc = 'Send Email' })
+  { desc = "Open Today's Email" })
 map('n', '<leader>wt', function() require("jobin.config.custom.work_stuff.jira.issue").get() end,
   { desc = 'Source Ticket' })
 map('n', '<leader>ws', function() require("jobin.config.custom.work_stuff.jira.subtask").get() end,
