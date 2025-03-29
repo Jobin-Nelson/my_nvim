@@ -74,8 +74,8 @@ M.rename_file = function(target_dir)
     -- Let lsp know about the rename
     local clients = vim.lsp.get_clients({ bufnr = original_bufnr })
     for _, client in ipairs(clients) do
-      if client.supports_method("workspace/willRenameFiles") then
-        local res = client.request_sync("workspace/willRenameFiles", changes, 1000, original_bufnr)
+      if client:supports_method("workspace/willRenameFiles") then
+        local res = client:request_sync("workspace/willRenameFiles", changes, 1000, original_bufnr)
         if res and res.result ~= nil then
           vim.lsp.util.apply_workspace_edit(res.result, client.offset_encoding)
         end
@@ -96,8 +96,8 @@ M.rename_file = function(target_dir)
 
     -- Let lsp know that file has been renamed
     for _, client in ipairs(clients) do
-      if client.supports_method("workspace/didRenameFiles") then
-        client.notify("workspace/didRenameFiles", changes)
+      if client:supports_method("workspace/didRenameFiles") then
+        client:notify("workspace/didRenameFiles", changes)
       end
     end
 

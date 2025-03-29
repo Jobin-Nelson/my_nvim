@@ -44,8 +44,6 @@ return {
           vim.keymap.set(mode or 'n', keys, func, { buffer = args.buf, desc = desc })
         end
 
-        map('grn', vim.lsp.buf.rename, 'Lsp Rename')
-        map('gra', vim.lsp.buf.code_action, 'Lsp code Action')
 
         -- Fzf mappings
         map('gd', '<cmd>FzfLua lsp_definitions jump1=true ignore_current_line=true<cr>',
@@ -74,11 +72,9 @@ return {
         -- map("<leader>lS", function() Snacks.picker.lsp_workspace_symbols() end, "LSP Workspace Symbols")
 
         map('gD', vim.lsp.buf.declaration, 'Goto [D]eclaration')
-        map(']d', vim.diagnostic.goto_next, 'Next diagnostic')
-        map('[d', vim.diagnostic.goto_prev, 'Previous diagnostic')
         map('<leader>lq', vim.diagnostic.setloclist, 'Set diagnostic quickfix')
-        map('K', vim.lsp.buf.hover, 'Hover Documentation')
-        map('<C-s>', vim.lsp.buf.signature_help, 'Signature Documentation', 'i')
+        map('K', function() vim.lsp.buf.hover({ border = 'rounded' }) end, 'Hover Documentation')
+        map('<C-s>', function() vim.lsp.buf.signature_help({ border = 'rounded' }) end, 'Signature Documentation', 'i')
         map('<leader>lwa', vim.lsp.buf.add_workspace_folder, 'Lsp Workspace Add folder')
         map('<leader>lwr', vim.lsp.buf.remove_workspace_folder, 'Lsp Workspace Remove folder')
         map('<leader>lwl', function()
@@ -120,8 +116,6 @@ return {
       vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
     end
 
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
     require("lspconfig.ui.windows").default_options.border = "rounded"
 
     -- Servers
@@ -206,10 +200,10 @@ return {
     -- blink.cmp supports additional completion capabilities, so broadcast that to servers
     local capabilities = require('blink.cmp').get_lsp_capabilities()
     -- for ufo
-    capabilities.textDocument.foldingRange = {
-      dynamicRegistration = false,
-      lineFoldingOnly = true,
-    }
+    -- capabilities.textDocument.foldingRange = {
+    --   dynamicRegistration = false,
+    --   lineFoldingOnly = true,
+    -- }
 
     mason_lspconfig.setup_handlers {
       function(server_name)
