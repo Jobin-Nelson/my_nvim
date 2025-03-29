@@ -18,10 +18,6 @@ map('n', '<C-Up>', '<cmd>resize -2<CR>', { desc = 'Resize split up' })
 map('n', '<C-Down>', '<cmd>resize +2<CR>', { desc = 'Resize split down' })
 map('n', '<C-Left>', '<cmd>vertical resize -2<CR>', { desc = 'Resize split left' })
 map('n', '<C-Right>', '<cmd>vertical resize +2<CR>', { desc = 'Resize split right' })
-map('n', '[q', '<cmd>cprevious<cr>', { desc = 'Previous Quickfix' })
-map('n', ']q', '<cmd>cnext<cr>', { desc = 'Next Quickfix' })
-map('n', '[b', '<cmd>bprevious<cr>', { desc = 'Next Buffer' })
-map('n', ']b', '<cmd>bnext<cr>', { desc = 'Previous Buffer' })
 map('n', '<C-w>m', '<cmd>wincmd | | wincmd _<cr>', { desc = 'Zoom Window' })
 
 -- Buffer

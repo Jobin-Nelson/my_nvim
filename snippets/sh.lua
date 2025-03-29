@@ -75,7 +75,8 @@ trap cleanup SIGINT SIGTERM ERR EXIT
 # ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
 
-SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)
+# shellcheck disable=SC2034
+SCRIPT_DIR="${0%/*}"
 
 
 # ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
@@ -84,9 +85,7 @@ SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)
 
 
 usage() {
-  local script
-
-  script=$(basename "${BASH_SOURCE[0]}")
+  local script="${0%%*/}"
 
   cat <<EOF
 SYNOPSIS
@@ -123,13 +122,13 @@ setup_colors() {
 }
 
 msg() {
-  echo >&2 -e "${GREEN}${1-}${NOFORMAT}"
+  echo -e "${GREEN}${1-}${NOFORMAT}"
 }
 
 die() {
   local msg=$1
   local code=${2-1} # default exit status 1
-  msg "${RED}${msg}${NOFORMAT}"
+  echo "${RED}${msg}${NOFORMAT}" >&2
   exit "$code"
 }
 
