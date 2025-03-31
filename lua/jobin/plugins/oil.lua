@@ -16,6 +16,8 @@ return {
     skip_confirm_for_simple_edits = true,
     keymaps = {
       ['gy'] = 'actions.yank_entry',
+      ['<C-v>'] = { 'actions.select', opts = { vertical = true }},
+      ['<C-s>'] = { 'actions.select', opts = { horizontal = true }},
     },
     view_options = {
       natural_order = "fast",
