@@ -105,7 +105,7 @@ return {
         }
       },
       sections = {
-        lualine_a = { { "mode", fmt = function(m) return modes[m:sub(1, 1)] end } },
+        lualine_a = { 'mode' },
         lualine_b = { branch },
         lualine_c = {
           diff,
