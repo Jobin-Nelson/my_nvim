@@ -90,3 +90,4 @@ map('n', '<leader>wo', function() require("jobin.config.custom.work_stuff.jira.i
   { desc = 'Open Ticket' })
 map('n', '<leader>wf', function() require("jobin.config.custom.work_stuff.jira.search").list_filter_issues() end,
   { desc = 'Source Filter Issues' })
+map('v', '<leader>jY', ':w !pandoc -t html -o - | xclip -sel c -t text/html<cr>', { desc = 'Copy to HTML' })
