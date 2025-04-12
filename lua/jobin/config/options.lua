@@ -39,6 +39,17 @@ vim.opt.foldenable = false
 vim.opt.foldlevelstart = 99
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldtext = "v:lua.CustomFoldText()"
+function CustomFoldText()
+  local line = vim.fn.getline(vim.v.foldstart)
+  local line_count = vim.v.foldend - vim.v.foldstart + 1
+  local line_count_text = ("│ %4d lines │"):format(line_count)
+  local win_width = vim.api.nvim_win_get_width(0)
+  local foldtext_start = (" " .. line):sub(1, math.floor(win_width * 2) / 3)
+  local foldtext_end = line_count_text .. ("."):rep(10)
+  local foldtext_length = vim.fn.strchars(foldtext_start .. foldtext_end)
+  return foldtext_start .. ("."):rep(win_width - foldtext_length) .. foldtext_end
+end
 
 vim.opt.winbar = '%=%m %t'
 vim.opt.splitbelow = true

@@ -1,5 +1,6 @@
 -- Options
 vim.opt_local.wrap = true
+vim.opt.foldtext = "v:lua.CustomFoldText()"
 
 -- keymaps
 local function toggle_checkbox()

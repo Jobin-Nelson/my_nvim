@@ -19,6 +19,8 @@ map('n', '<C-Down>', '<cmd>resize +2<CR>', { desc = 'Resize split down' })
 map('n', '<C-Left>', '<cmd>vertical resize -2<CR>', { desc = 'Resize split left' })
 map('n', '<C-Right>', '<cmd>vertical resize +2<CR>', { desc = 'Resize split right' })
 map('n', '<C-w>m', '<cmd>wincmd | | wincmd _<cr>', { desc = 'Zoom Window' })
+map('n', ']Z', 'zczjzo', { desc = 'Open Next Fold' })
+map('n', '[Z', 'zczkzo', { desc = 'Open Prev Fold' })
 
 -- Buffer
 map('n', '<leader>bo', '<cmd>update <bar> %bdelete <bar> edit# <bar> bdelete #<CR>', { desc = 'Delete Other buffers' })
@@ -61,7 +63,7 @@ map('n', '<leader>jy', '<cmd>let @+=@% | echo "Filepath copied to clipboard"<cr>
 map('n', '<leader>jx', '<cmd>.lua<cr>', { desc = 'Execute lua' })
 map('v', '<leader>jx', ':lua<cr>', { desc = 'Execute lua' })
 map('n', '<leader>ja', ':<Up><cr>', { desc = 'Run Last Command' })
-map('n', '<leader>jS', ':normal! [s1z=``<cr>', { desc = 'Fix last Spelling error' })
+map('n', '<leader>jS', '[s1z=``', { desc = 'Fix last Spelling error' })
 map('n', '<leader>jp', '<cmd>set relativenumber! number! showmode! showcmd! hidden! ruler!<cr>',
   { desc = 'Presentation Mode' })
 map('v', '<leader>jT', ":!tr -s ' ' | column -t -s '|' -o '|'<cr>", { desc = 'Format Table' })
