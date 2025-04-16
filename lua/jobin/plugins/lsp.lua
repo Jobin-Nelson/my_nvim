@@ -71,8 +71,8 @@ return {
         -- map("<leader>ls", function() Snacks.picker.lsp_symbols() end, "LSP Symbols")
         -- map("<leader>lS", function() Snacks.picker.lsp_workspace_symbols() end, "LSP Workspace Symbols")
 
-        map(']d', function() vim.diagnostic.jump({ count = -1, float = true }) end, 'Next diagnostic')
-        map('[d', function() vim.diagnostic.jump({ count = 1, float = true }) end, 'Previous diagnostic')
+        map(']d', function() vim.diagnostic.jump({ count = 1, float = true }) end, 'Next diagnostic')
+        map('[d', function() vim.diagnostic.jump({ count = -1, float = true }) end, 'Previous diagnostic')
         map('gD', vim.lsp.buf.declaration, 'Goto [D]eclaration')
         map('<leader>lq', vim.diagnostic.setloclist, 'Set diagnostic quickfix')
         map('K', function() vim.lsp.buf.hover({ border = 'rounded' }) end, 'Hover Documentation')
