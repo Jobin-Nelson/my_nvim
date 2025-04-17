@@ -24,9 +24,17 @@ local snippets = {
         :gsub('_', ' '))
     end)
   ),
-  s('t',
-    t({ '', '- [ ] ' })
-  ),
+  s({ trig = 'daily-update' },
+    t(vim.split([[# Sequoia
+
+---
+
+# JASRA
+
+---
+
+# jnelson4 update
+]], '\n')))
 }
 
 -- End snippets
