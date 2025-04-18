@@ -18,12 +18,13 @@ return {
     { "<leader>tS", function() require("neotest").run.stop() end,                                       desc = "Stop" },
     { "<leader>tw", function() require("neotest").watch.toggle(vim.fn.expand("%")) end,                 desc = "Toggle Watch" },
   },
-  config = function()
-    ---@diagnostic disable-next-line: missing-fields
-    require('neotest').setup({
-      adapters = {
-        require('neotest-python'),
-      }
-    })
-  end
+  opts = {
+    adapters = {
+      ["neotest-python"] = {
+        -- Here you can specify the settings for the adapter, i.e.
+        -- runner = "pytest",
+        -- python = ".venv/bin/python",
+      },
+    },
+  },
 }
