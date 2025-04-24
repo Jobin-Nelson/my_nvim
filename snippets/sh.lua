@@ -18,51 +18,44 @@ local autosnippets = {}
 local snippets = {
   s({ trig = 'parse' },
     t(vim.split([=[
-while :; do
-  case "${1-}" in
-  -h | --help) usage ;;
-  -v | --verbose) set -x ;;
-  --no-color) NO_COLOR=1 ;;
-  -f | --flag) flag=1 ;; # example flag
-  -p | --param) # example named parameter
-    param="${2-}"
-    shift
+while getopts ":hv" option; do
+  case $option in
+  h) help ;;
+  v) set -x ;;
+  *)
+    echo "Error: Invalid option"
+    exit
     ;;
-  -?*) die "Unknown option: $1" ;;
-  *) break ;;
   esac
-  shift
 done
-
-[[ $# == 0 ]] && help
 ]=], '\n'))
   ),
 
-  s({ trig = 'helpdoc' },
-    fmt([=[
-function help() {{
+  s({ trig = 'usage' },
+    t(vim.split([=[
+function usage() {
   cat <<EOM
 SYNOPSIS
-    $0 [-h] {}
+    $0 [-h] [-v]
 
 DESCRIPTION
-    {}
+    This script will ...
 
 OPTIONS
-    -{}   {}
     -h    Print this help
+    -v    Verbose output
 
 EXAMPLES
-    $0 {}
+    $0 -h
 
 EOM
-}}
-]=], {
-      i(1), i(2, 'brief description of the script'), rep(1), i(3), i(0)
-    })
+
+  exit 0
+}
+]=], '\n'))
   ),
 
-  s({ trig = 'script-template' },
+  s({ trig = 'script-template-1' },
     t(vim.split([=[
 #!/usr/bin/env bash
 
@@ -185,6 +178,80 @@ msg "${RED}Read parameters:${NOFORMAT}"
 msg "- flag: ${flag}"
 msg "- param: ${param}"
 msg "- arguments: ${args[*]-}"
+
+]=], '\n'))
+  ),
+
+  s({ trig = 'script-template-2' },
+    t(vim.split([=[
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+
+# ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+# ┃                    Global Variables                      ┃
+# ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+
+# shellcheck disable=SC2034
+SCRIPT_DIR="${0%/*}"
+
+
+# ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+# ┃                    Utility Functions                     ┃
+# ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+
+usage() {
+  local script="${0%%*/}"
+
+  cat <<EOF
+SYNOPSIS
+    ${script} [-h] [-v]
+
+DESCRIPTION
+    Script description here.
+
+OPTIONS
+    -h   Print this [h]elp and exit
+    -v   Print [v]erbose info
+
+EXAMPLES
+    ${script} -h
+
+EOF
+  exit 0
+}
+
+bail() {
+  echo "$1"
+  echo $'Aborting...\n'
+  exit "${2-1}"
+}
+
+
+# ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+# ┃                   Core Implementation                    ┃
+# ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+
+
+
+# ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+# ┃                     Parse Arguments                      ┃
+# ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+
+[[ $# == 0 ]] && usage
+
+while getopts ":hv" option; do
+  case $option in
+  h) usage ;;
+  v) set -x ;;
+  *) bail "Error: Invalid option" ;;
+  esac
+done
 
 ]=], '\n'))
   ),
