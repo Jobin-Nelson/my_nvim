@@ -55,8 +55,14 @@ return {
           max_items = 3,
           min_keyword_length = 3,
         },
+        lazydev = {
+          name = "LazyDev",
+          module = "lazydev.integrations.blink",
+          -- make lazydev completions top priority (see `:h blink.cmp`)
+          score_offset = 100,
+        },
       },
-      default = { 'snippets', 'lsp', 'path', 'buffer' },
+      default = { 'lazydev', 'snippets', 'lsp', 'path', 'buffer' },
       per_filetype = {
         sql = { 'snippets', 'dadbod', 'buffer', },
         org = { 'snippets', 'orgmode', 'path', 'buffer' },

@@ -57,6 +57,7 @@ return {
         'groovy',
         'java',
         'haskell',
+        'nix',
       },
       highlight = {
         enable = true,

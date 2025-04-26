@@ -1,9 +1,7 @@
 return {
-  'williamboman/mason-lspconfig.nvim',
+  'neovim/nvim-lspconfig',
   event = { 'BufReadPost', 'BufNewFile' },
   dependencies = {
-    { 'williamboman/mason.nvim', cmd = 'Mason', opts = { ui = { border = 'rounded' } } },
-    'neovim/nvim-lspconfig',
     'b0o/schemastore.nvim',
     'saghen/blink.cmp',
     {
@@ -198,11 +196,11 @@ return {
           },
         },
       },
-      -- bashls = {},
-      -- pyright = {},
+      bashls = {},
+      pyright = {},
+      marksman = {},
       -- ts_ls = {},
       -- emmet_ls = {},
-      -- marksman = {},
       -- rust_analyzer = {},
       -- gopls = {},
       -- clangd = {},
@@ -212,9 +210,6 @@ return {
       -- hls = {},
     }
 
-    local mason_lspconfig = require 'mason-lspconfig'
-    mason_lspconfig.setup()
-
     -- blink.cmp supports additional completion capabilities, so broadcast that to servers
     local capabilities = require('blink.cmp').get_lsp_capabilities()
     -- for ufo
@@ -223,14 +218,10 @@ return {
     --   lineFoldingOnly = true,
     -- }
 
-    mason_lspconfig.setup_handlers {
-      function(server_name)
-        local server = servers[server_name] or {}
-        server.capabilities = capabilities
-        require('lspconfig')[server_name].setup(server)
-      end,
-      -- rust_analyzer will be set up by rustaceanvim
-      ['rust_analyzer'] = function() end,
-    }
+    for server_name, _  in pairs(servers) do
+      local server = servers[server_name] or {}
+      server.capabilities = capabilities
+      require('lspconfig')[server_name].setup(server)
+    end
   end
 }
