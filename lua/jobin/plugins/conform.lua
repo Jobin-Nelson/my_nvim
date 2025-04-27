@@ -12,7 +12,7 @@ return {
   config = function()
     require('conform').setup({
       formatters_by_ft = {
-        python = { 'ruff_format' },
+        python = { 'ruff_format', 'ruff_organize_imports' },
         rust = { 'rustfmt' },
         go = { 'goimports', 'gofmt' },
         javascript = { 'prettierd', 'prettier', stop_after_first = true },
