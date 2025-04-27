@@ -199,6 +199,7 @@ return {
       bashls = {},
       pyright = {},
       marksman = {},
+      nil_ls = {},
       -- ts_ls = {},
       -- emmet_ls = {},
       -- rust_analyzer = {},
