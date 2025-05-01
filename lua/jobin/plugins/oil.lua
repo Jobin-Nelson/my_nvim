@@ -21,6 +21,7 @@ return {
     },
     view_options = {
       natural_order = "fast",
+      show_hidden = true,
     },
     win_options = {
       wrap = true,
