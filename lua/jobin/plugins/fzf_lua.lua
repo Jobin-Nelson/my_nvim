@@ -72,14 +72,6 @@ map('n', '<leader>fsi', function()
   "~/playground/second_brain/Resources/Templates/" })
 end, { desc = 'Insert Second brain Templates' })
 
--- Work
-map('n', '<leader>fit',
-  '<cmd>FzfLua files cwd=~/playground/dev/illumina/ticket_notes<cr>',
-  { desc = 'Find Ticket notes' })
-map('n', '<leader>fiu',
-  '<cmd>FzfLua files cwd=~/playground/dev/illumina/utils<cr>',
-  { desc = 'Find Utils' })
-
 -- Orgmode
 map('n', '<leader>fot', function()
   require("jobin.config.custom.fzf.pickers").fzf_org_live_grep("~/playground/org_files")
