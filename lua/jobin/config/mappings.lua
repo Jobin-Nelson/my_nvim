@@ -32,7 +32,7 @@ map('n', '<leader>bd', function() require('jobin.config.custom.utils').better_bu
 
 -- Packages
 map('n', '<leader>ps', '<cmd>Lazy<cr>', { desc = 'Plugin Status' })
-map('n', '<leader>pm', '<cmd>Mason<cr>', { desc = 'Mason Installer' })
+-- map('n', '<leader>pm', '<cmd>Mason<cr>', { desc = 'Mason Installer' })
 
 -- Terminal
 map('t', '<C-w>', '<C-\\><C-n><C-w>', { desc = 'Terminal window command' })

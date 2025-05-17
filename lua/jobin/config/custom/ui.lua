@@ -70,4 +70,16 @@ function M.toggle_transparency()
   vim.notify(msg, vim.log.levels.INFO, { title = 'UI' })
 end
 
+function M.custom_fold_text()
+  local line = vim.fn.getline(vim.v.foldstart)
+  local line_count = vim.v.foldend - vim.v.foldstart + 1
+  local line_count_text = ("│ %4d lines │"):format(line_count)
+  local win_width = vim.api.nvim_win_get_width(0)
+  local foldtext_start = (" " .. line):sub(1, math.floor(win_width * 2) / 3)
+  local foldtext_end = line_count_text .. ("."):rep(10)
+  local foldtext_length = vim.fn.strchars(foldtext_start .. foldtext_end)
+  return foldtext_start .. ("."):rep(win_width - foldtext_length) .. foldtext_end
+end
+
+
 return M
