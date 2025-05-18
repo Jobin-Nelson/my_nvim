@@ -4,7 +4,6 @@ return {
     "nvim-neotest/nvim-nio",
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
-    "nvim-neotest/neotest-python",
   },
   keys = {
     { "<leader>t",  "",                                                                                 desc = "+test" },
@@ -18,13 +17,5 @@ return {
     { "<leader>tS", function() require("neotest").run.stop() end,                                       desc = "Stop" },
     { "<leader>tw", function() require("neotest").watch.toggle(vim.fn.expand("%")) end,                 desc = "Toggle Watch" },
   },
-  opts = {
-    adapters = {
-      ["neotest-python"] = {
-        -- Here you can specify the settings for the adapter, i.e.
-        -- runner = "pytest",
-        -- python = ".venv/bin/python",
-      },
-    },
-  },
+  opts = {},
 }

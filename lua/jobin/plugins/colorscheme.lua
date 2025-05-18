@@ -1,11 +1,11 @@
 local integrations = {
   nvimtree = true,
+  fzf = true,
   ts_rainbow = false,
   dap = { enabled = true, enable_ui = true },
   symbols_outline = true,
   aerial = true,
   alpha = true,
-  cmp = true,
   dashboard = true,
   flash = true,
   gitsigns = true,
@@ -36,6 +36,7 @@ local integrations = {
   treesitter = true,
   treesitter_context = true,
   which_key = true,
+  blink_cmp = true,
 }
 
 return {

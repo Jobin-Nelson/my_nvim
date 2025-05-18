@@ -34,7 +34,8 @@ return {
       }
     }
   },
-  config = function()
+  opts = {},
+  config = function(_, opts)
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('Lsp-Attach-KeyMaps', { clear = true }),
       callback = function(args)
@@ -135,12 +136,11 @@ return {
     require("lspconfig.ui.windows").default_options.border = "rounded"
 
     -- Servers
-    local servers = {
+    local servers = vim.list_extend(opts.servers or {}, {
       'lua_ls',
       'jsonls',
       'yamlls',
       'bashls',
-      'pyright',
       'marksman',
       'nil_ls',
       -- ts_ls = {},
@@ -152,7 +152,7 @@ return {
       -- sqlls = {},
       -- groovyls = {},
       -- hls = {},
-    }
+    })
 
     -- blink.cmp supports additional completion capabilities, so broadcast that to servers
     vim.lsp.config('*', {

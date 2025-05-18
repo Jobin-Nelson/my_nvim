@@ -19,6 +19,7 @@ require('jobin.config')
 
 require('lazy').setup({
   { import = 'jobin/plugins' },
+  { import = 'jobin/plugins/langs' },
 }, {
   install = {
     colorscheme = { 'default', 'habamax' },
