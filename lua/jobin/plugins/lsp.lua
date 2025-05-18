@@ -136,70 +136,13 @@ return {
 
     -- Servers
     local servers = {
-      lua_ls = {
-        Lua = {
-          diagnostics = {
-            globals = { "vim" },
-          },
-          completion = {
-            callSnippet = 'Replace',
-          },
-          workspace = {
-            checkThirdParty = false,
-          },
-          doc = {
-            privateName = { '^_' },
-          },
-        },
-      },
-      jsonls = {
-        settings = {
-          json = {
-            -- For more manual selection of schemas visit
-            -- https://www.arthurkoziel.com/json-schemas-in-neovim/
-            schemas = require('schemastore').json.schemas(),
-            validate = { enable = true },
-          }
-        },
-      },
-      yamlls = {
-        settings = {
-          yaml = {
-            validate = true,
-            keyOrdering = false,
-            schemaStore = {
-              -- You must disable built-in schemaStore support if you want to use
-              -- this plugin and its advanced options like `ignore`.
-              enable = false,
-              -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
-              url = "",
-            },
-            -- schemas = require('schemastore').yaml.schemas(),
-            schemas = {
-              kubernetes = "*.yaml",
-              ["http://json.schemastore.org/github-workflow"] = ".github/workflows/*",
-              ["http://json.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
-              ["http://json.schemastore.org/ansible-stable-2.9"] = "roles/*/tasks/*.{yml,yaml}",
-              ["http://json.schemastore.org/prettierrc"] = ".prettierrc.{yml,yaml}",
-              ["http://json.schemastore.org/kustomization"] = "kustomization.{yml,yaml}",
-              ["http://json.schemastore.org/ansible-playbook"] = "*play*.{yml,yaml}",
-              ["http://json.schemastore.org/chart"] = "Chart.{yml,yaml}",
-              ["https://json.schemastore.org/dependabot-v2"] = ".github/dependabot.{yml,yaml}",
-              ["https://json.schemastore.org/gitlab-ci"] = "*gitlab-ci*.{yml,yaml}",
-              ["https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json"] =
-              "*api*.{yml,yaml}",
-              ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] =
-              "*docker-compose*.{yml,yaml}",
-              ["https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json"] =
-              "*flow*.{yml,yaml}",
-            },
-          },
-        },
-      },
-      bashls = {},
-      pyright = {},
-      marksman = {},
-      nil_ls = {},
+      'lua_ls',
+      'jsonls',
+      'yamlls',
+      'bashls',
+      'pyright',
+      'marksman',
+      'nil_ls',
       -- ts_ls = {},
       -- emmet_ls = {},
       -- rust_analyzer = {},
@@ -212,17 +155,15 @@ return {
     }
 
     -- blink.cmp supports additional completion capabilities, so broadcast that to servers
-    local capabilities = require('blink.cmp').get_lsp_capabilities()
+    vim.lsp.config('*', {
+      capabilities = require('blink.cmp').get_lsp_capabilities()
+    })
     -- for ufo
     -- capabilities.textDocument.foldingRange = {
     --   dynamicRegistration = false,
     --   lineFoldingOnly = true,
     -- }
 
-    for server_name, _  in pairs(servers) do
-      local server = servers[server_name] or {}
-      server.capabilities = capabilities
-      require('lspconfig')[server_name].setup(server)
-    end
+    vim.lsp.enable(servers)
   end
 }
