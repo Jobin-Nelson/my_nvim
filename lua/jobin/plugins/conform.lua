@@ -16,6 +16,7 @@ return {
       go = { 'goimports', 'gofmt' },
       javascript = { 'prettierd', 'prettier', stop_after_first = true },
       json = { 'jq' },
+      sh = { 'shfmt' },
     },
     default_format_opts = {
       lsp_format = 'fallback',
