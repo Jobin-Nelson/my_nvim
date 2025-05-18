@@ -24,6 +24,7 @@ return {
     require("lazy.core.loader").add_to_rtp(plugin)
     require("nvim-treesitter.query_predicates")
   end,
+  opts_extend = { 'ensure_installed' },
   ---@type TSConfig
   ---@diagnostic disable-next-line: missing-fields
   opts = {

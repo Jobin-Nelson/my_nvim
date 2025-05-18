@@ -8,7 +8,6 @@ return {
 
   ---@module 'blink.cmp'
   ---@type blink.cmp.Config
-  ---@diagnostic disable: missing-fields
   opts = {
     keymap = { preset = 'default' },
     appearance = {
@@ -48,14 +47,6 @@ return {
     -- elsewhere in your config, without redefining it, via `opts_extend`
     sources = {
       providers = {
-        dadbod = {
-          name = 'Dadbod',
-          module = 'vim_dadbod_completion.blink',
-        },
-        orgmode = {
-          name = 'Orgmode',
-          module = 'orgmode.org.autocompletion.blink',
-        },
         buffer = {
           max_items = 3,
           min_keyword_length = 3,
@@ -68,10 +59,7 @@ return {
         },
       },
       default = { 'lazydev', 'snippets', 'lsp', 'path', 'buffer' },
-      per_filetype = {
-        sql = { 'snippets', 'dadbod', 'buffer', },
-        org = { 'snippets', 'orgmode', 'path', 'buffer' },
-      },
+      per_filetype = { },
       -- optionally disable cmdline completions
       -- cmdline = {},
     },

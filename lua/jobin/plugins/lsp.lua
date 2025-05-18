@@ -1,39 +1,7 @@
 return {
   'neovim/nvim-lspconfig',
   event = { 'BufReadPost', 'BufNewFile' },
-  dependencies = {
-    'b0o/schemastore.nvim',
-    'saghen/blink.cmp',
-    {
-      'j-hui/fidget.nvim',
-      opts = {
-        progress = {
-          display = {
-            render_limit = 16, -- How many LSP messages to show at once
-            done_ttl = 3,      -- How long a message should persist after completion
-            done_icon = '✔',
-            progress_icon = { pattern = 'meter', period = 1 },
-          },
-        },
-        notification = {
-          poll_rate = 60, -- FPS
-          view = {
-            stack_upwards = true,
-            icon_separator = " ",
-            group_separator = "---",
-          },
-          window = {
-            normal_hl = "Comment", -- Base highlight group in the notification window
-            winblend = 0,          -- Background color opacity in the notification window
-            border = "single",     -- Border around the notification window
-            x_padding = 1,
-            y_padding = 0,
-            relative = "editor",
-          },
-        },
-      }
-    }
-  },
+  opts_extend = { 'servers' },
   opts = {
     servers = {
       'lua_ls',
@@ -42,15 +10,6 @@ return {
       'bashls',
       'marksman',
       'nil_ls',
-      -- ts_ls = {},
-      -- emmet_ls = {},
-      -- rust_analyzer = {},
-      -- gopls = {},
-      -- clangd = {},
-      -- dockerls = {},
-      -- sqlls = {},
-      -- groovyls = {},
-      -- hls = {},
     }
   },
   config = function(_, opts)

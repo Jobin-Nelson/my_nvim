@@ -2,13 +2,12 @@ return {
   -- lsp
   {
     'neovim/nvim-lspconfig',
-    opts = function(_, opts)
-      local servers = {
+    opts = {
+      servers = {
         'pyright',
         'ruff',
       }
-      opts.servers = vim.list_extend(opts.servers or {}, servers)
-    end,
+    },
   },
 
   -- dap
@@ -34,14 +33,10 @@ return {
     dependencies = {
       "nvim-neotest/neotest-python",
     },
-    opts = {
-      adapters = {
-        ["neotest-python"] = {
-          -- Here you can specify the settings for the adapter, i.e.
-          -- runner = "pytest",
-          -- python = ".venv/bin/python",
-        },
-      },
-    },
+    opts = function(_, opts)
+      opts.adapters = vim.tbl_extend('keep', opts.adapters, {
+        require('neotest-python')
+      })
+    end,
   }
 }
