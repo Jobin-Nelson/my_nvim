@@ -140,25 +140,4 @@ return {
       },
     },
   },
-  config = function(_, opts)
-    ---@generic T
-    ---@param list T[]
-    ---@return T[]
-    local function dedup(list)
-      local res = {}
-      local seen = {}
-      for _, v in ipairs(list) do
-        if not seen[v] then
-          table.insert(res, v)
-          seen[v] = true
-        end
-      end
-      return res
-    end
-
-    if type(opts.ensure_installed) == 'table' then
-      opts.ensure_installed = dedup(opts.ensure_installed)
-    end
-    require("nvim-treesitter.configs").setup(opts)
-  end
 }

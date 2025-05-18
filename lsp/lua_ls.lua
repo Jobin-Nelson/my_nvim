@@ -9,6 +9,9 @@ return {
     workspace = {
       checkThirdParty = false,
     },
+    codelens = {
+      enable = true,
+    },
     doc = {
       privateName = { '^_' },
     },

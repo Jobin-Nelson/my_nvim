@@ -34,7 +34,25 @@ return {
       }
     }
   },
-  opts = {},
+  opts = {
+    servers = {
+      'lua_ls',
+      'jsonls',
+      'yamlls',
+      'bashls',
+      'marksman',
+      'nil_ls',
+      -- ts_ls = {},
+      -- emmet_ls = {},
+      -- rust_analyzer = {},
+      -- gopls = {},
+      -- clangd = {},
+      -- dockerls = {},
+      -- sqlls = {},
+      -- groovyls = {},
+      -- hls = {},
+    }
+  },
   config = function(_, opts)
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('Lsp-Attach-KeyMaps', { clear = true }),
@@ -42,7 +60,6 @@ return {
         local map = function(keys, func, desc, mode)
           vim.keymap.set(mode or 'n', keys, func, { buffer = args.buf, desc = desc })
         end
-
 
         -- Fzf mappings
         map('gd', '<cmd>FzfLua lsp_definitions jump1=true ignore_current_line=true<cr>',
@@ -76,6 +93,22 @@ return {
         map('<leader>lq', vim.diagnostic.setloclist, 'Set diagnostic quickfix')
         map('K', function() vim.lsp.buf.hover({ border = 'rounded' }) end, 'Hover Documentation')
         map('<C-s>', function() vim.lsp.buf.signature_help({ border = 'rounded' }) end, 'Signature Documentation', 'i')
+
+        map('<leader>la', vim.lsp.buf.code_action, 'Code Action', { 'n', 'v' })
+        map('<leader>lA', function()
+            vim.lsp.buf.code_action(
+              {
+                apply = true,
+                context = {
+                  only = { 'source' },
+                  diagnostics = {},
+                },
+              })
+          end,
+          'Source Action')
+        map('<leader>ll', vim.lsp.codelens.run, 'Run CodeLens', { 'n', 'v' })
+        map('<leader>lL', vim.lsp.codelens.refresh, 'Refresh & Display CodeLens', { 'n', 'v' })
+
         map('<leader>lwa', vim.lsp.buf.add_workspace_folder, 'Lsp Workspace Add folder')
         map('<leader>lwr', vim.lsp.buf.remove_workspace_folder, 'Lsp Workspace Remove folder')
         map('<leader>lwl', function()
@@ -87,9 +120,19 @@ return {
         end, 'Lsp Workspace List folders')
 
         local client = vim.lsp.get_client_by_id(args.data.client_id)
-        if client and client:supports_method('textDocument/foldingRange') then
+        if not client then return end
+
+        if client:supports_method('textDocument/foldingRange') then
           local win = vim.api.nvim_get_current_win()
           vim.wo[win][0].foldexpr = 'v:lua.vim.lsp.foldexpr()'
+        end
+
+        if client:supports_method('textDocument/codeLens') then
+          vim.lsp.codelens.refresh()
+          vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+            buffer = args.buf,
+            callback = vim.lsp.codelens.refresh,
+          })
         end
       end,
       desc = 'Create keymaps for lsp attached buffers',
@@ -135,28 +178,17 @@ return {
 
     require("lspconfig.ui.windows").default_options.border = "rounded"
 
-    -- Servers
-    local servers = vim.list_extend(opts.servers or {}, {
-      'lua_ls',
-      'jsonls',
-      'yamlls',
-      'bashls',
-      'marksman',
-      'nil_ls',
-      -- ts_ls = {},
-      -- emmet_ls = {},
-      -- rust_analyzer = {},
-      -- gopls = {},
-      -- clangd = {},
-      -- dockerls = {},
-      -- sqlls = {},
-      -- groovyls = {},
-      -- hls = {},
-    })
-
     -- blink.cmp supports additional completion capabilities, so broadcast that to servers
+    local capabilities = {
+      workspace = {
+        fileOperations = {
+          didRename = true,
+          willRename = true,
+        }
+      }
+    }
     vim.lsp.config('*', {
-      capabilities = require('blink.cmp').get_lsp_capabilities()
+      capabilities = require('blink.cmp').get_lsp_capabilities(capabilities)
     })
     -- for ufo
     -- capabilities.textDocument.foldingRange = {
@@ -164,6 +196,6 @@ return {
     --   lineFoldingOnly = true,
     -- }
 
-    vim.lsp.enable(servers)
+    vim.lsp.enable(opts.servers)
   end
 }

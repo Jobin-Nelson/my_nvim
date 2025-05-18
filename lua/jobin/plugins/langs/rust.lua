@@ -2,7 +2,12 @@ return {
   -- treesitter
   {
     "nvim-treesitter/nvim-treesitter",
-    opts = { ensure_installed = { "rust", "ron" } },
+    opts = function(_, opts)
+      opts.ensure_installed = vim.list_extend(opts.ensure_installed, {
+        'rust',
+        'ron',
+      })
+    end
   },
 
   -- lsp
@@ -47,10 +52,11 @@ return {
     dependencies = {
       "mrcjkb/rustaceanvim",
     },
-    opts = {
-      adapters = {
-        ['rustaceanvim.neotest'] = {},
-      },
-    },
+    opts = function(_, opts)
+      local adapters = {
+        require('rustaceanvim.neotest')
+      }
+      opts.adapters = vim.tbl_extend('keep', opts.adapters, adapters)
+    end,
   },
 }

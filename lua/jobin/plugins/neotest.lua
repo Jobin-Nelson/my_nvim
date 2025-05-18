@@ -17,5 +17,7 @@ return {
     { "<leader>tS", function() require("neotest").run.stop() end,                                       desc = "Stop" },
     { "<leader>tw", function() require("neotest").watch.toggle(vim.fn.expand("%")) end,                 desc = "Toggle Watch" },
   },
-  opts = {},
+  opts = {
+    adapters = {},
+  },
 }

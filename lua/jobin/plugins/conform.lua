@@ -15,6 +15,7 @@ return {
       rust = { 'rustfmt' },
       go = { 'goimports', 'gofmt' },
       javascript = { 'prettierd', 'prettier', stop_after_first = true },
+      json = { 'jq' },
     },
     default_format_opts = {
       lsp_format = 'fallback',
