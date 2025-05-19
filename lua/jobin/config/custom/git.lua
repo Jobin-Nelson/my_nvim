@@ -1,3 +1,6 @@
+-- Thanks folke
+-- Stolen straight from https://github.com/folke/snacks.nvim/blob/main/lua/snacks/gitbrowse.lua
+
 ---@class Git.State
 ---@field url_patterns? table<string, table<string, string|fun(fields:Git.Fields):string>>
 
