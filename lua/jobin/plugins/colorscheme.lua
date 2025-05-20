@@ -58,6 +58,7 @@ return {
             StatusLine = { link = 'Normal' },
             StatuslineMode = { bold = true },
             StatuslineProgress = { bold = true },
+            TreesitterContextBottom = { underline = true },
           }
         end,
         integrations = integrations,
@@ -112,6 +113,7 @@ return {
           hl.StatusLine = { link = 'Normal' }
           hl.StatuslineMode = { bold = true }
           hl.StatuslineProgress = { bold = true }
+          hl.TreesitterContextBottom = { underline = true }
         end
       })
       vim.cmd('colorscheme everforest')

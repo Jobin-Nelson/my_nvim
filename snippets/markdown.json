@@ -1,0 +1,28 @@
+{
+  "title": {
+    "prefix": [
+      "title"
+    ],
+    "body": [
+      "${TM_FILENAME}"
+    ],
+    "description": "Title Case the filename"
+  },
+  "daily-update": {
+    "prefix": [
+      "daily-update"
+    ],
+    "body": [
+      "# Sequoia",
+      "",
+      "---",
+      "",
+      "# JASRA",
+      "",
+      "---",
+      "",
+      "# jnelson4 update"
+    ],
+    "description": "Daily update for work"
+  }
+}

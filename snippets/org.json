@@ -1,0 +1,47 @@
+{
+  "title": {
+    "prefix": [
+      "title"
+    ],
+    "body": [
+      "#+TITLE:     ${TM_FILENAME}",
+      "#+AUTHOR:    Jobin Nelson",
+      "#+EMAIL:     jnelson4@illumina.com",
+      "#+ARCHIVE:   ~/playground/dev/illumina/ticket_notes/work_org_files/work_archive.org_archive"
+    ],
+    "description": "Title Case the filename"
+  },
+  "jbug": {
+    "prefix": [
+      "jbug"
+    ],
+    "body": [
+      "*Test Environment*: $1",
+      "",
+      "*Build version*:",
+      "$2",
+      "",
+      "*Expected Result*: $3",
+      "$3",
+      "",
+      "*Actual Result*: $4",
+      "",
+      "*Pre-condition*:",
+      "$5",
+      "",
+      "*Steps to reproduce*:",
+      "$6",
+      "",
+      "*Observation*:",
+      "$7",
+      "",
+      "*Workaround/Fix*:",
+      "$8",
+      "",
+      "*Logs*:",
+      "$9",
+      ""
+    ],
+    "description": "Title Case the filename"
+  }
+}

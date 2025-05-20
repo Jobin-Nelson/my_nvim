@@ -90,8 +90,8 @@ local function file_component()
   end
   local is_modified = vim.api.nvim_get_option_value('modified', { buf = 0 }) and icons.ui.FileModified or ''
   local is_readonly = vim.api.nvim_get_option_value('readonly', { buf = 0 }) and icons.ui.FileReadOnly or ''
-  return string.format('%%#%s#%s %%#StatuslineFilename#%s %s%s',
-    icon_hl, icon, filename, is_modified, is_readonly)
+  return string.format('%%#%s#%s %%#StatuslineFilename# %%f %s%s',
+    icon_hl, icon, is_modified, is_readonly)
 end
 
 local last_diagnostic_component = ''
@@ -150,7 +150,7 @@ local function lsp_component()
   if vim.list_contains(lsps, 'copilot') then table.insert(res, icons.kind.Copilot) end
   local lsps_string = vim.iter(lsps):filter(function(c) return c ~= 'copilot' end):join(', ')
   if lsps_string ~= '' then table.insert(res, icons.misc.Servers .. lsps_string) end
-  return '%#StatuslineLsp#' .. table.concat(res, ' │ ')
+  return '%#StatuslineLsp#' .. table.concat(res, '  ')
 end
 
 local M = {}

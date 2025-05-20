@@ -2,7 +2,7 @@ return {
   'saghen/blink.cmp',
   event = 'InsertEnter',
   -- optional: provides snippets for the snippet source
-  dependencies = { 'L3MON4D3/LuaSnip' },
+  dependencies = { 'rafamadriz/friendly-snippets' },
   -- use a release tag to download pre-built binaries
   version = '1.*',
 
@@ -40,9 +40,9 @@ return {
         },
       }
     },
-    snippets = {
-      preset = 'luasnip',
-    },
+    -- snippets = {
+    --   preset = 'luasnip',
+    -- },
     -- default list of enabled providers defined so that you can extend it
     -- elsewhere in your config, without redefining it, via `opts_extend`
     sources = {
