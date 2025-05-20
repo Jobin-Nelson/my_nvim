@@ -9,6 +9,20 @@ return {
   ---@module 'blink.cmp'
   ---@type blink.cmp.Config
   opts = {
+    cmdline = {
+      completion = {
+        keymap = {
+          -- recommended, as the default keymap will only show and select the next item
+          ['<Tab>'] = { 'show', 'accept' },
+        },
+        menu = {
+          ---@diagnostic disable-next-line: unused-local
+          auto_show = function(ctx)
+            return vim.fn.getcmdtype() == ':'
+          end,
+        }
+      }
+    },
     keymap = { preset = 'default' },
     appearance = {
       use_nvim_cmp_as_default = true,
@@ -59,7 +73,7 @@ return {
         },
       },
       default = { 'lazydev', 'snippets', 'lsp', 'path', 'buffer' },
-      per_filetype = { },
+      per_filetype = {},
       -- optionally disable cmdline completions
       -- cmdline = {},
     },

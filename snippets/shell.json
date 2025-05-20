@@ -250,5 +250,14 @@
       ""
     ],
     "description": "script template 2"
+  },
+  "comment": {
+    "prefix": "comment",
+    "body": [
+      "#######################################",
+      "# ${1:Description of the function.}$0",
+      "#######################################"
+    ],
+    "description": "A simple shell comment block for functions, with a description. Useful when the user prefers to add the other documentation tags manually."
   }
 }
