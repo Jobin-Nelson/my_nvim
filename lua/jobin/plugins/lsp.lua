@@ -115,10 +115,10 @@ return {
     vim.diagnostic.config {
       signs = {
         text = {
-          [vim.diagnostic.severity.ERROR] = icons.diagnostics.BoldError,
-          [vim.diagnostic.severity.WARN] = icons.diagnostics.BoldWarning,
-          [vim.diagnostic.severity.HINT] = icons.diagnostics.BoldHint,
-          [vim.diagnostic.severity.INFO] = icons.diagnostics.BoldInformation,
+          [vim.diagnostic.severity.ERROR] = icons.diagnostics.ERROR,
+          [vim.diagnostic.severity.WARN] = icons.diagnostics.WARN,
+          [vim.diagnostic.severity.HINT] = icons.diagnostics.HINT,
+          [vim.diagnostic.severity.INFO] = icons.diagnostics.INFO,
         },
       },
       virtual_text = true,

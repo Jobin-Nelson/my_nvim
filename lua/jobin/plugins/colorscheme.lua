@@ -49,10 +49,18 @@ return {
       require('catppuccin').setup({
         transparent_background = false,
         dim_inactive = {
-          enabled = false,
+          enabled = true,
           shade = 'dark',
           percentage = 0.15,
         },
+        custom_highlights = function(colors)
+          return {
+            StatuslineModeNormal = { bg = colors.blue, fg = colors.mantle},
+            StatuslineGitBranch = { bg = colors.surface0, fg = colors.blue },
+            StatusLine = { bg = colors.mantle, fg = colors.overlay0 },
+            StatuslineProgress = { bg = colors.blue, fg = colors.mantle},
+          }
+        end,
         integrations = integrations,
       })
 

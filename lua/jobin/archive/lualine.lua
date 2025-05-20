@@ -53,10 +53,10 @@ return {
     local diagnostics = {
       'diagnostics',
       symbols = {
-        error = icons.diagnostics.BoldError,
-        warn = icons.diagnostics.BoldWarning,
-        info = icons.diagnostics.BoldInformation,
-        hint = icons.diagnostics.BoldHint,
+        error = icons.diagnostics.ERROR,
+        warn = icons.diagnostics.WARN,
+        info = icons.diagnostics.INFO,
+        hint = icons.diagnostics.HINT,
       },
     }
 
