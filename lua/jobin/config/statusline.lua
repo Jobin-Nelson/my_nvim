@@ -44,7 +44,7 @@ local icons = require('jobin.config.icons')
 local function vcs_component()
   ---@diagnostic disable-next-line: undefined-field
   local head = vim.b.gitsigns_head
-  return head and string.format('%%#StatuslineGitBranch#%s %s ', icons.git.Branch, head) or ''
+  return head and string.format('%%#StatuslineGitBranch#%s %s', icons.git.Branch, head) or ''
 end
 
 ---@return string
@@ -53,9 +53,12 @@ local function diff()
   local diff_info = vim.b.gitsigns_status_dict
   if not diff_info then return '' end
   return table.concat({
-    diff_info.added ~= 0 and ("%%#%s#%s%s"):format('GitSignsAdd', icons.git.LineAdded, diff_info.added) or '',
-    diff_info.changed ~= 0 and ("%%#%s#%s%s"):format('GitSignsChange', icons.git.LineModified, diff_info.changed) or '',
-    diff_info.removed ~= 0 and ("%%#%s#%s%s"):format('GitSignsDelete', icons.git.LineRemoved, diff_info.removed) or '',
+    (diff_info.added and diff_info.added ~= 0) and
+    ("%%#%s#%s%s"):format('GitSignsAdd', icons.git.LineAdded, diff_info.added) or '',
+    (diff_info.changed and diff_info.changed ~= 0) and
+    ("%%#%s#%s%s"):format('GitSignsChange', icons.git.LineModified, diff_info.changed) or '',
+    (diff_info.removed and diff_info.removed ~= 0) and
+    ("%%#%s#%s%s"):format('GitSignsDelete', icons.git.LineRemoved, diff_info.removed) or '',
   }, ' ')
 end
 
@@ -63,19 +66,7 @@ end
 local function mode_component()
   local mode = modes[vim.api.nvim_get_mode().mode] or 'UNKOWN'
   -- Set the highlight group.
-  local hl = 'Other'
-  if mode:find 'NORMAL' then
-    hl = 'Normal'
-  elseif mode:find 'PENDING' then
-    hl = 'Pending'
-  elseif mode:find 'VISUAL' then
-    hl = 'Visual'
-  elseif mode:find 'INSERT' or mode:find 'SELECT' then
-    hl = 'Insert'
-  elseif mode:find 'COMMAND' or mode:find 'TERMINAL' or mode:find 'EX' then
-    hl = 'Command'
-  end
-  return string.format("%%#StatuslineMode%s# %s ", hl, mode)
+  return string.format("%%#StatuslineMode# %s %s", icons.ui.Neovim, mode)
 end
 
 ---@return string
@@ -150,6 +141,18 @@ local function diagnostics()
   return last_diagnostic_component
 end
 
+---@return string
+local function lsp_component()
+  local lsps = vim.tbl_map(function(client)
+    return client.name
+  end, vim.lsp.get_clients({ bufnr = 0 }))
+  local res = {}
+  if vim.list_contains(lsps, 'copilot') then table.insert(res, icons.kind.Copilot) end
+  local lsps_string = vim.iter(lsps):filter(function(c) return c ~= 'copilot' end):join(', ')
+  if lsps_string ~= '' then table.insert(res, icons.misc.Servers .. lsps_string) end
+  return '%#StatuslineLsp#' .. table.concat(res, ' │ ')
+end
+
 local M = {}
 
 ---@return string
@@ -172,8 +175,20 @@ function M.status()
     file_component(),
     filler,
     diagnostics(),
+    lsp_component(),
     line_info,
-  }, ' ')
+  }, '  ')
+end
+
+---@type table<string, vim.api.keyset.highlight>
+local statusline_highlights = {
+  StatusLine = { link = 'Normal' },
+  StatuslineMode = { bold = true },
+  StatuslineProgress = { bold = true },
+}
+
+for group, opts in pairs(statusline_highlights) do
+  vim.api.nvim_set_hl(0, group, opts)
 end
 
 -- vim.opt.statusline= "%<%=%(%f %h%m%r%)%=%-14.(%l,%c%V%) %P"

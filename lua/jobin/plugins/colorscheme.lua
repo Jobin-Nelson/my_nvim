@@ -53,12 +53,11 @@ return {
           shade = 'dark',
           percentage = 0.15,
         },
-        custom_highlights = function(colors)
+        custom_highlights = function(_)
           return {
-            StatuslineModeNormal = { bg = colors.blue, fg = colors.mantle},
-            StatuslineGitBranch = { bg = colors.surface0, fg = colors.blue },
-            StatusLine = { bg = colors.mantle, fg = colors.overlay0 },
-            StatuslineProgress = { bg = colors.blue, fg = colors.mantle},
+            StatusLine = { link = 'Normal' },
+            StatuslineMode = { bold = true },
+            StatuslineProgress = { bold = true },
           }
         end,
         integrations = integrations,
@@ -110,6 +109,9 @@ return {
           hl.NormalFloat = { bg = palette.none }
           hl.WinBar = { bg = palette.bg_dim }
           hl.WinBarNC = { bg = palette.bg_dim }
+          hl.StatusLine = { link = 'Normal' }
+          hl.StatuslineMode = { bold = true }
+          hl.StatuslineProgress = { bold = true }
         end
       })
       vim.cmd('colorscheme everforest')
