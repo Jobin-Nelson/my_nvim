@@ -89,6 +89,7 @@ return {
         if client:supports_method('textDocument/codeLens') then
           vim.lsp.codelens.refresh()
           vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+            group = vim.api.nvim_create_augroup("jobin/lspRefreshCodeLens", { clear = true }),
             buffer = args.buf,
             callback = vim.lsp.codelens.refresh,
           })
@@ -98,7 +99,7 @@ return {
     })
 
     vim.api.nvim_create_autocmd({ "LspDetach" }, {
-      group = vim.api.nvim_create_augroup("LspStopWithLastClient", {}),
+      group = vim.api.nvim_create_augroup("jobin/lspStopWithLastClient", { clear = true }),
       callback = function(args)
         local client = vim.lsp.get_client_by_id(args.data.client_id)
         if not client or not client.attached_buffers then return end

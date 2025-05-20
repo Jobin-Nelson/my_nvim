@@ -30,11 +30,6 @@ return {
       kind_icons = require('jobin.config.icons').kind,
     },
     completion = {
-      accept = {
-        auto_brackets = {
-          enabled = true,
-        },
-      },
       menu = {
         border = 'single',
         winhighlight = '',
