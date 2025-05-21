@@ -148,7 +148,7 @@ local function lsp_component()
   end, vim.lsp.get_clients({ bufnr = 0 }))
   local res = {}
   if vim.list_contains(lsps, 'copilot') then table.insert(res, icons.kind.Copilot) end
-  local lsps_string = vim.iter(lsps):filter(function(c) return c ~= 'copilot' end):join(', ')
+  local lsps_string = vim.iter(lsps):filter(function(c) return c ~= 'copilot' end):join(',')
   if lsps_string ~= '' then table.insert(res, icons.misc.Servers .. lsps_string) end
   return '%#StatuslineLsp#' .. table.concat(res, '  ')
 end

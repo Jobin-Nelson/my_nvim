@@ -20,7 +20,7 @@ return {
       window = {
         normal_hl = "Comment",     -- Base highlight group in the notification window
         winblend = 0,              -- Background color opacity in the notification window
-        border = "single",         -- Border around the notification window
+        border = "rounded",         -- Border around the notification window
         x_padding = 1,
         y_padding = 0,
         relative = "editor",

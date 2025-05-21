@@ -1,3 +1,4 @@
+---@type vim.lsp.Config
 return {
   cmd_env = { RUFF_TRACE = 'messages' },
   init_options = {
