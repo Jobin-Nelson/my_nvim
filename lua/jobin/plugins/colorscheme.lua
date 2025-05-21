@@ -74,8 +74,8 @@ return {
     config = function()
       require('nightfox').setup({
         options = {
-          transparent = false,
-          dim_inactive = true,
+          transparent = true,
+          dim_inactive = false,
           styles = {
             comments = 'italic',
           },
@@ -100,7 +100,8 @@ return {
     config = function()
       ---@diagnostic disable-next-line: missing-fields
       require("everforest").setup({
-        -- Your config here
+        inlay_hints_background = 'dimmed',
+        transparent_background_level = 1,
         colours_override = function(palette)
           palette.bg_dim = "#151515"
           palette.bg0 = "#202025"
