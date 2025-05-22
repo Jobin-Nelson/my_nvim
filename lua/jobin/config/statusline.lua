@@ -75,6 +75,7 @@ local function file_component()
   if filetype == '' then
     filetype = '[No Name]'
   end
+
   local buf_name = vim.api.nvim_buf_get_name(0)
   local filename, ext = vim.fn.fnamemodify(buf_name, ':t'), vim.fn.fnamemodify(buf_name, ':e')
 
@@ -88,10 +89,12 @@ local function file_component()
       icon, icon_hl = nvim_web_devicons.get_icon_by_filetype(filetype, { default = true })
     end
   end
+
+  local relative_filename = vim.fn.fnamemodify(buf_name, ':.')
   local is_modified = vim.api.nvim_get_option_value('modified', { buf = 0 }) and icons.ui.FileModified or ''
   local is_readonly = vim.api.nvim_get_option_value('readonly', { buf = 0 }) and icons.ui.FileReadOnly or ''
-  return string.format('%%#%s#%s %%#StatuslineFilename# %%f %s%s',
-    icon_hl, icon, is_modified, is_readonly)
+  return string.format('%%#%s#%s %%#StatuslineFilename# %s %s%s',
+    icon_hl, icon, relative_filename, is_modified, is_readonly)
 end
 
 local last_diagnostic_component = ''
