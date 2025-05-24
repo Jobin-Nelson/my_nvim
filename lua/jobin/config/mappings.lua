@@ -31,7 +31,7 @@ map('n', '<leader>bd', function() require('jobin.config.custom.utils').better_bu
   { desc = 'Better bufdelete' })
 
 -- Packages
-map('n', '<leader>ps', '<cmd>Lazy<cr>', { desc = 'Plugin Status' })
+map('n', '<leader>z', '<cmd>Lazy<cr>', { desc = 'Plugin Status' })
 -- map('n', '<leader>pm', '<cmd>Mason<cr>', { desc = 'Mason Installer' })
 
 -- Terminal
@@ -66,6 +66,7 @@ map('n', '<leader>ja', ':<Up><cr>', { desc = 'Run Last Command' })
 map('n', '<leader>jS', '[s1z=``', { desc = 'Fix last Spelling error' })
 map('n', '<leader>jp', '<cmd>set relativenumber! number! showmode! showcmd! hidden! ruler!<cr>',
   { desc = 'Presentation Mode' })
+map('n', '<leader>jP', '<cmd>!nsxiv <cfile><cr>', { desc = 'Preview Image' })
 map('v', '<leader>jT', ":!tr -s ' ' | column -t -s '|' -o '|'<cr>", { desc = 'Format Table' })
 map('n', '<leader>jb', function() require("jobin.config.custom.utils").box(60) end, { desc = 'Box header' })
 map('n', '<leader>jB', function() require("jobin.config.custom.utils").box() end, { desc = 'Box word' })

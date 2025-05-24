@@ -1,6 +1,5 @@
 -- Options
 vim.opt_local.wrap = true
-vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldtext = "v:lua.require('jobin.config.custom.ui').custom_fold_text()"
 
 -- keymaps

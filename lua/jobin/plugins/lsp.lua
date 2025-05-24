@@ -8,7 +8,6 @@ return {
       'jsonls',
       'yamlls',
       'bashls',
-      'marksman',
       'nil_ls',
     }
   },
