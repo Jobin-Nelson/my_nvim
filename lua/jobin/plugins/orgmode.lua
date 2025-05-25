@@ -1,7 +1,13 @@
 return {
   {
     'nvim-orgmode/orgmode',
-    event = 'VeryLazy',
+    cmd = {
+      'Org',
+    },
+    keys = {
+      { "<leader>o", "", desc = "+Org Mode" },
+      { "<leader>oa", "<cmd>Org agenda<cr>", desc = "org agenda" },
+    },
     ft = { 'org' },
     config = function()
       ---@diagnostic disable-next-line: missing-fields

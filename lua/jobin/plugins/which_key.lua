@@ -17,7 +17,6 @@ return {
       { "<leader>g", group = "Git",         nowait = true, remap = false },
       { "<leader>d", group = "Debug",       nowait = true, remap = false },
       { "<leader>u", group = "UI",          nowait = true, remap = false },
-      { "<leader>o", group = "Org mode",    nowait = true, remap = false },
       { "<leader>s", group = "Session",     nowait = true, remap = false },
       { "<leader>L", group = "LSP clients", nowait = true, remap = false },
     }
