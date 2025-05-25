@@ -10,11 +10,11 @@ return {
   ---@type blink.cmp.Config
   opts = {
     cmdline = {
+      keymap = {
+        -- recommended, as the default keymap will only show and select the next item
+        ['<Tab>'] = { 'show', 'accept' },
+      },
       completion = {
-        keymap = {
-          -- recommended, as the default keymap will only show and select the next item
-          ['<Tab>'] = { 'show', 'accept' },
-        },
         menu = {
           ---@diagnostic disable-next-line: unused-local
           auto_show = function(ctx)

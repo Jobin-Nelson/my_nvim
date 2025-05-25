@@ -12,7 +12,7 @@ map({ 'n', 'v' }, '<leader>gu', ':Gitsigns undo_stage_hunk<cr>', { desc = 'Unsta
 return {
   'lewis6991/gitsigns.nvim',
   event = { "BufReadPre", "BufNewFile" },
-  opt = {
+  opts = {
     -- signs = {
     --   add = { text = '+' },
     --   change = { text = '~' },
