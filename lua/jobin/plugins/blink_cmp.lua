@@ -31,7 +31,7 @@ return {
     },
     completion = {
       menu = {
-        border = 'single',
+        border = 'rounded',
         winhighlight = '',
       },
       documentation = {
@@ -39,7 +39,7 @@ return {
         auto_show = true,
         treesitter_highlighting = true,
         window = {
-          border = 'single',
+          border = 'rounded',
         }
       },
       list = {
@@ -77,7 +77,7 @@ return {
     signature = {
       enabled = true,
       window = {
-        border = 'single',
+        border = 'rounded',
       },
     },
   },

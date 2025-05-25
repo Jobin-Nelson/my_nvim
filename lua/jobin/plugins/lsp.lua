@@ -105,7 +105,7 @@ return {
         for buf_id in pairs(client.attached_buffers) do
           if buf_id ~= args.buf then return end
         end
-        client:stop()
+        client:stop(true)
       end,
       desc = "Stop lsp client when no buffer is attached",
     })
