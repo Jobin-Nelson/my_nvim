@@ -12,10 +12,11 @@
 ---@field commit? string
 ---@field line_count? number
 
+---@class Git.Remote
+---@field name string
+---@field url string
+
 local state = {
-  open = function(url)
-    vim.ui.open(url)
-  end,
   ---@type "repo" | "branch" | "file" | "commit"
   what = "file", -- what to open. not all remotes support all types
   branch = nil, ---@type string?
@@ -153,7 +154,8 @@ local function is_valid_commit_hash(hash, cwd)
   return true
 end
 
-function M.open()
+---@return Git.Remote
+local function get_remotes()
   local opts = vim.deepcopy(state)
   local file = vim.api.nvim_buf_get_name(0) ---@type string?
   file = file and (vim.uv.fs_stat(file) or {}).type == "file" and vim.fs.normalize(file) or nil
@@ -191,7 +193,7 @@ function M.open()
   opts.what = not is_commit and opts.what == "file" and not fields.file and "branch" or opts.what
   opts.what = not is_commit and opts.what == "branch" and not fields.branch and "repo" or opts.what
 
-  local remotes = {} ---@type {name:string, url:string}[]
+  local remotes = {} ---@type Git.Remote[]
 
   for _, line in ipairs(system({ "git", "-C", cwd, "remote", "-v" }, "Failed to get git remotes")) do
     local name, remote = line:match("(%S+)%s+(%S+)%s+%(fetch%)")
@@ -205,11 +207,20 @@ function M.open()
       end
     end
   end
+  return remotes
+end
 
+---@param action fun(string): nil
+---@param message string
+local function perform_action(action, message)
+  local remotes = get_remotes()
   local function open(remote)
     if remote then
-      vim.notify(("Opening [%s](%s)"):format(remote.name, remote.url), vim.log.levels.INFO, { title = "Git" })
-      opts.open(remote.url)
+      vim.notify(("%s [%s](%s)"):format(message, remote.name, remote.url),
+        vim.log.levels.INFO,
+        { title = "Git" })
+      action(remote.url)
+      -- state.open(remote.url)
     end
   end
 
@@ -225,6 +236,16 @@ function M.open()
       return item.name .. (" "):rep(8 - #item.name) .. " 🔗 " .. item.url
     end,
   }, open)
+end
+
+function M.open()
+  perform_action(vim.ui.open, 'Opening')
+end
+
+function M.copy()
+  perform_action(function(url)
+    vim.fn.setreg("+", url)
+  end, 'Copied')
 end
 
 -- vim.keymap.set({ 'n', 'v' }, '<leader>rt', function() M.open() end)

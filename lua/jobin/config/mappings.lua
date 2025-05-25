@@ -32,7 +32,6 @@ map('n', '<leader>bd', function() require('jobin.config.custom.utils').better_bu
 
 -- Packages
 map('n', '<leader>z', '<cmd>Lazy<cr>', { desc = 'Plugin Status' })
--- map('n', '<leader>pm', '<cmd>Mason<cr>', { desc = 'Mason Installer' })
 
 -- Terminal
 map('t', '<C-w>', '<C-\\><C-n><C-w>', { desc = 'Terminal window command' })
@@ -75,6 +74,7 @@ map('n', '<leader>jr', function() require("jobin.config.custom.utils").rename_fi
 map('n', '<leader>jl', function() require("jobin.config.custom.utils").leet() end, { desc = 'Leetcode Daily' })
 map('v', '<leader>jt', function() require("jobin.config.custom.utils").titleCase() end, { desc = 'TitleCase' })
 map({ 'n', 'v' }, '<leader>gB', function() require('jobin.config.custom.git').open() end, { desc = 'Git Browse' })
+map({ 'n', 'v' }, '<leader>gy', function() require('jobin.config.custom.git').copy() end, { desc = 'Git Copy remote url' })
 map('n', '<leader>Ls', function() require('jobin.config.custom.lsp').stop_lsp() end, { desc = 'Stop all LSP clients' })
 map('n', '<leader>Lh', function() require('jobin.config.custom.lsp').stop_hidden_lsp() end,
   { desc = 'Stop hidden LSP clients' })
