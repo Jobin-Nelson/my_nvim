@@ -220,7 +220,6 @@ local function perform_action(action, message)
         vim.log.levels.INFO,
         { title = "Git" })
       action(remote.url)
-      -- state.open(remote.url)
     end
   end
 

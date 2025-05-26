@@ -90,11 +90,10 @@ local function file_component()
     end
   end
 
-  local relative_filename = vim.fn.fnamemodify(buf_name, ':.')
   local is_modified = vim.api.nvim_get_option_value('modified', { buf = 0 }) and icons.ui.FileModified or ''
   local is_readonly = vim.api.nvim_get_option_value('readonly', { buf = 0 }) and icons.ui.FileReadOnly or ''
   return string.format('%%#%s#%s %%#StatuslineFilename# %s %s%s',
-    icon_hl, icon, relative_filename, is_modified, is_readonly)
+    icon_hl, icon, filename, is_modified, is_readonly)
 end
 
 local last_diagnostic_component = ''
