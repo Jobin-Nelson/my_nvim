@@ -13,7 +13,7 @@ return {
       ---@diagnostic disable-next-line: missing-fields
       require('orgmode').setup({
         org_agenda_files = {
-          '~/playground/dev/sequoia/**/*.org',
+          '~/playground/org_files/**/*.org',
           '~/playground/dev/illumina/ticket_notes/work_org_files/**/*.org',
         },
         org_default_notes_file = '~/playground/org_files/inbox.org',
