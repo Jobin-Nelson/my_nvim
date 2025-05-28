@@ -7,7 +7,8 @@
       "#+TITLE:     ${TM_FILENAME}",
       "#+AUTHOR:    Jobin Nelson",
       "#+EMAIL:     jnelson4@illumina.com",
-      "#+ARCHIVE:   ~/playground/dev/illumina/ticket_notes/work_org_files/work_archive.org_archive"
+      "#+ARCHIVE:   ~/playground/dev/illumina/ticket_notes/work_org_files/work_archive.org_archive",
+      ""
     ],
     "description": "Title Case the filename"
   },
