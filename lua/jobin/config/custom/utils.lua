@@ -151,8 +151,8 @@ function M.leet()
     return
   end
   local leet_file = vim.iter(vim.gsplit(response.stdout, '\n'))
-    :next()
-    :match("(%S+)%s*$")
+      :next()
+      :match("(%S+)%s*$")
   vim.cmd('tabedit ' .. leet_file)
 end
 
@@ -305,20 +305,22 @@ end
 
 function M.titleCase()
   -- if not in visual apply on current line
-  -- if vim.api.nvim_get_mode()['mode']:lower() ~= 'v' then
-  --   return vim.api.nvim_set_current_line(titleCaseLine(vim.api.nvim_get_current_line()))
+  -- if vim.fn.mode() ~= 'v' then
+  --   return vim.api.nvim_set_current_line(M.titleCaseLine(vim.api.nvim_get_current_line()))
   -- end
 
+  vim.fn.feedkeys(":", "nx")
   local start_pos = vim.api.nvim_buf_get_mark(0, '<')
   local end_pos = vim.api.nvim_buf_get_mark(0, '>')
+  vim.fn.feedkeys("gv", "nx")
   -- when in visual line mode, end col will have very large value
-  if end_pos[2] > 10000 then
+  if end_pos[2] >= 2147483647 then
     end_pos[2] = vim.fn.col("'>") - 2
   end
 
   local input = vim.api.nvim_buf_get_text(0, start_pos[1] - 1, start_pos[2], end_pos[1] - 1, end_pos[2] + 1, {})
   local output = vim.tbl_map(M.titleCaseLine, input)
-  vim.api.nvim_buf_set_text(0, start_pos[1] - 1, start_pos[2], end_pos[1] - 1, end_pos[2] + 1, output)
+  vim.api.nvim_buf_set_text(0, start_pos[1] - 1, start_pos[2], end_pos[1] - 1, end_pos[2], output)
 end
 
 ---@param opts FWinOpts

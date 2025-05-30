@@ -36,6 +36,7 @@ return {
         map('<leader>lS',
           '<cmd>FzfLua lsp_live_workspace_symbols jump1=true ignore_current_line=true<cr>',
           'Lsp Workspace Symbols')
+        map('gra', '<cmd>FzfLua lsp_code_actions<cr>', 'Lsp Code Actions')
 
         -- Snacks mappings
         -- map("gd", function() Snacks.picker.lsp_definitions() end, "Goto Definition")
