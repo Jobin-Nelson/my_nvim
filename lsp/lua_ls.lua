@@ -27,8 +27,8 @@ return {
           '${3rd}/luv/library',
         }
       },
-      codelens = {
-        enable = true,
+      codeLens = {
+        enable = false,
       },
       doc = {
         privateName = { '^_' },

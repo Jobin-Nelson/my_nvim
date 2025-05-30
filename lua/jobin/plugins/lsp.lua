@@ -52,20 +52,6 @@ return {
         map('K', function() vim.lsp.buf.hover({ border = 'rounded' }) end, 'Hover Documentation')
         map('<C-s>', function() vim.lsp.buf.signature_help({ border = 'rounded' }) end, 'Signature Documentation', 'i')
 
-        map('<leader>la', vim.lsp.buf.code_action, 'Code Action', { 'n', 'v' })
-        map('<leader>lA', function()
-            vim.lsp.buf.code_action(
-              {
-                apply = true,
-                context = {
-                  only = { 'source' },
-                  diagnostics = {},
-                },
-              })
-          end,
-          'Source Action')
-        map('<leader>ll', vim.lsp.codelens.run, 'Run CodeLens', { 'n', 'v' })
-        map('<leader>lL', vim.lsp.codelens.refresh, 'Refresh & Display CodeLens', { 'n', 'v' })
 
         map('<leader>lwa', vim.lsp.buf.add_workspace_folder, 'Lsp Workspace Add folder')
         map('<leader>lwr', vim.lsp.buf.remove_workspace_folder, 'Lsp Workspace Remove folder')
@@ -80,18 +66,16 @@ return {
         local client = vim.lsp.get_client_by_id(args.data.client_id)
         if not client then return end
 
-        -- if client:supports_method('textDocument/foldingRange') then
-        --   local win = vim.api.nvim_get_current_win()
-        --   vim.wo[win][0].foldexpr = 'v:lua.vim.lsp.foldexpr()'
-        -- end
-
         if client:supports_method('textDocument/codeLens') then
+          map('<leader>ll', vim.lsp.codelens.run, 'Run CodeLens', { 'n', 'v' })
+          map('<leader>lL', vim.lsp.codelens.refresh, 'Refresh & Display CodeLens', { 'n', 'v' })
           vim.lsp.codelens.refresh()
-          vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-            group = vim.api.nvim_create_augroup("jobin/lspRefreshCodeLens", { clear = true }),
-            buffer = args.buf,
-            callback = vim.lsp.codelens.refresh,
-          })
+          -- Uncomment for automatic refresh of codelens
+          -- vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave" }, {
+          --   group = vim.api.nvim_create_augroup("jobin/lspRefreshCodeLens", { clear = true }),
+          --   buffer = args.buf,
+          --   callback = vim.lsp.codelens.refresh,
+          -- })
         end
       end,
       desc = 'Create keymaps for lsp attached buffers',
