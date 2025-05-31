@@ -156,6 +156,13 @@ return {
     INFO = "",
     BoldQuestion = "",
   },
+  dap = {
+    DapStopped             = "󰁕 ",
+    DapBreakpoint          = " ",
+    DapBreakpointCondition = " ",
+    DapBreakpointRejected  = " ",
+    DapLogPoint            = ".>",
+  },
   misc = {
     Servers = " ",
     Robot = "󰚩 ",

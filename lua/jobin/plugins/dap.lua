@@ -70,10 +70,15 @@ return {
   config = function()
     vim.api.nvim_set_hl(0, 'DapStoppedLine', { default = true, link = 'Visual' })
 
-    local vscode = require('dap.ext.vscode')
-    local json = require('plenary.json')
-    vscode.json.decode = function(str)
-      return vim.json.decode(json.json_strip_comments(str))
+    for name, sign in pairs(require'jobin.config.icons'.dap) do
+      vim.fn.sign_define(
+        name,
+        {
+          text = sign,
+          texthl = 'DiagnosticWarn',
+          linehl = name == 'DapStopped' and 'DapStoppedLine' or nil,
+        }
+      )
     end
   end
 }
