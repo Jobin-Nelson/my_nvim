@@ -20,7 +20,7 @@ return {
 
   -- format
   {
-  'stevearc/conform.nvim',
+    'stevearc/conform.nvim',
     opts = function(_, opts)
       opts.formatters_by_ft.typescript = { "prettier" }
       opts.formatters_by_ft.typescriptreact = { "prettier" }

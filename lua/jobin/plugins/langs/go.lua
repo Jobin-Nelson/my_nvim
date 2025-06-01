@@ -34,6 +34,10 @@ return {
       {
         "leoluz/nvim-dap-go",
         opts = {},
+        keys = {
+          { "<leader>dGt", function() require('dap-go').debug_test() end, desc = "Debug Test", ft = "go" },
+          { "<leader>dGl", function() require('dap-go').debug_last_test() end,  desc = "Debug Last Test",  ft = "go" },
+        },
       },
     },
   },
