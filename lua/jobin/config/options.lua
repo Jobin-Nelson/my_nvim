@@ -9,6 +9,7 @@ vim.opt.mouse = 'a'
 -- https://github.com/neovim/neovim/commit/a389dc2f950ef89492dfc2d8334e421d2252cddf/
 vim.opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus" -- Sync with system clipboard
 vim.opt.list = true
+vim.opt.listchars = "tab:󰅂 ,trail:-,nbsp:+"
 vim.opt.linebreak = true
 vim.opt.breakindent = true
 vim.opt.breakindentopt = 'list:2,min:20,sbr'

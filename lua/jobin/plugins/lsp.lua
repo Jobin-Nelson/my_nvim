@@ -8,7 +8,6 @@ return {
       'jsonls',
       'yamlls',
       'bashls',
-      'nil_ls',
     }
   },
   config = function(_, opts)
@@ -105,7 +104,12 @@ return {
           [vim.diagnostic.severity.HINT] = icons.diagnostics.HINT,
           [vim.diagnostic.severity.INFO] = icons.diagnostics.INFO,
         },
+        numhl = {
+          [vim.diagnostic.severity.ERROR] = "DiagnosticError",
+          [vim.diagnostic.severity.WARN] = "DiagnosticWarn",
+        }
       },
+      -- virtual_lines = true,
       virtual_text = true,
       update_in_insert = false,
       underline = true,

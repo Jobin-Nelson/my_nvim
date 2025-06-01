@@ -12,10 +12,17 @@ return {
 
   -- lsp
   {
+    'neovim/nvim-lspconfig',
+    opts = {
+      servers = {
+        'bacon_ls'
+      }
+    },
+  },
+  {
     'mrcjkb/rustaceanvim',
-    ft = 'rust',
-    dependencies = 'nvim-neotest/neotest',
-    version = '^5', -- Recommended
+    ft = { 'rust' },
+    version = '^6', -- Recommended
     init = function()
       vim.g.rustaceanvim = {
         tools = {
@@ -23,35 +30,58 @@ return {
             replace_builtin_hover = false,
           }
         },
+        server = {
+          on_attach = function(_, bufnr)
+            local map = function(mode, keys, func, desc)
+              vim.keymap.set(mode, keys, func, { buffer = bufnr, desc = desc })
+            end
+            map('n', '<leader>lra', function() vim.cmd.RustLsp('codeAction') end, 'Lsp code Action')
+            map('n', '<leader>dRr', function() vim.cmd.RustLsp('runnables') end, 'Rust Debuggables')
+            map('n', '<leader>dRd', function() vim.cmd.RustLsp('debuggables') end, 'Rust Debuggables')
+            map('n', '<leader>dRt', function() vim.cmd.RustLsp('testables') end, 'Rust Testables')
+            map('n', '<leader>lf', function() vim.cmd.RustFmt() end, 'Rust Format')
+            map('v', '<leader>lf', function() vim.cmd.RustFmtRange() end, 'Rust Format Range')
+          end,
+          default_settings = {
+            -- rust-analyzer language server configuration
+            ["rust-analyzer"] = {
+              cargo = {
+                allFeatures = true,
+                loadOutDirsFromCheck = true,
+                buildScripts = {
+                  enable = true,
+                },
+              },
+              -- Add clippy lints for Rust if using rust-analyzer
+              checkOnSave = { enable = false },
+              -- Enable diagnostics if using rust-analyzer
+              diagnostics = { enable = false },
+              -- procMacro = {
+              --   enable = true,
+              --   ignored = {
+              --     ["async-trait"] = { "async_trait" },
+              --     ["napi-derive"] = { "napi" },
+              --     ["async-recursion"] = { "async_recursion" },
+              --   },
+              -- },
+              files = {
+                excludeDirs = {
+                  ".direnv",
+                  ".git",
+                  ".github",
+                  ".gitlab",
+                  "bin",
+                  "node_modules",
+                  "target",
+                  "venv",
+                  ".venv",
+                },
+              },
+            },
+          },
+        }
       }
     end,
-    config = function()
-      vim.api.nvim_create_autocmd('LspAttach', {
-        group = vim.api.nvim_create_augroup('Rustaceanvim-Lsp-Attach-KeyMaps', { clear = true }),
-        pattern = 'rust',
-        callback = function(args)
-          local nmap = function(keys, func, desc)
-            vim.keymap.set('n', keys, func, { buffer = args.buf, desc = desc })
-          end
-          nmap('<leader>la', function() vim.cmd.RustLsp('codeAction') end, 'Lsp code Action')
-          nmap('<leader>dRr', function() vim.cmd.RustLsp('runnables') end, 'Rust Debuggables')
-          nmap('<leader>dRd', function() vim.cmd.RustLsp('debuggables') end, 'Rust Debuggables')
-          nmap('<leader>dRt', function() vim.cmd.RustLsp('testables') end, 'Rust Testables')
-          nmap('<leader>lf', function() vim.cmd.RustFmt() end, 'Rust Format')
-          vim.keymap.set('v', '<leader>lf', function() vim.cmd.RustFmtRange() end,
-            { buffer = args.buf, desc = 'Rust Format Range' })
-        end
-      })
-    end
-  },
-
-  -- format
-  {
-    'stevearc/conform.nvim',
-    optional = true,
-    opts = function(_, opts)
-      opts.formatters_by_ft.rust = { 'rustfmt'}
-    end
   },
 
   -- test
@@ -67,4 +97,26 @@ return {
       })
     end,
   },
+
+  -- others
+  {
+    "Saecki/crates.nvim",
+    event = { "BufRead Cargo.toml" },
+    opts = {
+      completion = {
+        crates = {
+          enabled = true,
+        },
+      },
+      lsp = {
+        enabled = true,
+        actions = true,
+        completion = true,
+        hover = true,
+      },
+      popup = {
+        border = "rounded",
+      }
+    },
+  }
 }

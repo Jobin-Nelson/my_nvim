@@ -52,7 +52,6 @@ return {
       'vim',
       'vimdoc',
       'query',
-      'nix',
     },
     highlight = {
       enable = true,
