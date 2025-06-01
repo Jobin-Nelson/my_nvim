@@ -1,4 +1,5 @@
 return {
+  -- lsp
   {
     'neovim/nvim-lspconfig',
     opts = {
@@ -7,6 +8,15 @@ return {
       }
     },
   },
+
+  -- format
+  {
+  'stevearc/conform.nvim',
+    opts = function(_, opts)
+      opts.formatters_by_ft.markdown = { "prettier" }
+    end,
+  },
+
   {
     "HakonHarnes/img-clip.nvim",
     event = "VeryLazy",
@@ -25,5 +35,5 @@ return {
       -- suggested keymap
       { "<leader>p", "<cmd>PasteImage<cr>", desc = "Paste image from system clipboard" },
     },
-  }
+  },
 }

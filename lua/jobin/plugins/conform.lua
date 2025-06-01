@@ -11,7 +11,7 @@ return {
   },
   opts = {
     formatters_by_ft = {
-      javascript = { 'prettierd', 'prettier', stop_after_first = true },
+      javascript = { 'prettier' },
       json = { 'jq' },
       sh = { 'shfmt' },
     },
