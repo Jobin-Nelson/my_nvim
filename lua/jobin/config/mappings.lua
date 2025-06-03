@@ -65,7 +65,7 @@ map('n', '<leader>ja', ':<Up><cr>', { desc = 'Run Last Command' })
 map('n', '<leader>jS', '[s1z=``', { desc = 'Fix last Spelling error' })
 map('n', '<leader>jp', '<cmd>set relativenumber! number! showmode! showcmd! hidden! ruler!<cr>',
   { desc = 'Presentation Mode' })
-map('n', '<leader>jP', '<cmd>!nsxiv <cfile><cr>', { desc = 'Preview Image' })
+map('n', '<leader>ji', '<cmd>!nsxiv <cfile><cr>', { desc = 'Image Preview' })
 map('v', '<leader>jT', ":!tr -s ' ' | column -t -s '|' -o '|'<cr>", { desc = 'Format Table' })
 map('n', '<leader>jb', function() require("jobin.config.custom.utils").box(60) end, { desc = 'Box header' })
 map('n', '<leader>jB', function() require("jobin.config.custom.utils").box() end, { desc = 'Box word' })

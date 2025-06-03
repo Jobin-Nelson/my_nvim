@@ -11,14 +11,14 @@ return {
   },
 
   -- lsp
-  {
-    'neovim/nvim-lspconfig',
-    opts = {
-      servers = {
-        'bacon_ls'
-      }
-    },
-  },
+  -- {
+  --   'neovim/nvim-lspconfig',
+  --   opts = {
+  --     servers = {
+  --       'bacon_ls'
+  --     }
+  --   },
+  -- },
   {
     'mrcjkb/rustaceanvim',
     ft = { 'rust' },
@@ -55,7 +55,7 @@ return {
               -- Add clippy lints for Rust if using rust-analyzer
               checkOnSave = { enable = false },
               -- Enable diagnostics if using rust-analyzer
-              diagnostics = { enable = false },
+              diagnostics = { enable = true },
               -- procMacro = {
               --   enable = true,
               --   ignored = {

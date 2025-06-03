@@ -117,10 +117,10 @@ local function diagnostics()
   })
 
   local highlights = {
-    ERROR = 'DiagnosticError',
-    WARN = 'DiagnosticWarn',
-    INFO = 'DiagnosticInfo',
-    HINT = 'DiagnosticHint',
+    ERROR = 'DiagnosticSignError',
+    WARN = 'DiagnosticSignWarn',
+    INFO = 'DiagnosticSignInfo',
+    HINT = 'DiagnosticSignHint',
   }
 
   local diagnostic_counts = {
