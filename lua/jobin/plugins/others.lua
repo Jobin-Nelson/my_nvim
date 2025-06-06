@@ -4,5 +4,6 @@ return {
   { 'tpope/vim-fugitive',     cmd = 'Git' },
   { 'b0o/schemastore.nvim',   lazy = true },
   { 'windwp/nvim-autopairs',  event = "InsertEnter",                           opts = {} },
+  { 'stevearc/dressing.nvim', event = 'VeryLazy',                              opts = {} },
   { 'tpope/vim-sleuth',       lazy = false }
 }

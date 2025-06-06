@@ -1,0 +1,7 @@
+{
+  "print-ln": {
+    "prefix": "pn",
+    "body": "println!($0);",
+    "description": "println macro"
+  }
+}

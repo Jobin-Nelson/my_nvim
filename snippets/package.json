@@ -18,6 +18,10 @@
         "path": "./go.json"
       },
       {
+        "language": "rust",
+        "path": "./rust.json"
+      },
+      {
         "language": "org",
         "path": "./org.json"
       },
