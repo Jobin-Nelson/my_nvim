@@ -14,7 +14,6 @@ vim.api.nvim_create_user_command('DiffOrig', function()
   end
 end, {})
 
-
 -- Todoist
 vim.api.nvim_create_user_command('Todo', function(opts)
   local utils = require('jobin.config.custom.utils')
@@ -45,7 +44,7 @@ vim.api.nvim_create_user_command('Todo', function(opts)
   end
 
   -- print(vim.inspect(vim.list_extend({ 'todo.py' }, vim.shell(opts.args, ' '))))
-  return vim.system(vim.list_extend({ 'todo.py' }, utils.shellsplit(opts.args)), {}, notify)
+  vim.system(vim.list_extend({ 'todo.py' }, utils.shellsplit(opts.args)), {}, notify)
 end, {
   desc = 'Get/Add/Update/Delete/Close Todo',
   range = true,
@@ -66,11 +65,20 @@ end, {
   end
 })
 
-
 -- Jira
-vim.api.nvim_create_user_command('JQL',
-  function(opts)
+vim.api.nvim_create_user_command('JQL', function(opts)
     require('jobin.config.custom.fzf.pickers').fzf_search_jira(opts.args)
-  end,
-  { nargs = 1 }
+  end, { nargs = 1 }
+)
+
+-- HTop
+vim.api.nvim_create_user_command('Htop', function(_)
+    require('jobin.config.custom.utils').wrap_cli({ 'htop' })
+  end, { nargs = 0 }
+)
+
+-- Github cli dash
+vim.api.nvim_create_user_command('Gdash', function(_)
+    require('jobin.config.custom.utils').wrap_cli({ 'gh', 'dash' })
+  end, { nargs = 0 }
 )

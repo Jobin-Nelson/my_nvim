@@ -323,7 +323,7 @@ function M.titleCase()
   vim.api.nvim_buf_set_text(0, start_pos[1] - 1, start_pos[2], end_pos[1] - 1, end_pos[2], output)
 end
 
----@param opts FWinOpts
+---@param opts FWinOpts?
 ---@return JWin
 function M.create_floating_window(opts)
   opts = opts or {}
@@ -333,8 +333,9 @@ function M.create_floating_window(opts)
   local col = math.floor((vim.o.columns - width) / 2)
   local row = math.floor((vim.o.lines - height) / 2)
 
-  local buf = vim.api.nvim_buf_is_valid(opts.buf)
+  local buf = (opts.buf and vim.api.nvim_buf_is_valid(opts.buf))
       and opts.buf or vim.api.nvim_create_buf(false, true)
+
   local win = vim.api.nvim_open_win(buf, true, {
     relative = 'editor',
     width = width,
@@ -378,6 +379,21 @@ function M.create_bottom_window(buf)
   end)
 
   return { buf = buf, win = win }
+end
+
+---@param cmd string[]
+function M.wrap_cli(cmd)
+  local fwin = M.create_floating_window()
+  vim.api.nvim_set_current_win(fwin.win)
+  vim.fn.jobstart(cmd, {
+    term = true,
+    on_exit = function(_, _, _)
+      if vim.api.nvim_win_is_valid(fwin.win) then
+        vim.api.nvim_win_close(fwin.win, true)
+      end
+    end
+  })
+  vim.cmd.startinsert()
 end
 
 -- vim.keymap.set({ 'n', 'v' }, '<leader>rt', function() M.rename_file() end)
