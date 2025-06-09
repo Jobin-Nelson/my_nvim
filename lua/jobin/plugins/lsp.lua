@@ -1,6 +1,6 @@
 return {
   'neovim/nvim-lspconfig',
-  event = { 'BufReadPost', 'BufNewFile' },
+  event = { 'BufReadPre', 'BufNewFile' },
   opts_extend = { 'servers' },
   opts = {
     servers = {
