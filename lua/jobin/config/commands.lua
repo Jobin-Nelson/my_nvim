@@ -67,18 +67,41 @@ end, {
 
 -- Jira
 vim.api.nvim_create_user_command('JQL', function(opts)
-    require('jobin.config.custom.fzf.pickers').fzf_search_jira(opts.args)
-  end, { nargs = 1 }
+  local jql = opts.args
+  -- s: current sprint
+  if opts.args == 's' then
+    jql = 'sprint in openSprints() and project = Lambert and assignee = currentUser() and status not in (Done)'
+  -- st: current sprint, ready for test
+  elseif opts.args == 'st' then
+    jql = 'sprint in openSprints() and project = Lambert and assignee = currentUser() and status = "Ready for Test"'
+  -- stw: current sprint, ready for test, last 7 days
+  elseif opts.args == 'stw' then
+    jql = 'sprint in openSprints() and project = Lambert and assignee = currentUser() and status changed to "Ready for Test" after startOfDay(-7d)'
+  -- std: current sprint, ready for test, last 24 hours
+  elseif opts.args == 'std' then
+    jql = 'sprint in openSprints() and project = Lambert and assignee = currentUser() and status changed to "Ready for Test" after -1d'
+  -- b: open bugs
+  elseif opts.args == 'b' then
+    jql = 'project = Lambert and (assignee = currentUser() or reporter = currentUser()) and type = Bug and status not in (Done)'
+  -- dm: done in last month
+  elseif opts.args == 'dm' then
+    jql = 'project = Lambert and assignee was currentUser() and status changed to Done after startOfMonth(-1) before endOfMonth(-1)'
+  -- dw: done in last week
+  elseif opts.args == 'dw' then
+    jql = 'project = Lambert and assignee was currentUser() and status changed to Done after startOfWeek(-1) before endOfWeek(-1)'
+  end
+  require('jobin.config.custom.fzf.pickers').fzf_search_jira(jql)
+end, { nargs = 1 }
 )
 
 -- HTop
 vim.api.nvim_create_user_command('Htop', function(_)
-    require('jobin.config.custom.utils').wrap_cli({ 'htop' })
-  end, { nargs = 0 }
+  require('jobin.config.custom.utils').wrap_cli({ 'htop' })
+end, { nargs = 0 }
 )
 
 -- Github cli dash
 vim.api.nvim_create_user_command('Gdash', function(_)
-    require('jobin.config.custom.utils').wrap_cli({ 'gh', 'dash' })
-  end, { nargs = 0 }
+  require('jobin.config.custom.utils').wrap_cli({ 'gh', 'dash' })
+end, { nargs = 0 }
 )

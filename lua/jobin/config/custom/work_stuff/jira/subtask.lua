@@ -50,7 +50,7 @@ local function get_local_subtask(cur_line_nr, cur_head_nr)
     return {}
   end
   local sub_task_header_nr = #sub_task_line:match('^(%*+)')
-  return vim.tbl_map(jira.line2Localtask,
+  return vim.tbl_map(jira.line2localtask,
     jira.child_matches(
       sub_task_line_nr,
       sub_task_header_nr,
@@ -69,7 +69,7 @@ function M.get()
     return jira.notify('Current heading has no issue id')
   end
   local cur_head_nr = #cur_line:match('^(%*+)')
-  local lines = vim.tbl_map(jira.task2Todo, missing_subtasks(
+  local lines = vim.tbl_map(jira.task2todo, missing_subtasks(
     M.get_my_remote_subtask(issue_id),
     get_local_subtask(cur_line_nr, cur_head_nr)
   ))

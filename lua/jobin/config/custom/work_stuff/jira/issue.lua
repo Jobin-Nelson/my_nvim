@@ -45,7 +45,7 @@ end
 
 ---@param subtasks SubTask[]
 local function get_subtask_lines(subtasks)
-  local subtask_lines = vim.tbl_map(jira.task2Todo, subtasks)
+  local subtask_lines = vim.tbl_map(jira.task2todo, subtasks)
   return vim.tbl_isempty(subtask_lines)
       and subtask_lines
       or vim.list_extend({ '** Sub-Tasks' }, subtask_lines)

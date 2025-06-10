@@ -34,15 +34,19 @@ function M.query_jql(jql, max_results, fields)
     ["jql"] = jql,
     ["startAt"] = 0,
     ["maxResults"] = max_results or 100,
-    ["fields"] = fields or { 'summary' },
+    ["fields"] = fields or {
+      'summary',
+      'status',
+    },
   }
   return search(vim.json.encode(data)).issues
 end
 
 ---@param jql string
 ---@param max_results integer?
+---@return string[]
 function M.query_jql2list(jql, max_results)
-  return vim.tbl_map(jira.issue2List, M.query_jql(jql, max_results or 100))
+  return vim.tbl_map(jira.issue2list, M.query_jql(jql, max_results or 100))
 end
 
 function M.query()

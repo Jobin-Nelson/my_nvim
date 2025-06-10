@@ -176,7 +176,11 @@ M.fzf_search_jira = function(jql, maxlimit)
       end
     },
   }
-  local results = search.query_jql2list(jql, maxlimit or 500)
+  local results = vim.tbl_map(
+    jira.issue2List_with_status,
+    search.query_jql(jql, maxlimit or 500)
+  )
+
   if vim.tbl_isempty(results) then
     return jira.notify(
       ('No issues found for JQL: %s'):format(jql),

@@ -20,6 +20,7 @@
 
 ---@class IssueField
 ---@field summary string
+---@field status { name: string }
 ---@field issuetype IssueType
 ---@field description string
 ---@field subtasks SubTask[]
@@ -118,14 +119,14 @@ end
 
 ---@param line string
 ---@return LocalTask
-function M.line2Localtask(line)
+function M.line2localtask(line)
   local id, summary = M.get_id_summary(line)
   return { key = id, summary = summary }
 end
 
 ---@param task SubTask
 ---@return string
-function M.task2Todo(task)
+function M.task2todo(task)
   local line = string.format('*** TODO [%s] %s', task.key, task.fields.summary)
   if task.fields.issuetype.id == '14' then
     line = line .. ' :BUG:'
@@ -135,8 +136,14 @@ end
 
 ---@param issue Issue
 ---@return string
-function M.issue2List(issue)
+function M.issue2list(issue)
   return ('- [%s] %s'):format(issue.key, issue.fields.summary)
+end
+
+---@param issue Issue
+---@return string
+function M.issue2List_with_status(issue)
+  return ('- [%s] [%s] %s'):format(issue.key, issue.fields.status.name, issue.fields.summary)
 end
 
 ---@param cur_line_nr integer
