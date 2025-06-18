@@ -82,6 +82,14 @@ map('n', '<leader>Lp', function() require('jobin.config.custom.lsp').display_act
 -- map('n', '<leader>jj', function() require("jobin.config.custom.utils").start_journal() end, { desc = 'Start Journal' })
 -- map('n', '<leader>jt', function() require("jobin.config.custom.org_tangle").tangle() end, { desc = 'Org Tangle' })
 
+-- Text objects
+-- for _, key in ipairs({ '=', '~' }) do
+--   vim.keymap.set('v', 'i' .. key, string.format('t%soT%s', key, key), { desc = string.format('inner org %s', key) })
+--   vim.keymap.set('v', 'a' .. key, string.format('f%soF%s', key, key), { desc = string.format('around org %s', key) })
+--   vim.keymap.set('o', 'i' .. key, string.format('<cmd>normal! t%svT%s<CR>', key, key), { desc = string.format('inner org %s', key) })
+--   vim.keymap.set('o', 'a' .. key, string.format('<cmd>normal! f%svF%s<CR>', key, key), { desc = string.format('around org %s', key) })
+-- end
+
 -- Work
 map('n', '<leader>we', function() require("jobin.config.custom.work_stuff.email_update").open() end,
   { desc = "Open Today's Email" })

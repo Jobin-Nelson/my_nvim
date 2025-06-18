@@ -21,6 +21,7 @@ require('lazy').setup({
   { import = 'jobin/plugins' },
   { import = 'jobin/plugins/langs' },
   { import = 'jobin/plugins/ai' },
+  { import = 'jobin/plugins/hosts' },
 }, {
   install = {
     colorscheme = { 'default', 'habamax' },

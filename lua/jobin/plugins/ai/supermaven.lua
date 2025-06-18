@@ -1,8 +1,3 @@
--- activate supermaven only when using personal unit
-if vim.fn.hostname() ~= 'middleEarth' then
-  return {}
-end
-
 return {
   'supermaven-inc/supermaven-nvim',
   event = 'InsertEnter',
