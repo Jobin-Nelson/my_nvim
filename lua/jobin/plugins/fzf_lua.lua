@@ -120,7 +120,7 @@ return {
         actions = {
           ["alt-h"] = actions.toggle_hidden,
           ["alt-i"] = actions.toggle_ignore,
-          ["ctrl-y"] = my_actions.copy_entry,
+          ["ctrl-y"] = { fn = my_actions.copy_entry, exec_silent = true },
         }
       },
       grep = {

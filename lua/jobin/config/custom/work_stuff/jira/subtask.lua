@@ -64,7 +64,7 @@ function M.get()
   if not cur_line:match('^%*+ %w+') then
     return jira.notify('Cursor not on a heading')
   end
-  local issue_id = jira.get_id_summary(cur_line)
+  local issue_id = jira.get_id(cur_line)
   if not issue_id then
     return jira.notify('Current heading has no issue id')
   end

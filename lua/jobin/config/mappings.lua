@@ -97,7 +97,7 @@ map('n', '<leader>wt', function() require("jobin.config.custom.work_stuff.jira.i
   { desc = 'Source Ticket' })
 map('n', '<leader>ws', function() require("jobin.config.custom.work_stuff.jira.subtask").get() end,
   { desc = 'Source SubTask' })
-map('n', '<leader>wo', function() require("jobin.config.custom.work_stuff.jira.issue").open() end,
+map('n', '<leader>wo', function() require("jobin.config.custom.work_stuff.jira.issue").open(vim.api.nvim_get_current_line()) end,
   { desc = 'Open Ticket' })
 map('n', '<leader>wf', function() require("jobin.config.custom.work_stuff.jira.search").list_filter_issues() end,
   { desc = 'Source Filter Issues' })

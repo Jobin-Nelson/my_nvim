@@ -100,12 +100,16 @@ end
 
 ---@param line string
 ---@return string? id
+function M.get_id(line)
+  return line:match('%[([A-Z]+%-%d+)%]')
+end
+
+---@param line string
+---@return string? id
 ---@return string? summary
 function M.get_id_summary(line)
+  local id = M.get_id(line)
   local words = vim.split(line, ' ')
-  local id = vim.iter(words)
-      :map(function(word) return word:match('%[([A-Z]+%-%d+)%]') end)
-      :find(function(word) return word end)
   local summary_index = vim.iter(ipairs(words))
       :skip(2)
       :find(function(_, word) return not word:match('^%[') end)
@@ -194,6 +198,18 @@ function M.notify(msg, level)
     level or vim.log.levels.ERROR,
     { title = 'Jira' }
   )
+end
+
+
+---@param line string
+function M.copy_id(line)
+  local id = M.get_id(line)
+  if not id then
+    return M.notify('No issue id found in line')
+  else
+    M.notify(('Copied issue id: %s'):format(id), vim.log.levels.INFO)
+  end
+  vim.fn.setreg('+', id)
 end
 
 -- vim.keymap.set('n', '<leader>rt', function() M.request('https://google.com') end)

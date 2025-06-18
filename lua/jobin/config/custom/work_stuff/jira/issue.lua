@@ -78,10 +78,13 @@ function M.get()
   end)
 end
 
-function M.open()
-  local id = vim.api.nvim_get_current_line():match('%[([A-Z]+%-%d+)%]')
+---@param line string
+function M.open(line)
+  local id = jira.get_id(line)
   if not id then
     return jira.notify('Ticket ID not present in current line')
+  else
+    jira.notify(('Opening issue %s'):format(id), vim.log.levels.INFO)
   end
   vim.ui.open(('https://jira.illumina.com/browse/%s'):format(id)):wait()
 end

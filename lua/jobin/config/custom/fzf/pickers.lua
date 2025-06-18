@@ -155,10 +155,14 @@ M.fzf_search_jira = function(jql, maxlimit)
     return vim.notify('JQL is empty, aborting', vim.log.levels.WARN, { title = 'FZF' })
   end
 
-  local search = require('jobin.config.custom.work_stuff.jira.search')
   local jira = require('jobin.config.custom.work_stuff.jira')
+  local search = require('jobin.config.custom.work_stuff.jira.search')
+  local issue = require('jobin.config.custom.work_stuff.jira.issue')
 
   local opts = {
+    fzf_opts = {
+      ['--multi'] = true,
+    },
     prompt = "Issues ❯ ",
     winopts = {
       title = " Search Jira ",
@@ -173,7 +177,19 @@ M.fzf_search_jira = function(jql, maxlimit)
           false,
           selected
         )
-      end
+      end,
+      ['ctrl-o'] = {
+        fn = function(selected, _)
+          issue.open(selected[1])
+        end,
+        exec_silent = true,
+      },
+      ['alt-y'] = {
+        fn = function(selected, _)
+          jira.copy_id(selected[1])
+        end,
+        exec_silent = true,
+      }
     },
   }
   local results = vim.tbl_map(
