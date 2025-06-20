@@ -73,7 +73,7 @@ vim.api.nvim_create_user_command('JQL', function(opts)
     jql = 'sprint in openSprints() and project = Lambert and assignee = currentUser() and status not in (Done)'
   -- ssb: current sprint, stories or bugs
   elseif opts.args == 'ssb' then
-    jql = 'JQL sprint in openSprints() and project = Lambert and type in (Story,Bug) and status != Done'
+    jql = 'sprint in openSprints() and project = Lambert and type in (Story,Bug) and status != Done'
   -- st: current sprint, ready for test
   elseif opts.args == 'st' then
     jql = 'sprint in openSprints() and project = Lambert and assignee = currentUser() and status = "Ready for Test"'
