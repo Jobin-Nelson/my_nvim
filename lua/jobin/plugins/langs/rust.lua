@@ -53,7 +53,7 @@ return {
                 },
               },
               -- Add clippy lints for Rust if using rust-analyzer
-              checkOnSave = { enable = true },
+              checkOnSave = false,
               -- Enable diagnostics if using rust-analyzer
               diagnostics = { enable = true },
               -- procMacro = {

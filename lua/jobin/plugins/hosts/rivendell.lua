@@ -10,6 +10,16 @@ return {
         '~/playground/dev/illumina/ticket_notes/work_org_files/**/*.org',
       }
       opts.org_default_notes_file = '~/playground/dev/sequoia/sequoia_inbox.org'
+      opts.org_capture_templates.m = {
+        description = 'Meeting',
+        template = '\n* %?\n  %u',
+        target = '~/playground/dev/illumina/ticket_notes/work_org_files/ICI/ici-on-prem/meeting_notes.org',
+      }
+      opts.org_capture_templates.w = {
+        description = 'Work Task',
+        template = '\n* TODO %?\n  SCHEDULED: %t',
+        target = '~/playground/dev/illumina/ticket_notes/work_org_files/work_inbox.org',
+      }
     end,
   },
   {

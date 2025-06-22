@@ -135,7 +135,7 @@ M.fzf_org_live_grep = function(org_dir)
   fzf_lua.grep({
     no_esc = true,
     cwd = org_dir,
-    search = "^\\*+ (TODO|NEXT|WAITING|REVIEW)",
+    search = "^\\*+ (TODO|NEXT|INPROGRESS|WAITING|REVIEW)",
     rg_opts = "--column --type org --line-number --no-heading --color=always --smart-case --max-columns=4096 -e",
     winopts = {
       title = " Org Todo ",

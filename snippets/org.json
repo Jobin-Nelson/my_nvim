@@ -1,7 +1,20 @@
 {
-  "title": {
+  "title-personal": {
     "prefix": [
-      "title"
+      "title-personal"
+    ],
+    "body": [
+      "#+TITLE:   ${TM_FILENAME}",
+      "#+AUTHOR:  Jobin Nelson",
+      "#+EMAIL:   jobinnelson369+org@gmail.com",
+      "#+ARCHIVE: ~/playground/projects/org_files/archive.org_archive",
+      ""
+    ],
+    "description": "header for personal org files"
+  },
+  "title-work": {
+    "prefix": [
+      "title-work"
     ],
     "body": [
       "#+TITLE:     ${TM_FILENAME}",
@@ -10,7 +23,19 @@
       "#+ARCHIVE:   ~/playground/dev/illumina/ticket_notes/work_org_files/work_archive.org_archive",
       ""
     ],
-    "description": "Title Case the filename"
+    "description": "header for work org files"
+  },
+  "properties": {
+    "prefix": [
+      ":pro"
+    ],
+    "body": [
+      ":PROPERTIES:",
+      "$0",
+      ":END:",
+      ""
+    ],
+    "description": "Properties"
   },
   "jbug": {
     "prefix": [

@@ -104,7 +104,7 @@ end, { nargs = 0 }
 )
 
 -- Github cli dash
-vim.api.nvim_create_user_command('Gdash', function(_)
+vim.api.nvim_create_user_command('Ghdash', function(_)
   require('jobin.config.custom.utils').wrap_cli({ 'gh', 'dash' })
 end, { nargs = 0 }
 )

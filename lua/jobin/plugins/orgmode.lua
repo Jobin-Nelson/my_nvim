@@ -14,7 +14,19 @@ return {
         '~/playground/org_files/**/*.org',
       },
       org_default_notes_file = '~/playground/org_files/inbox.org',
-      org_todo_keywords = { 'TODO(t)', 'NEXT(n)', 'WAITING(w)', 'REVIEW(r)', '|', 'DONE(d)', 'CANCELLED(c)', 'DELEGATED(e)' },
+      org_todo_keywords = {
+        -- Open
+        'TODO(t)',
+        'NEXT(n)',
+        'INPROGRESS(i)',
+        'WAITING(w)',
+        'REVIEW(r)',
+        '|',
+        -- Completed
+        'DONE(d)',
+        'CANCELLED(c)',
+        'DELEGATED(e)'
+      },
       -- org_archive_location = '~/playground/org_files/archive_file.org_archive',
       org_todo_repeat_to_state = 'NEXT',
       org_startup_folded = 'content',
@@ -23,7 +35,7 @@ return {
       org_agenda_span = 'day',
       org_blank_before_new_entry = { heading = true, plain_list_item = false },
       org_log_into_drawer = 'LOGBOOK',
-      org_use_tag_inheritance = false,
+      org_agenda_skip_deadline_if_done = true,
       mappings = {
         org_return_uses_meta_return = true,
         org = {
@@ -31,20 +43,59 @@ return {
           org_backward_heading_same_level = '[{',
         },
       },
-      org_capture_templates = {
-        m = {
-          description = 'Meeting',
-          template = '\n* %?\n  %u',
-          target = '~/playground/dev/illumina/ticket_notes/work_org_files/ICI/ici-on-prem/meeting_notes.org',
-        },
-        w = {
-          description = 'Work Task',
-          template = '\n* TODO %?\n  SCHEDULED: %t',
-          target = '~/playground/dev/illumina/ticket_notes/work_org_files/work_inbox.org',
-        }
-      },
+      org_capture_templates = {},
+      org_agenda_block_separator = '─',
       org_agenda_custom_commands = {
         -- "c" is the shortcut that will be used in the prompt
+        A = {
+          description = 'Agenda GTD',
+          types = {
+            {
+              type = 'agenda',
+              org_agenda_overriding_header = "Today's Agenda:",
+              org_agenda_span = 'day'
+            },
+            {
+              type = 'tags_todo',
+              match = '/INPROGRESS',
+              org_agenda_overriding_header = 'In Progress Items:',
+              org_agenda_todo_ignore_scheduled = 'all',
+            },
+            {
+              type = 'tags_todo',
+              match = '/NEXT',
+              org_agenda_overriding_header = 'Next Items:',
+              org_agenda_todo_ignore_scheduled = 'all',
+            },
+            {
+              type = 'tags_todo',
+              match = '/WAITING',
+              org_agenda_overriding_header = 'Waiting on Items:',
+              org_agenda_todo_ignore_scheduled = 'all',
+            },
+            {
+              type = 'tags_todo',
+              match = '+PRIORITY="A"',
+              org_agenda_overriding_header = 'High Priority Todos:',
+              org_agenda_todo_ignore_deadlines = 'far',
+            },
+          }
+        },
+        r = {
+          description = 'Review',
+          types = {
+            {
+              type = 'agenda',
+              org_agenda_overriding_header = 'Review:',
+              org_agenda_category_filter_preset = 'inbox',
+            },
+            {
+              type = 'tags_todo',
+              org_agenda_overriding_header = 'Someday:',
+              org_agenda_category_filter_preset = 'someday',
+            },
+          }
+        },
         c = {
           description = 'Combined view', -- Description shown in the prompt for the shortcut
           types = {
@@ -74,6 +125,11 @@ return {
             },
           }
         },
+      },
+      ui = {
+        input = {
+          use_vim_ui = true
+        }
       }
     },
   },
@@ -88,5 +144,5 @@ return {
       }
       opts.sources.per_filetype.org = { 'snippets', 'orgmode', 'path', 'buffer' }
     end,
-  }
+  },
 }
