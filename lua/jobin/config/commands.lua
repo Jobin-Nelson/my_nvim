@@ -85,7 +85,7 @@ vim.api.nvim_create_user_command('JQL', function(opts)
     jql = 'sprint in openSprints() and project = Lambert and assignee = currentUser() and status changed to "Ready for Test" after -1d'
   -- b: open bugs
   elseif opts.args == 'b' then
-    jql = 'project = Lambert and (assignee = currentUser() or reporter = currentUser()) and type = Bug and status not in (Done)'
+    jql = 'project = Lambert and (assignee = currentUser() or reporter = currentUser()) and type = Bug and status not in (Done,"Won\'t Fix",Deferred,Duplicate)'
   -- dm: done in last month
   elseif opts.args == 'dm' then
     jql = 'project = Lambert and assignee was currentUser() and status changed to Done after startOfMonth(-1) before endOfMonth(-1)'
