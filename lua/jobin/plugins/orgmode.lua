@@ -7,6 +7,7 @@ return {
     keys = {
       { "<leader>o",  "",                    desc = "+Org Mode" },
       { "<leader>oa", "<cmd>Org agenda<cr>", desc = "org agenda" },
+      { "<leader>oc", "<cmd>Org Capture<cr>", desc = "org capture" },
     },
     ft = { 'org' },
     opts = {
@@ -85,8 +86,8 @@ return {
           description = 'Review',
           types = {
             {
-              type = 'agenda',
-              org_agenda_overriding_header = 'Review:',
+              type = 'tags_todo',
+              org_agenda_overriding_header = 'Inbox:',
               org_agenda_category_filter_preset = 'inbox',
             },
             {
