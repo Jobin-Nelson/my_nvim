@@ -3,9 +3,10 @@
 
 
 ---@class FWinOpts
----@field width integer?
----@field height integer?
----@field buf integer
+---@field width integer? percentage of screen width
+---@field height integer? percentage of screen height
+---@field title string?
+---@field buf integer?
 
 ---@class JWin
 ---@field buf integer
@@ -324,12 +325,23 @@ function M.titleCase()
 end
 
 ---@param opts FWinOpts?
+---@return integer width
+---@return integer height
+local function get_floating_window_size(opts)
+  opts = opts or {}
+  local width = opts.width or 0.8
+  local height = opts.height or 0.8
+
+  width = math.floor(vim.o.columns * width)
+  height = math.floor(vim.o.lines * height)
+  return width, height
+end
+
+---@param opts FWinOpts?
 ---@return JWin
 function M.create_floating_window(opts)
   opts = opts or {}
-  local width = opts.width or math.floor(vim.o.columns * 0.8)
-  local height = opts.height or math.floor(vim.o.lines * 0.8)
-
+  local width, height = get_floating_window_size(opts)
   local col = math.floor((vim.o.columns - width) / 2)
   local row = math.floor((vim.o.lines - height) / 2)
 
@@ -344,6 +356,8 @@ function M.create_floating_window(opts)
     row = row,
     style = 'minimal',
     border = 'rounded',
+    title = opts.title,
+    title_pos = 'center',
   })
 
   return { buf = buf, win = win }
@@ -382,8 +396,41 @@ function M.create_bottom_window(buf)
 end
 
 ---@param cmd string[]
-function M.wrap_cli(cmd)
-  local fwin = M.create_floating_window()
+---@param opts FWinOpts?
+local function tmux_floating_window(cmd, opts)
+  opts = opts or {}
+
+  local width = opts.width or 80
+  local height = opts.height or 70
+
+  local tmux_cmd = {
+    'tmux',
+    'display-popup',
+    '-E',
+    '-w',
+    ('%d%%'):format(width),
+    '-h',
+    ('%d%%'):format(height),
+  }
+
+  if opts.title then
+    vim.list_extend(tmux_cmd, { '-T', ('#[align=centre]%s'):format(opts.title), })
+  end
+
+  table.insert(tmux_cmd, table.concat(cmd, ' '))
+
+  vim.system(tmux_cmd):wait()
+end
+
+---@param opts FWinOpts?
+---@param cmd string[]
+function M.wrap_cli(cmd, opts)
+  -- if in tmux, use tmux floating window
+  if vim.env.TMUX then
+    return tmux_floating_window(cmd, opts)
+  end
+
+  local fwin = M.create_floating_window(opts)
   vim.api.nvim_set_current_win(fwin.win)
   vim.fn.jobstart(cmd, {
     term = true,

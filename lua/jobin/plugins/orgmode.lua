@@ -7,7 +7,7 @@ return {
     keys = {
       { "<leader>o",  "",                    desc = "+Org Mode" },
       { "<leader>oa", "<cmd>Org agenda<cr>", desc = "org agenda" },
-      { "<leader>oc", "<cmd>Org Capture<cr>", desc = "org capture" },
+      { "<leader>oc", "<cmd>Org capture<cr>", desc = "org capture" },
     },
     ft = { 'org' },
     opts = {
