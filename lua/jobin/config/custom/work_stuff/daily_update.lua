@@ -67,11 +67,15 @@ local function capture_email(_, data)
   setup_email(current_update, previous_update)
 end
 
-local M = {}
+local M = {
+  opts = {
+    daily_update_dir = '$HOME/playground/dev/daily_updates',
+  }
+}
 
 M.open = function()
   local command = 'echo '
-      .. '$HOME/playground/dev/illumina/daily_updates/$(date -d '
+      .. M.opts.daily_update_dir .. '/$(date -d '
       .. '"$([[ $(date -d "+2 hours" +%u) -gt 5 ]] '
       .. '&& echo "next Monday" || echo "+2 hours")" +%Y-%m-%d).md'
   vim.fn.jobstart(command, {

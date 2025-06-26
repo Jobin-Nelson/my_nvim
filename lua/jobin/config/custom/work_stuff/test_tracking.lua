@@ -1,4 +1,4 @@
--- local tt_path = vim.fn.expand('~/playground/dev/illumina/ticket_notes/work_org_files/ICI/ici-on-prem/test_tracking/test_case_tracking.org')
+-- local tt_path = vim.fn.expand('~/playground/dev/ticket_notes/work_org_files/ICI/ici-on-prem/test_tracking/test_case_tracking.org')
 -- local csv_path = vim.fs.dirname(tt_path) .. '/tracking.csv'
 
 local function get_tests()

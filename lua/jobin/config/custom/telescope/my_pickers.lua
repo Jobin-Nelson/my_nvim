@@ -161,16 +161,6 @@ M.find_config = function()
   })
 end
 
-M.find_org_files = function()
-  require('telescope.builtin').find_files({
-    search_dirs = {
-      '~/playground/org_files/',
-      '~/playground/dev/illumina/ticket_notes/work_org_files/',
-    },
-    prompt_title = 'Org Files',
-  })
-end
-
 M.insert_second_brain_template = function()
   local template_dir = second_brain .. '/Resources/Templates'
   require('telescope.builtin').find_files({

@@ -1,7 +1,7 @@
 -- Thanks folke
 -- Stolen straight from https://github.com/folke/snacks.nvim/blob/main/lua/snacks/gitbrowse.lua
 
----@class Git.State
+---@class Git.Opts
 ---@field url_patterns? table<string, table<string, string|fun(fields:Git.Fields):string>>
 
 ---@class Git.Fields
@@ -16,7 +16,9 @@
 ---@field name string
 ---@field url string
 
-local state = {
+local M = {}
+
+M.opts = {
   ---@type "repo" | "branch" | "file" | "commit"
   what = "file", -- what to open. not all remotes support all types
   branch = nil, ---@type string?
@@ -62,8 +64,6 @@ local state = {
   },
 }
 
-local M = {}
-
 ---@param cwd? string
 ---@return string|nil
 local function get_git_root(cwd)
@@ -100,10 +100,10 @@ function M.cd_git_root()
 end
 
 ---@param remote string
----@param opts? Git.State
+---@param opts? Git.Opts
 ---@return string
 local function get_repo(remote, opts)
-  opts = vim.tbl_deep_extend('force', state, opts)
+  opts = vim.tbl_deep_extend('force', M.opts, opts)
   local ret = remote
   for _, pattern in ipairs(opts.remote_patterns) do
     ret = ret:gsub(pattern[1], pattern[2]) --[[@as string]]
@@ -113,10 +113,10 @@ end
 
 ---@param repo string
 ---@param fields Git.Fields
----@param opts? Git.State
+---@param opts? Git.Opts
 ---@return string
 local function get_url(repo, fields, opts)
-  opts = vim.tbl_deep_extend('force', state, opts)
+  opts = vim.tbl_deep_extend('force', M.opts, opts)
   for remote, patterns in pairs(opts.url_patterns) do
     if repo:find(remote) then
       local pattern = patterns[opts.what]
@@ -156,7 +156,7 @@ end
 
 ---@return Git.Remote
 local function get_remotes()
-  local opts = vim.deepcopy(state)
+  local opts = vim.deepcopy(M.opts)
   local file = vim.api.nvim_buf_get_name(0) ---@type string?
   file = file and (vim.uv.fs_stat(file) or {}).type == "file" and vim.fs.normalize(file) or nil
   local cwd = file and vim.fn.fnamemodify(file, ":h") or vim.fn.getcwd()

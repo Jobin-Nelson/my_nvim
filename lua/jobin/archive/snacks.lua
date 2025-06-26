@@ -102,11 +102,6 @@ return {
     },
     gitbrowse = {
       url_patterns = {
-        ["git%.illumina%.com"] = {
-          branch = "/tree/{branch}",
-          file = "/blob/{branch}/{file}#L{line_start}-L{line_end}",
-          commit = "/commit/{commit}",
-        },
       }
     },
     zen = {

@@ -54,6 +54,7 @@ local M = {}
 
 ---@return string
 function M.get_domain()
+  vim.print(jopts:get_domain())
   return jopts:get_domain()
 end
 

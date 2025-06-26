@@ -4,7 +4,20 @@ vim.keymap.set('n', '<leader>foT', function()
   require("jobin.config.custom.fzf.pickers").fzf_org_live_grep("~/playground/dev/illumina/ticket_notes/work_org_files")
 end, { desc = 'Org Todo grep (Work)' })
 
+-- Setup jira creds
 require('jobin.config.custom.work_stuff.jira.opts'):set_creds_file_path('~/playground/dev/illumina/creds/jira.json')
+
+-- Setup git remote
+require('jobin.config.custom.git').opts.url_patterns["git%.illumina%.com"] = {
+  branch = "/tree/{branch}",
+  file = "/blob/{branch}/{file}#L{line_start}-L{line_end}",
+  commit = "/commit/{commit}",
+}
+
+-- Setup daily update
+require('jobin.config.custom.work_stuff.daily_update').opts.daily_update_dir = '~/playground/dev/illumina/daily_updates'
+
+-- Modify in snippets ~/.config/nvim/snippets/org.json
 
 return {
   {

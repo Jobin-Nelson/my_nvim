@@ -53,13 +53,5 @@ map('n', '<leader>fss',  function() require('jobin.config.custom.snacks.picker')
 map('n', '<leader>fsi', function() require('jobin.config.custom.snacks.picker').second_brain_template() end,
   { desc = 'Insert Second brain Templates' })
 
--- Work
-map('n', '<leader>fit',
- function() Snacks.picker.files({cwd='~/playground/dev/illumina/ticket_notes'}) end,
-  { desc = 'Find Ticket notes'})
-map('n', '<leader>fiu',
- function() Snacks.picker.files({cwd='~/playground/dev/illumina/utils'}) end,
-  { desc = 'Find Utils'})
-
 -- Explorer
 map('n', '<leader>e', function() Snacks.picker.explorer() end, { desc = 'Explorer' })

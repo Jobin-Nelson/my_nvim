@@ -5,6 +5,7 @@
 ---@class Jopts
 ---@field creds Creds?
 ---@field creds_file_path string
+---@field should_reload_creds boolean
 
 ---@class Creds
 ---@field jira Jira
@@ -41,7 +42,6 @@ end
 ---@param path string
 function jopts:set_creds_file_path(path)
   self.creds_file_path = path
-  self:get_creds(true)
 end
 
 ---@return string
