@@ -4,6 +4,8 @@ vim.keymap.set('n', '<leader>foT', function()
   require("jobin.config.custom.fzf.pickers").fzf_org_live_grep("~/playground/dev/illumina/ticket_notes/work_org_files")
 end, { desc = 'Org Todo grep (Work)' })
 
+require('jobin.config.custom.work_stuff.jira.opts'):set_creds_file_path('~/playground/dev/illumina/creds/jira.json')
+
 return {
   {
     'nvim-orgmode/orgmode',

@@ -7,13 +7,6 @@
 -- ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
 
----@class Creds
----@field jira Jira
-
----@class Jira
----@field token string
----@field domain string
-
 ---@class Issue
 ---@field key string
 ---@field fields IssueField
@@ -55,37 +48,18 @@
 -- ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
 local utils = require('jobin.config.custom.utils')
+local jopts = require('jobin.config.custom.work_stuff.jira.opts')
 
 local M = {}
 
----@type Creds?
-local _creds = nil
-
----@return Creds
-local function get_creds()
-  if not _creds then
-    local creds_file_path = vim.fs.normalize('~/playground/dev/illumina/creds/jira.json')
-    ---@type Creds
-    _creds = vim.fn.json_decode(vim.fn.readfile(creds_file_path))
-    vim.validate({
-      jira = { _creds.jira, 'table' },
-      token = { _creds.jira.token, 'string' },
-      domain = { _creds.jira.domain, 'string' },
-    })
-  end
-  return _creds
-end
-
 ---@return string
 function M.get_domain()
-  local creds = get_creds()
-  return creds.jira.domain
+  return jopts:get_domain()
 end
 
 ---@return string
 local function get_token()
-  local creds = get_creds()
-  return creds.jira.token
+  return jopts:get_token()
 end
 
 ---@param url string
