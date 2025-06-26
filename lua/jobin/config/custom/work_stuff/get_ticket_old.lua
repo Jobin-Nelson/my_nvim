@@ -1,3 +1,5 @@
+local jira = require "jobin.config.custom.work_stuff.jira.init"
+
 -- Get issue-id
 -- Get link + token
 -- Make request
@@ -38,7 +40,7 @@ local function populate_summary(text)
     '* ' .. text,
     -- os.date('SCHEDULED: <%Y-%m-%d %a>'),
     '** Description',
-    string.format('*Ticket*: [[https://jira.illumina.com/browse/%s][%s]]', issue_id, issue_id),
+    string.format('*Ticket*: [[%s/browse/%s][%s]]', jira.get_domain(), issue_id, issue_id),
   }
   vim.api.nvim_buf_set_lines(bufnr, line_nr, line_nr, false, lines)
   return line_nr + #lines + 1

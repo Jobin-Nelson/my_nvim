@@ -7,7 +7,7 @@ local M = {}
 ---@return SubTask[]
 local function get_remote_subtask(issue_id)
   return vim.json.decode(jira.request(
-    ('https://jira.illumina.com/rest/api/2/issue/%s/subtask'):format(issue_id)
+    ('%s/rest/api/2/issue/%s/subtask'):format(jira.get_domain(), issue_id)
   ))
 end
 

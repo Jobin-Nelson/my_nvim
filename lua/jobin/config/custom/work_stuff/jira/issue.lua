@@ -38,7 +38,8 @@ end
 ---@return Issue
 local function get_issue(issue_id)
   return vim.json.decode(jira.request(string.format(
-    'https://jira.illumina.com/rest/api/2/issue/%s?fields=summary,description,issuetype',
+    '%s/rest/api/2/issue/%s?fields=summary,description,issuetype',
+    jira.get_domain(),
     issue_id
   )))
 end
@@ -86,7 +87,7 @@ function M.open(line)
   else
     jira.notify(('Opening issue %s'):format(id), vim.log.levels.INFO)
   end
-  vim.ui.open(('https://jira.illumina.com/browse/%s'):format(id)):wait()
+  vim.ui.open(('%s/browse/%s'):format(jira.get_domain(), id)):wait()
 end
 
 -- vim.keymap.set('n', '<leader>rt', M.get)

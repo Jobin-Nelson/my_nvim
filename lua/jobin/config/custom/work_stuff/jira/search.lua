@@ -8,8 +8,8 @@ local M = {}
 ---@return FilterResult
 local function filter(filter_id)
   return vim.json.decode(jira.request(
-    ('https://jira.illumina.com/rest/api/2/filter/%s')
-    :format(filter_id), {}
+    ('%s/rest/api/2/filter/%s')
+    :format(jira.get_domain(), filter_id), {}
   ))
 end
 
@@ -22,7 +22,7 @@ end
 ---@param json_data string
 ---@return SearchResult
 local function search(json_data)
-  return vim.json.decode(jira.request('https://jira.illumina.com/rest/api/2/search', {}, json_data))
+  return vim.json.decode(jira.request(jira.get_domain() .. '/rest/api/2/search', {}, json_data))
 end
 
 ---@param jql string
