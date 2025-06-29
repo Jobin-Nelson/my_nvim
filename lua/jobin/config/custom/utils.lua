@@ -28,8 +28,8 @@ M.delete_hidden_buffers = function()
   end
 
   for _, buf in ipairs(all_bufs) do
-    if visible_bufs[buf] == nil then
-      vim.api.nvim_buf_delete(buf, { unload = true })
+    if visible_bufs[buf] == nil and vim.b[buf].filetype ~= 'copilot-chat' then
+      vim.api.nvim_buf_delete(buf, { force = false })
     end
   end
   vim.notify("All hidden buffers have been deleted", vim.log.levels.INFO, { title = 'Utils' })
