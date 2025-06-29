@@ -5,5 +5,6 @@ return {
   { 'b0o/schemastore.nvim',   lazy = true },
   { 'windwp/nvim-autopairs',  event = "InsertEnter",                           opts = {} },
   { 'stevearc/dressing.nvim', event = 'VeryLazy',                              opts = {} },
-  { 'tpope/vim-sleuth',       lazy = false }
+  { 'tpope/vim-sleuth',       lazy = false },
+  { 'mbbill/undotree',        lazy = false,                                    keys = { { '<leader>uu', '<cmd>UndotreeToggle<cr>' } } },
 }
