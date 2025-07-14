@@ -71,25 +71,25 @@ vim.api.nvim_create_user_command('JQL', function(opts)
   -- s: current sprint
   if opts.args == 's' then
     jql = 'sprint in openSprints() and project = Lambert and assignee = currentUser() and status not in (Done)'
-    -- ssb: current sprint, stories or bugs
+  -- ssb: current sprint, stories or bugs
   elseif opts.args == 'ssb' then
     jql = 'sprint in openSprints() and project = Lambert and type in (Story,Bug) and status != Done'
-    -- st: current sprint, ready for test
+  -- st: current sprint, ready for test
   elseif opts.args == 'st' then
     jql = 'sprint in openSprints() and project = Lambert and assignee = currentUser() and status = "Ready for Test"'
-    -- stw: current sprint, ready for test, last 7 days
+  -- stw: current sprint, ready for test, last 7 days
   elseif opts.args == 'stw' then
     jql = 'sprint in openSprints() and project = Lambert and assignee = currentUser() and status changed to "Ready for Test" after startOfDay(-7d)'
-    -- std: current sprint, ready for test, last 24 hours
+  -- std: current sprint, ready for test, last 24 hours
   elseif opts.args == 'std' then
     jql = 'sprint in openSprints() and project = Lambert and assignee = currentUser() and status changed to "Ready for Test" after -1d'
-    -- b: open bugs
+  -- b: open bugs
   elseif opts.args == 'b' then
     jql = 'project = Lambert and (assignee = currentUser() or reporter = currentUser()) and type = Bug and status not in (Done,"Won\'t Fix",Deferred,Duplicate)'
-    -- dm: done in last month
+  -- dm: done in last month
   elseif opts.args == 'dm' then
     jql = 'project = Lambert and assignee was currentUser() and status changed to Done after startOfMonth(-1) before endOfMonth(-1)'
-    -- dw: done in last week
+  -- dw: done in last week
   elseif opts.args == 'dw' then
     jql = 'project = Lambert and assignee was currentUser() and status changed to Done after startOfWeek(-1) before endOfWeek(-1)'
   end
