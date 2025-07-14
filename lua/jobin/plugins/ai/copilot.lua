@@ -4,6 +4,10 @@ return {
     cmd = "Copilot",
     event = "InsertEnter",
     opts = {
+      filetypes = {
+        org = false,
+        markdown = false,
+      },
       suggestion = {
         enabled = false,
         auto_trigger = false,
