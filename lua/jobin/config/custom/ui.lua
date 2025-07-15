@@ -75,7 +75,10 @@ function M.custom_fold_text()
   local line_count = vim.v.foldend - vim.v.foldstart + 1
   local line_count_text = ("  %d lines "):format(line_count)
   local win_width = vim.api.nvim_win_get_width(0)
-  local foldtext_start = line:sub(1, math.floor(win_width * 2) / 3) .. "  "
+  -- 3  - ellipsis width
+  -- 13 - line_count width (max 3 digits)
+  -- 10 - right padding width
+  local foldtext_start = line:sub(1, win_width - 3 - 13 - 10) .. "  "
   local foldtext_end = line_count_text
   local foldtext_length = vim.fn.strdisplaywidth(foldtext_start .. foldtext_end)
   return foldtext_start .. (" "):rep(win_width - foldtext_length - 10) .. foldtext_end
