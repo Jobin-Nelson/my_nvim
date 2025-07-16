@@ -33,6 +33,7 @@ return {
       org_startup_folded = 'content',
       org_hide_leading_stars = false,
       org_hide_emphasis_markers = true,
+      org_ellipsis = '  ',
       org_agenda_span = 'day',
       org_blank_before_new_entry = { heading = true, plain_list_item = false },
       org_log_into_drawer = 'LOGBOOK',

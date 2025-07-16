@@ -49,9 +49,6 @@ return {
         map('[d', function() vim.diagnostic.jump({ count = -1, float = true }) end, 'Previous diagnostic')
         map('gD', vim.lsp.buf.declaration, 'Goto [D]eclaration')
         map('<leader>lq', vim.diagnostic.setloclist, 'Set diagnostic quickfix')
-        map('K', function() vim.lsp.buf.hover({ border = 'rounded' }) end, 'Hover Documentation')
-        map('<C-s>', function() vim.lsp.buf.signature_help({ border = 'rounded' }) end, 'Signature Documentation', 'i')
-
 
         map('<leader>lwa', vim.lsp.buf.add_workspace_folder, 'Lsp Workspace Add folder')
         map('<leader>lwr', vim.lsp.buf.remove_workspace_folder, 'Lsp Workspace Remove folder')

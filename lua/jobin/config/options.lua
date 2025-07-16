@@ -42,6 +42,7 @@ vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldtext = "v:lua.require('jobin.config.custom.ui').custom_fold_text()"
 vim.opt.winbar = "%=%m %{expand('%:~:.')}"
+vim.opt.winborder = 'rounded'
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 
