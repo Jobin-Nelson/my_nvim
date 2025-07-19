@@ -58,7 +58,7 @@ map('n', '<leader>uh', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hi
 
 -- Custom
 map('n', '<leader>js', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>', { desc = 'Substitute word' })
-map('n', '<leader>jy', '<cmd>let @+=@% | echo "Filepath copied to clipboard"<cr>', { desc = 'Copy Filepath' })
+map('n', '<leader>jyf', '<cmd>let @+=@% | echo "Filepath copied to clipboard"<cr>', { desc = 'Copy Filepath' })
 map('n', '<leader>jx', '<cmd>.lua<cr>', { desc = 'Execute lua' })
 map('v', '<leader>jx', ':lua<cr>', { desc = 'Execute lua' })
 map('n', '<leader>ja', ':<Up><cr>', { desc = 'Run Last Command' })
@@ -67,6 +67,7 @@ map('n', '<leader>jp', '<cmd>set relativenumber! number! showmode! showcmd! hidd
   { desc = 'Presentation Mode' })
 map('n', '<leader>ji', '<cmd>!nsxiv <cfile><cr>', { desc = 'Image Preview' })
 map('v', '<leader>jT', ":!tr -s ' ' | column -t -s '|' -o '|'<cr>", { desc = 'Format Table' })
+map('v', '<leader>jyd', [=[:w !python3 -c 'import sys, textwrap; print(textwrap.dedent(sys.stdin.read()), end="")' > >( [[ $XDG_SESSION_TYPE == 'x11' ]] && xclip -sel c || wl-copy )<cr>]=], { desc = 'Copy Dedent Text' })
 map('n', '<leader>jb', function() require("jobin.config.custom.utils").box(60) end, { desc = 'Box header' })
 map('n', '<leader>jB', function() require("jobin.config.custom.utils").box() end, { desc = 'Box word' })
 map('n', '<leader>jc', function() require("jobin.config.custom.git").cd_git_root() end, { desc = 'Cd Git Root' })
@@ -101,4 +102,4 @@ map('n', '<leader>wo', function() require("jobin.config.custom.work_stuff.jira.i
   { desc = 'Open Ticket' })
 map('n', '<leader>wf', function() require("jobin.config.custom.work_stuff.jira.search").list_filter_issues() end,
   { desc = 'Source Filter Issues' })
-map('v', '<leader>jY', ':w !pandoc -t html -o - | xclip -sel c -t text/html<cr>', { desc = 'Copy to HTML' })
+map('v', '<leader>jyh', ':w !pandoc -t html -o - | xclip -sel c -t text/html<cr>', { desc = 'Copy to HTML' })

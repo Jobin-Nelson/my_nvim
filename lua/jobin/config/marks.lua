@@ -37,20 +37,20 @@ vim.api.nvim_set_decoration_provider(ns, {
 })
 
 -- Redraw screen when marks are changed via `m` commands
-vim.on_key(function(_, typed)
-    if typed:sub(1, 1) ~= 'm' then
-        return
-    end
-
-    local mark = typed:sub(2)
-
-    vim.schedule(function()
-        if mark:match '[A-Z]' then
-            for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
-                vim.api.nvim__redraw { win = win, range = { 0, -1 } }
-            end
-        else
-            vim.api.nvim__redraw { range = { 0, -1 } }
-        end
-    end)
-end, ns)
+-- vim.on_key(function(_, typed)
+--     if typed:sub(1, 1) ~= 'm' then
+--         return
+--     end
+--
+--     local mark = typed:sub(2)
+--
+--     vim.schedule(function()
+--         if mark:match '[A-Z]' then
+--             for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+--                 vim.api.nvim__redraw { win = win, range = { 0, -1 } }
+--             end
+--         else
+--             vim.api.nvim__redraw { range = { 0, -1 } }
+--         end
+--     end)
+-- end, ns)
