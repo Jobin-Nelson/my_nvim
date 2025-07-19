@@ -64,8 +64,8 @@ return {
         if not client then return end
 
         if client:supports_method('textDocument/codeLens') then
-          map('<leader>ll', vim.lsp.codelens.run, 'Run CodeLens', { 'n', 'v' })
-          map('<leader>lL', vim.lsp.codelens.refresh, 'Refresh & Display CodeLens', { 'n', 'v' })
+          map('<leader>lL', vim.lsp.codelens.run, 'Run CodeLens', { 'n', 'v' })
+          map('<leader>ll', vim.lsp.codelens.refresh, 'Refresh & Display CodeLens', { 'n', 'v' })
           vim.lsp.codelens.refresh()
           -- Uncomment for automatic refresh of codelens
           -- vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave" }, {
@@ -127,8 +127,12 @@ return {
     local capabilities = {
       workspace = {
         fileOperations = {
+          didCreate = true,
           didRename = true,
+          didDelete = true,
+          willCreate = true,
           willRename = true,
+          willDelete = true,
         }
       }
     }

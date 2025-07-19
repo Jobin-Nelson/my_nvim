@@ -101,7 +101,7 @@ return {
     DividerLeft = "",
     DividerRight = "",
     DoubleChevronRight = "»",
-    Ellipsis = "",
+    Ellipsis = "",
     EmptyFolder = "",
     EmptyFolderOpen = "",
     File = "",
