@@ -415,6 +415,8 @@ local function tmux_floating_window(cmd, opts)
 
   if opts.title then
     vim.list_extend(tmux_cmd, { '-T', ('#[align=centre]%s'):format(opts.title), })
+  else
+    table.insert(tmux_cmd, '-B')
   end
 
   table.insert(tmux_cmd, table.concat(cmd, ' '))

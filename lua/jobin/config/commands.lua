@@ -130,3 +130,11 @@ end, {
     return vim.fn['fugitive#Complete'](a, l, p, { git_dir = vim.g.git_worktrees[1].gitdir })
   end
 })
+
+-- Change fonts
+vim.api.nvim_create_user_command('Chfont', function(_)
+  local chfont_script = vim.env.HOME .. '/.local/bin/chfont.sh'
+  require('jobin.config.custom.utils').wrap_cli({ chfont_script })
+end, {
+  nargs = 0,
+})
