@@ -355,9 +355,9 @@ function M.create_floating_window(opts)
     col = col,
     row = row,
     style = 'minimal',
-    border = 'rounded',
+    border = opts.title and 'rounded' or 'none',
     title = opts.title,
-    title_pos = 'center',
+    title_pos = opts.title and 'center',
   })
 
   return { buf = buf, win = win }
@@ -428,9 +428,9 @@ end
 ---@param cmd string[]
 function M.wrap_cli(cmd, opts)
   -- if in tmux, use tmux floating window
-  if vim.env.TMUX then
-    return tmux_floating_window(cmd, opts)
-  end
+  -- if vim.env.TMUX then
+  --   return tmux_floating_window(cmd, opts)
+  -- end
 
   local fwin = M.create_floating_window(opts)
   vim.api.nvim_set_current_win(fwin.win)

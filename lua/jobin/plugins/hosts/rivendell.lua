@@ -43,6 +43,7 @@ return {
   },
   {
     "zbirenbaum/copilot.lua",
+    event = 'InsertEnter',
     optional = true,
     opts = function(_, opts)
       opts.suggestion.enabled = true
