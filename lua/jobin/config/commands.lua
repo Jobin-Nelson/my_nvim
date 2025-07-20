@@ -71,27 +71,32 @@ vim.api.nvim_create_user_command('JQL', function(opts)
   -- s: current sprint
   if opts.args == 's' then
     jql = 'sprint in openSprints() and project = Lambert and assignee = currentUser() and status not in (Done)'
-  -- ssb: current sprint, stories or bugs
+    -- ssb: current sprint, stories or bugs
   elseif opts.args == 'ssb' then
     jql = 'sprint in openSprints() and project = Lambert and type in (Story,Bug) and status != Done'
-  -- st: current sprint, ready for test
+    -- st: current sprint, ready for test
   elseif opts.args == 'st' then
     jql = 'sprint in openSprints() and project = Lambert and assignee = currentUser() and status = "Ready for Test"'
-  -- stw: current sprint, ready for test, last 7 days
+    -- stw: current sprint, ready for test, last 7 days
   elseif opts.args == 'stw' then
-    jql = 'sprint in openSprints() and project = Lambert and assignee = currentUser() and status changed to "Ready for Test" after startOfDay(-7d)'
-  -- std: current sprint, ready for test, last 24 hours
+    jql =
+    'sprint in openSprints() and project = Lambert and assignee = currentUser() and status changed to "Ready for Test" after startOfDay(-7d)'
+    -- std: current sprint, ready for test, last 24 hours
   elseif opts.args == 'std' then
-    jql = 'sprint in openSprints() and project = Lambert and assignee = currentUser() and status changed to "Ready for Test" after -1d'
-  -- b: open bugs
+    jql =
+    'sprint in openSprints() and project = Lambert and assignee = currentUser() and status changed to "Ready for Test" after -1d'
+    -- b: open bugs
   elseif opts.args == 'b' then
-    jql = 'project = Lambert and (assignee = currentUser() or reporter = currentUser()) and type = Bug and status not in (Done,"Won\'t Fix",Deferred,Duplicate)'
-  -- dm: done in last month
+    jql =
+    'project = Lambert and (assignee = currentUser() or reporter = currentUser()) and type = Bug and status not in (Done,"Won\'t Fix",Deferred,Duplicate)'
+    -- dm: done in last month
   elseif opts.args == 'dm' then
-    jql = 'project = Lambert and assignee was currentUser() and status changed to Done after startOfMonth(-1) before endOfMonth(-1)'
-  -- dw: done in last week
+    jql =
+    'project = Lambert and assignee was currentUser() and status changed to Done after startOfMonth(-1) before endOfMonth(-1)'
+    -- dw: done in last week
   elseif opts.args == 'dw' then
-    jql = 'project = Lambert and assignee was currentUser() and status changed to Done after startOfWeek(-1) before endOfWeek(-1)'
+    jql =
+    'project = Lambert and assignee was currentUser() and status changed to Done after startOfWeek(-1) before endOfWeek(-1)'
   end
   require('jobin.config.custom.fzf.pickers').fzf_search_jira(jql)
 end, { nargs = 1 }
@@ -111,3 +116,17 @@ end, { nargs = 0 })
 vim.api.nvim_create_user_command('Rmpc', function(_)
   require('jobin.config.custom.utils').wrap_cli({ 'rmpc' }, { title = ' RMPC ' })
 end, { nargs = 0 })
+
+-- Dotfiles
+vim.api.nvim_create_user_command('Dot', function(opts)
+  local bufnr = vim.api.nvim_get_current_buf()
+  local buf_git_dir = vim.b.git_dir
+  vim.b.git_dir = vim.g.git_worktrees[1].gitdir
+  vim.cmd('Git ' .. opts.args)
+  vim.b[bufnr].git_dir = buf_git_dir
+end, {
+  nargs = '?',
+  complete = function(a, l, p)
+    return vim.fn['fugitive#Complete'](a, l, p, { git_dir = vim.g.git_worktrees[1].gitdir })
+  end
+})
