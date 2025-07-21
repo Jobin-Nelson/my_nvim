@@ -370,6 +370,41 @@ M.fzf_icons = function()
   fzf_lua.fzf_exec(icons(), default_opts)
 end
 
+local list_files_from_branch_action = function(action, selected, args)
+  local file = require('fzf-lua').path.entry_to_file(selected[1])
+  vim.print('args is ' .. args)
+  local cmd = string.format('%s %s:%s', action, args, file.path)
+  vim.cmd(cmd)
+end
+
+---@param args string
+function M.fzf_git_diff_branch(args)
+  fzf_lua.files {
+    cmd = 'git diff --name-only ' .. args,
+    prompt = args .. ' ❯ ',
+    hidden = false,
+    actions = {
+      ['default'] = function(selected)
+        list_files_from_branch_action('Gedit', selected, args)
+      end,
+      ['ctrl-s'] = function(selected)
+        list_files_from_branch_action('Gsplit', selected, args)
+      end,
+      ['ctrl-v'] = function(selected)
+        list_files_from_branch_action('Gvsplit', selected, args)
+      end,
+    },
+    previewer = false,
+    preview = {
+      type = 'cmd',
+      fn = function(items)
+        local file = require('fzf-lua').path.entry_to_file(items[1])
+        return string.format('git diff --color=always %s HEAD -- %s', args, file.path)
+      end,
+    },
+  }
+end
+
 
 -- vim.keymap.set('n', '<leader>rt', function() M.fzf_icons() end)
 -- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')

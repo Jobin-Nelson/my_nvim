@@ -138,3 +138,20 @@ vim.api.nvim_create_user_command('Chfont', function(_)
 end, {
   nargs = 0,
 })
+
+-- Diff files from git branch
+vim.api.nvim_create_user_command('DiffBranch', function(opts)
+  require('jobin.config.custom.fzf.pickers').fzf_git_diff_branch(opts.args)
+end, {
+  nargs = 1,
+  force = true,
+  complete = function()
+    local branches = vim.fn.systemlist 'git branch --all --sort=-committerdate'
+    if vim.v.shell_error == 0 then
+      return vim.tbl_map(function(x)
+        return x:match('[^%s%*]+'):gsub('^remotes/', '')
+      end, branches)
+    end
+  end,
+})
+
