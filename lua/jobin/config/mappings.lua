@@ -66,21 +66,25 @@ map('n', '<leader>jp', '<cmd>set relativenumber! number! showmode! showcmd! hidd
   { desc = 'Presentation Mode' })
 map('n', '<leader>ji', '<cmd>!nsxiv <cfile><cr>', { desc = 'Image Preview' })
 map('v', '<leader>jT', ":!tr -s ' ' | column -t -s '|' -o '|'<cr>", { desc = 'Format Table' })
-map('v', '<leader>jyd', [=[:w !python3 -c 'import sys, textwrap; print(textwrap.dedent(sys.stdin.read()), end="")' > >( [[ $XDG_SESSION_TYPE == 'x11' ]] && xclip -sel c || wl-copy )<cr>]=], { desc = 'Copy Dedent Text' })
-map('n', '<leader>jyc', ':redir @+> <bar>  <bar> redir END<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>', { desc = 'Copy Output' })
+map({ 'n', 'v' }, '<leader>jyd', function() require('jobin.config.custom.utils').yank_dedent() end, { desc = 'Copy Dedent Text' })
+map('n', '<leader>jyc',
+  ':redir @+> <bar>  <bar> redir END<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>',
+  { desc = 'Copy Output' })
 map('n', '<leader>jo', ":<Up><Home>put=execute('<End>')<cr>", { desc = 'Output to buffer' })
 map('n', '<leader>jb', function() require("jobin.config.custom.utils").box(60) end, { desc = 'Box header' })
 map('n', '<leader>jB', function() require("jobin.config.custom.utils").box() end, { desc = 'Box word' })
 map('n', '<leader>jc', function() require("jobin.config.custom.git").cd_git_root() end, { desc = 'Cd Git Root' })
 map('n', '<leader>jr', function() require("jobin.config.custom.utils").rename_file() end, { desc = 'Rename File' })
 map('n', '<leader>jl', function() require("jobin.config.custom.utils").leet() end, { desc = 'Leetcode Daily' })
-map('v', '<leader>jt', function() require("jobin.config.custom.utils").titleCase() end, { desc = 'TitleCase' })
+map({ 'n', 'v' }, '<leader>jt', function() require("jobin.config.custom.utils").titlecase() end, { desc = 'TitleCase' })
 map({ 'n', 'v' }, '<leader>gB', function() require('jobin.config.custom.git').open() end, { desc = 'Git Browse' })
-map({ 'n', 'v' }, '<leader>gy', function() require('jobin.config.custom.git').copy() end, { desc = 'Git Copy remote url' })
+map({ 'n', 'v' }, '<leader>gy', function() require('jobin.config.custom.git').copy() end,
+  { desc = 'Git Copy remote url' })
 map('n', '<leader>Ls', function() require('jobin.config.custom.lsp').stop_lsp() end, { desc = 'Stop all LSP clients' })
 map('n', '<leader>Lh', function() require('jobin.config.custom.lsp').stop_hidden_lsp() end,
   { desc = 'Stop hidden LSP clients' })
-map('n', '<leader>Lp', function() require('jobin.config.custom.lsp').display_active_lsp() end, { desc = 'Display active LSP clients' })
+map('n', '<leader>Lp', function() require('jobin.config.custom.lsp').display_active_lsp() end,
+  { desc = 'Display active LSP clients' })
 -- map('n', '<leader>jj', function() require("jobin.config.custom.utils").start_journal() end, { desc = 'Start Journal' })
 -- map('n', '<leader>jt', function() require("jobin.config.custom.org_tangle").tangle() end, { desc = 'Org Tangle' })
 
@@ -99,7 +103,8 @@ map('n', '<leader>wt', function() require("jobin.config.custom.work_stuff.jira.i
   { desc = 'Source Ticket' })
 map('n', '<leader>ws', function() require("jobin.config.custom.work_stuff.jira.subtask").get() end,
   { desc = 'Source SubTask' })
-map('n', '<leader>wo', function() require("jobin.config.custom.work_stuff.jira.issue").open(vim.api.nvim_get_current_line()) end,
+map('n', '<leader>wo',
+  function() require("jobin.config.custom.work_stuff.jira.issue").open(vim.api.nvim_get_current_line()) end,
   { desc = 'Open Ticket' })
 map('n', '<leader>wf', function() require("jobin.config.custom.work_stuff.jira.search").list_filter_issues() end,
   { desc = 'Source Filter Issues' })

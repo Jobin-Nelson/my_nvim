@@ -2,7 +2,7 @@
 -- https://github.com/ibhagwan/nvim-lua/blob/main/lua/utils.lua
 
 
----@class FWinOpts
+---@class JFWinOpts
 ---@field width integer? percentage of screen width
 ---@field height integer? percentage of screen height
 ---@field title string?
@@ -11,6 +11,12 @@
 ---@class JWin
 ---@field buf integer
 ---@field win integer
+
+---@class JSelPos
+---@field start_line integer
+---@field end_line integer
+---@field start_col integer
+---@field end_col integer
 
 local M = {}
 
@@ -298,33 +304,73 @@ end
 ---@param line string
 ---@return string
 ---@return integer
-function M.titleCaseLine(line)
+function M.titlecase_line(line)
   return line:gsub("(%a)([%w_']*)", function(first, rest)
     return first:upper() .. rest:lower()
   end)
 end
 
-function M.titleCase()
+---@param fn fun(input: string[]): string[]
+---@param replace? boolean
+function M.apply_multimodal(fn, replace)
   -- if not in visual apply on current line
-  -- if vim.fn.mode() ~= 'v' then
-  --   return vim.api.nvim_set_current_line(M.titleCaseLine(vim.api.nvim_get_current_line()))
-  -- end
-
-  vim.fn.feedkeys(":", "nx")
-  local start_pos = vim.api.nvim_buf_get_mark(0, '<')
-  local end_pos = vim.api.nvim_buf_get_mark(0, '>')
-  vim.fn.feedkeys("gv", "nx")
-  -- when in visual line mode, end col will have very large value
-  if end_pos[2] >= 2147483647 then
-    end_pos[2] = vim.fn.col("'>") - 2
+  local mode = vim.fn.mode()
+  if mode:lower() ~= 'v' then
+    local output = fn({ vim.api.nvim_get_current_line() })
+    return vim.api.nvim_set_current_line(output[1])
   end
 
-  local input = vim.api.nvim_buf_get_text(0, start_pos[1] - 1, start_pos[2], end_pos[1] - 1, end_pos[2], {})
-  local output = vim.tbl_map(M.titleCaseLine, input)
-  vim.api.nvim_buf_set_text(0, start_pos[1] - 1, start_pos[2], end_pos[1] - 1, end_pos[2], output)
+  local sel_pos = M.get_selected_pos()
+  if mode == 'v' then
+    local input = vim.api.nvim_buf_get_text(0,
+      sel_pos.start_line - 1,
+      sel_pos.start_col - 1,
+      sel_pos.end_line - 1,
+      sel_pos.end_col,
+      {}
+    )
+    local output = fn(input)
+    if replace then
+      vim.api.nvim_buf_set_text(0,
+        sel_pos.start_line - 1,
+        sel_pos.start_col - 1,
+        sel_pos.end_line - 1,
+        sel_pos.end_col,
+        output
+      )
+    end
+  else
+    local input = vim.api.nvim_buf_get_lines(0,
+      sel_pos.start_line - 1,
+      sel_pos.end_line,
+      false
+    )
+    local output = fn(input)
+    if replace then
+      vim.api.nvim_buf_set_lines(0,
+        sel_pos.start_line - 1,
+        sel_pos.end_line,
+        false,
+        output
+      )
+    end
+  end
 end
 
----@param opts FWinOpts?
+function M.titlecase()
+  M.apply_multimodal(function(lines)
+    return vim.tbl_map(M.titlecase_line, lines)
+  end, true)
+end
+
+function M.yank_dedent()
+  M.apply_multimodal(function(lines)
+    vim.fn.setreg('+', vim.text.indent(0, table.concat(lines, '\n')))
+    return {}
+  end, false)
+end
+
+---@param opts JFWinOpts?
 ---@return integer width
 ---@return integer height
 local function get_floating_window_size(opts)
@@ -337,7 +383,7 @@ local function get_floating_window_size(opts)
   return width, height
 end
 
----@param opts FWinOpts?
+---@param opts JFWinOpts?
 ---@return JWin
 function M.create_floating_window(opts)
   opts = opts or {}
@@ -396,7 +442,7 @@ function M.create_bottom_window(buf)
 end
 
 ---@param cmd string[]
----@param opts FWinOpts?
+---@param opts JFWinOpts?
 local function tmux_floating_window(cmd, opts)
   opts = opts or {}
 
@@ -424,7 +470,7 @@ local function tmux_floating_window(cmd, opts)
   vim.system(tmux_cmd):wait()
 end
 
----@param opts FWinOpts?
+---@param opts JFWinOpts?
 ---@param cmd string[]
 function M.wrap_cli(cmd, opts)
   -- if in tmux, use tmux floating window
@@ -445,7 +491,24 @@ function M.wrap_cli(cmd, opts)
   vim.cmd.startinsert()
 end
 
--- vim.keymap.set({ 'n', 'v' }, '<leader>rt', function() M.rename_file() end)
+function M.get_selected_pos()
+  local start_line = vim.fn.line('v')
+  local end_line = vim.fn.line('.')
+  local start_col = vim.fn.col('v')
+  local end_col = vim.fn.col('.')
+  if start_line > end_line or start_col > end_col then
+    start_line, end_line = end_line, start_line
+    start_col, end_col = end_col, start_col
+  end
+  return {
+    start_line = start_line,
+    end_line = end_line,
+    start_col = start_col,
+    end_col = end_col
+  }
+end
+
+-- vim.keymap.set({ 'n', 'v' }, '<leader>rt', function() M.yank_dedent() end)
 -- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 
 return M
