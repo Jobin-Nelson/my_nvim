@@ -304,10 +304,28 @@ end
 ---@param line string
 ---@return string
 ---@return integer
-function M.titlecase_line(line)
+local function titlecase_line(line)
   return line:gsub("(%a)([%w_']*)", function(first, rest)
     return first:upper() .. rest:lower()
   end)
+end
+
+---@return JSelPos
+local function get_selected_pos()
+  local start_line = vim.fn.line('v')
+  local end_line = vim.fn.line('.')
+  local start_col = vim.fn.col('v')
+  local end_col = vim.fn.col('.')
+  if start_line > end_line or start_col > end_col then
+    start_line, end_line = end_line, start_line
+    start_col, end_col = end_col, start_col
+  end
+  return {
+    start_line = start_line,
+    end_line = end_line,
+    start_col = start_col,
+    end_col = end_col
+  }
 end
 
 ---@param fn fun(input: string[]): string[]
@@ -317,10 +335,13 @@ function M.apply_multimodal(fn, replace)
   local mode = vim.fn.mode()
   if mode:lower() ~= 'v' then
     local output = fn({ vim.api.nvim_get_current_line() })
-    return vim.api.nvim_set_current_line(output[1])
+    if replace then
+      vim.api.nvim_set_current_line(output[1])
+    end
+    return
   end
 
-  local sel_pos = M.get_selected_pos()
+  local sel_pos = get_selected_pos()
   if mode == 'v' then
     local input = vim.api.nvim_buf_get_text(0,
       sel_pos.start_line - 1,
@@ -359,7 +380,7 @@ end
 
 function M.titlecase()
   M.apply_multimodal(function(lines)
-    return vim.tbl_map(M.titlecase_line, lines)
+    return vim.tbl_map(titlecase_line, lines)
   end, true)
 end
 
@@ -489,23 +510,6 @@ function M.wrap_cli(cmd, opts)
     end
   })
   vim.cmd.startinsert()
-end
-
-function M.get_selected_pos()
-  local start_line = vim.fn.line('v')
-  local end_line = vim.fn.line('.')
-  local start_col = vim.fn.col('v')
-  local end_col = vim.fn.col('.')
-  if start_line > end_line or start_col > end_col then
-    start_line, end_line = end_line, start_line
-    start_col, end_col = end_col, start_col
-  end
-  return {
-    start_line = start_line,
-    end_line = end_line,
-    start_col = start_col,
-    end_col = end_col
-  }
 end
 
 -- vim.keymap.set({ 'n', 'v' }, '<leader>rt', function() M.yank_dedent() end)
