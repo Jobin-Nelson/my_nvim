@@ -18,7 +18,7 @@ map('n', '<leader>fc', '<cmd>FzfLua grep_cword<cr>', { desc = 'Find word under C
 map('n', '<leader>fw', function()
   require("fzf-lua").live_grep({ cwd = require("jobin.config.custom.git").get_git_root_buf() })
 end, { desc = 'Find words (root)' })
-map('n', '<leader>fW', '<cmd>FzfLua live_grep_glob<cr>', { desc = 'Find words (cwd)' })
+map('n', '<leader>fW', '<cmd>FzfLua live_grep<cr>', { desc = 'Find words (cwd)' })
 map('n', '<leader>fC', '<cmd>FzfLua commands<cr>', { desc = 'Find Commands' })
 map('n', '<leader>fk', '<cmd>FzfLua keymaps<cr>', { desc = 'Find Keymaps' })
 map('n', "<leader>f'", '<cmd>FzfLua marks<cr>', { desc = 'Find Marks' })
