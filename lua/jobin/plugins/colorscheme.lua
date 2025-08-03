@@ -7,6 +7,10 @@ return {
     config   = function()
       require('catppuccin').setup({
         transparent_background = true,
+        float = {
+          transparent = true,
+          solid = false
+        },
         dim_inactive = {
           enabled = false,
           shade = 'dark',
