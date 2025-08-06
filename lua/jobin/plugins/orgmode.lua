@@ -5,8 +5,8 @@ return {
       'Org',
     },
     keys = {
-      { "<leader>o",  "",                    desc = "+Org Mode" },
-      { "<leader>oa", "<cmd>Org agenda<cr>", desc = "org agenda" },
+      { "<leader>o",  "",                     desc = "+Org Mode" },
+      { "<leader>oa", "<cmd>Org agenda<cr>",  desc = "org agenda" },
       { "<leader>oc", "<cmd>Org capture<cr>", desc = "org capture" },
     },
     ft = { 'org' },
@@ -125,7 +125,7 @@ return {
               org_agenda_start_on_weekday = 1, -- Start on Monday
               org_agenda_remove_tags = true    -- Do not show tags only for this view
             },
-          }
+          },
         },
       },
       ui = {

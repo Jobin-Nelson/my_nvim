@@ -6,7 +6,6 @@
     "body": [
       "#+TITLE:   ${TM_FILENAME}",
       "#+AUTHOR:  Jobin Nelson",
-      "#+EMAIL:   jobinnelson369+org@gmail.com",
       "#+ARCHIVE: ~/playground/projects/org_files/archive.org_archive",
       ""
     ],
@@ -19,8 +18,7 @@
     "body": [
       "#+TITLE:     ${TM_FILENAME}",
       "#+AUTHOR:    Jobin Nelson",
-      "#+EMAIL:     jnelson4@illumina.com",
-      "#+ARCHIVE:   ~/playground/dev/illumina/ticket_notes/work_org_files/work_archive.org_archive",
+      "#+ARCHIVE:   ~/playground/dev/infosys/notes/infosys_archive.org_archive",
       ""
     ],
     "description": "header for work org files"
