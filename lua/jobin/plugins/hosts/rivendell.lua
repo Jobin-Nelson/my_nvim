@@ -1,11 +1,16 @@
 if vim.fn.hostname() ~= 'rivendell' then return {} end
 
+vim.g.org_files.work = vim.fs.normalize('~/playground/dev/infosys')
+local work_agenda_files = vim.g.org_files.work .. '/notes'
+local jira_creds_file = vim.g.org_files.work .. '/creds/jira.json'
+local daily_update_dir = vim.g.org_files.work .. '/daily_updates'
+
 vim.keymap.set('n', '<leader>foT', function()
-  require("jobin.config.custom.fzf.pickers").fzf_org_live_grep("~/playground/dev/infosys/notes")
+  require("jobin.config.custom.fzf.pickers").fzf_org_live_grep(work_agenda_files)
 end, { desc = 'Org Todo grep (Work)' })
 
 -- Setup jira creds
-require('jobin.config.custom.work_stuff.jira.opts'):set_creds_file_path('~/playground/dev/infosys/creds/jira.json')
+require('jobin.config.custom.work_stuff.jira.opts'):set_creds_file_path(jira_creds_file)
 
 -- Setup git remote
 require('jobin.config.custom.git').opts.url_patterns["git%.infosys%.com"] = {
@@ -15,7 +20,7 @@ require('jobin.config.custom.git').opts.url_patterns["git%.infosys%.com"] = {
 }
 
 -- Setup daily update
-require('jobin.config.custom.work_stuff.daily_update').opts.daily_update_dir = '~/playground/dev/infosys/daily_updates'
+require('jobin.config.custom.work_stuff.daily_update').opts.daily_update_dir = daily_update_dir
 
 -- Modify in snippets ~/.config/nvim/snippets/org.json
 
@@ -24,7 +29,6 @@ return {
     'nvim-orgmode/orgmode',
     optional = true,
     opts = function(_, opts)
-      local work_agenda_files = '~/playground/dev/infosys/notes'
       opts.org_agenda_files = {
         work_agenda_files .. '/**/*.org',
       }

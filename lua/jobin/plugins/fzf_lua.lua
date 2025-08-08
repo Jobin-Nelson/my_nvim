@@ -68,14 +68,19 @@ map('n', '<leader>fss', function()
   require("jobin.config.custom.fzf.pickers").fzf_second_brain()
 end, { desc = 'Find Second brain files' })
 map('n', '<leader>fsi', function()
-  require("jobin.config.custom.fzf.pickers").fzf_read_file({ cwd =
-  "~/playground/second_brain/Resources/Templates/" })
+  require("jobin.config.custom.fzf.pickers").fzf_read_file({
+    cwd =
+    "~/playground/second_brain/Resources/Templates/"
+  })
 end, { desc = 'Insert Second brain Templates' })
 
 -- Orgmode
 map('n', '<leader>fot', function()
-  require("jobin.config.custom.fzf.pickers").fzf_org_live_grep("~/playground/org_files")
+  require("jobin.config.custom.fzf.pickers").fzf_org_live_grep(vim.g.org_Files.personal)
 end, { desc = 'Org Todo grep' })
+map('n', '<leader>fof', function()
+  require("fzf-lua").files({ cwd = vim.g.org_files.personal })
+end, { desc = 'Org files' })
 
 return {
   "ibhagwan/fzf-lua",
@@ -91,7 +96,7 @@ return {
 
     require("fzf-lua").setup({
       "default-title",
-      fzf_opts= {
+      fzf_opts = {
         ["--style"] = 'default',
         ["--info"] = 'inline-right',
       },

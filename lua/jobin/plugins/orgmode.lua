@@ -12,9 +12,9 @@ return {
     ft = { 'org' },
     opts = {
       org_agenda_files = {
-        '~/playground/org_files/**/*.org',
+        vim.g.org_files.personal .. '/**/*.org',
       },
-      org_default_notes_file = '~/playground/org_files/inbox.org',
+      org_default_notes_file = vim.g.org_files.personal .. '/inbox.org',
       org_todo_keywords = {
         -- Open
         'TODO(t)',

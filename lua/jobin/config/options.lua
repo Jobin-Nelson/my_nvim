@@ -82,6 +82,9 @@ vim.g.git_worktrees = {
     gitdir = vim.env.HOME .. "/.dotfiles",
   },
 }
+vim.g.org_files = {
+  personal = vim.fs.normalize('~/playground/org_files')
+}
 
 -- Disabled
 vim.g.loaded_python3_provider = 0
