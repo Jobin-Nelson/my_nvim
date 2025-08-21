@@ -58,9 +58,8 @@ map('n', '<leader>uh', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hi
 
 -- Custom
 map('n', '<leader>js', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>', { desc = 'Substitute word' })
-map('n', '<leader>jyf', '<cmd>let @+=@% | echo "Filepath copied to clipboard"<cr>', { desc = 'Copy Filepath' })
+map('n', '<leader>jyf', '<cmd>let @+=@% <bar> echo "Filepath copied to clipboard"<cr>', { desc = 'Copy Filepath' })
 map('x', '<leader>jx', ':lua<cr>', { desc = 'Execute lua' })
-map('n', '<leader>ja', ':<Up><cr>', { desc = 'Run Last Command' })
 map('n', '<leader>jS', '[s1z=``', { desc = 'Fix last Spelling error' })
 map('n', '<leader>jp', '<cmd>set relativenumber! number! showmode! showcmd! hidden! ruler!<cr>',
   { desc = 'Presentation Mode' })
