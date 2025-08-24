@@ -36,7 +36,7 @@ vim.opt.fillchars = {
   diff = "╱",
   eob = " ",
 }
-vim.opt.foldenable = true
+vim.opt.foldenable = false
 vim.opt.foldlevelstart = 1
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
