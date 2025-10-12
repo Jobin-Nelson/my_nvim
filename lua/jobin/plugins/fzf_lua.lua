@@ -76,7 +76,7 @@ end, { desc = 'Insert Second brain Templates' })
 
 -- Orgmode
 map('n', '<leader>fot', function()
-  require("jobin.config.custom.fzf.pickers").fzf_org_live_grep(vim.g.org_Files.personal)
+  require("jobin.config.custom.fzf.pickers").fzf_org_live_grep(vim.g.org_files.personal)
 end, { desc = 'Org Todo grep' })
 map('n', '<leader>fof', function()
   require("fzf-lua").files({ cwd = vim.g.org_files.personal })
