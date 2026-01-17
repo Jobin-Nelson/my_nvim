@@ -31,7 +31,7 @@ return {
   },
   {
     'EdenEast/nightfox.nvim',
-    -- lazy = false,
+    lazy = true,
     -- priority = 1000,
     config = function()
       require('nightfox').setup({
@@ -57,7 +57,7 @@ return {
   {
     "neanias/everforest-nvim",
     version = false,
-    -- lazy = false,
+    lazy = true,
     -- priority = 1000,
     config = function()
       ---@diagnostic disable-next-line: missing-fields

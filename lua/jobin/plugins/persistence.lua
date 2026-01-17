@@ -1,6 +1,6 @@
 return {
   "folke/persistence.nvim",
-  event = "BufReadPre",
+  -- event = "BufReadPre",
   opts = { options = vim.opt.sessionoptions:get() },
   keys = {
     { "<leader>sr", function() require("persistence").load() end, desc = "Restore Session" },

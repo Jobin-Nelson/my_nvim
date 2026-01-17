@@ -22,11 +22,10 @@ map('n', '<C-w>m', '<cmd>wincmd | | wincmd _<cr>', { desc = 'Zoom Window' })
 map('n', ']Z', 'zczjzo', { desc = 'Open Next Fold' })
 map('n', '[Z', 'zczkzo', { desc = 'Open Prev Fold' })
 
--- inbuilt harpoon alternativee: 2arga %, argded, args, %argde
-map('n', '<leader>1', '<cmd>1argument<cr>', { desc = '1 Argument' })
-map('n', '<leader>2', '<cmd>2argument<cr>', { desc = '2 Argument' })
-map('n', '<leader>3', '<cmd>3argument<cr>', { desc = '3 Argument' })
-map('n', '<leader>4', '<cmd>4argument<cr>', { desc = '4 Argument' })
+-- inbuilt harpoon alternativee: arga %, argded, args, %argde
+for i = 1, 4 do
+  map('n', '<leader>' .. i, ('<cmd>%sargument<cr>'):format(i), { desc = i .. ' Argument' })
+end
 
 -- Buffer
 map('n', '<leader>bo', '<cmd>update <bar> %bdelete <bar> edit# <bar> bdelete #<CR>', { desc = 'Delete Other buffers' })

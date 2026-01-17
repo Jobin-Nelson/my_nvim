@@ -30,9 +30,9 @@ M.fzf_cd_dir = function(cmd, opts)
         )
       end
     },
-    fn_transform = function(x)
-      return fzf_lua.utils.ansi_codes.magenta(x)
-    end
+    -- fn_transform = function(x)
+    --   return fzf_lua.utils.ansi_codes.magenta(x)
+    -- end
   }
   opts = vim.tbl_deep_extend('force', default_opts, opts or {})
   fzf_lua.fzf_exec(cmd, opts)
