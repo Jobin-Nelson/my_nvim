@@ -33,7 +33,7 @@ return {
     config = function(_, opts)
       require('nvim-treesitter').install(opts.ensure_installed)
       vim.api.nvim_create_autocmd('FileType', {
-        group = vim.api.nvim_create_augroup('treesitter.setup', { clear = true }),
+        group = vim.api.nvim_create_augroup('jobin/treesitter.setup', { clear = true }),
         callback = function(args)
           local buf = args.buf
           local filetype = args.match
@@ -86,6 +86,7 @@ return {
           ["il"] = { query = "@loop.inner", group = 'textobjects', desc = "inside loop" },
           ["aa"] = { query = "@parameter.outer", group = 'textobjects', desc = "around argument" },
           ["ia"] = { query = "@parameter.inner", group = 'textobjects', desc = "inside argument" },
+          ["am"] = { query = "@call.outer", group = 'textobjects', desc = "around function call" },
         }
       },
       move = {
@@ -97,7 +98,7 @@ return {
             ["]f"] = { query = "@function.outer", group = 'textobjects', desc = "Next function start" },
             -- ["]a"] = { query = "@parameter.inner", group = 'textobjects', desc = "Next argument start" },
             ["]]"] = { query = "@class.outer", group = 'textobjects', desc = "Next class start" },
-            ["]z"] = { query = "@fold", group = 'folds', desc = "Next fold start" },
+            -- ["]z"] = { query = "@fold", group = 'folds', desc = "Next fold start" },
           },
           goto_next_end = {
             ["]K"] = { query = "@block.outer", group = 'textobjects', desc = "Next block end" },
@@ -110,6 +111,7 @@ return {
             ["[f"] = { query = "@function.outer", group = 'textobjects', desc = "Previous function start" },
             -- ["[a"] = { query = "@parameter.inner", group = 'textobjects', desc = "Previous argument start" },
             ["[["] = { query = "@class.outer", group = 'textobjects', desc = "Previous class start" },
+            -- ["[z"] = { query = "@fold", group = 'folds', desc = "Previous fold start" },
           },
           goto_previous_end = {
             ["[K"] = { query = "@block.outer", group = 'textobjects', desc = "Previous block end" },

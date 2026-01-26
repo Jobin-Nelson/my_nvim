@@ -1,6 +1,7 @@
 return {
   'supermaven-inc/supermaven-nvim',
-  event = 'InsertEnter',
+  -- event = 'InsertEnter',
+  cmd = { 'SupermavenStart' },
   opts = {
     keymaps = {
       accept_suggestion = "<M-l>",
