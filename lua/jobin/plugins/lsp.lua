@@ -8,6 +8,7 @@ return {
       'jsonls',
       'yamlls',
       'bashls',
+      'emmet_language_server',
     }
   },
   config = function(_, opts)
