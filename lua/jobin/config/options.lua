@@ -25,7 +25,7 @@ vim.opt.termguicolors = true
 vim.opt.conceallevel = 2
 vim.opt.signcolumn = 'yes'
 vim.opt.laststatus = 3
--- vim.opt.statuscolumn = '%=%C%s%{v:relnum?v:relnum:v:lnum } '
+-- vim.opt.statuscolumn = '%=%s%{v:relnum?v:relnum:v:lnum } %C '
 
 -- Folding
 vim.opt.fillchars = {
@@ -36,7 +36,8 @@ vim.opt.fillchars = {
   diff = "╱",
   eob = " ",
 }
-vim.opt.foldenable = false
+vim.o.foldcolumn='0'
+vim.opt.foldenable = true
 vim.opt.foldlevelstart = 1
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
