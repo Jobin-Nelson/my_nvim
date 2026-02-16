@@ -94,22 +94,21 @@ return {
     local actions = require "fzf-lua.actions"
     local my_actions = require "jobin.config.custom.fzf.actions"
 
+    local horizontal_winopts = {
+      preview = {
+        layout = "vertical",
+        vertical = "down:65%",
+      }
+    }
+
     require("fzf-lua").setup({
       "default-title",
-      fzf_opts = {
-        ["--style"] = 'default',
-        ["--info"] = 'inline-right',
-      },
       winopts = {
         preview = {
           vertical = "down:45%",
           horizontal = "right:45%",
         },
-      },
-      defaults = {
-        git_icons = false,
-        file_icons = false,
-        color_icons = false,
+
       },
       keymap = {
         fzf = {
@@ -118,12 +117,32 @@ return {
           ["ctrl-x"] = "jump",
         },
       },
+      fzf_opts = {
+        ["--style"] = 'default',
+        ["--info"] = 'inline-right',
+      },
+      previewers = {
+        builtin = {
+          syntax_limit_b = 1024 * 100, -- 100KB
+        },
+      },
+      defaults = {
+        git_icons = false,
+        file_icons = false,
+        color_icons = false,
+      },
       files = {
         actions = {
           ["alt-h"] = actions.toggle_hidden,
           ["alt-i"] = actions.toggle_ignore,
           ["ctrl-y"] = { fn = my_actions.copy_entry, exec_silent = true },
         }
+      },
+      git = {
+        diff = { winopts = horizontal_winopts },
+        status = { winopts = horizontal_winopts },
+        commits = { winopts = horizontal_winopts },
+        bcommits = { winopts = horizontal_winopts },
       },
       grep = {
         rg_glob = true,
@@ -140,11 +159,6 @@ return {
         actions = {
           ["alt-h"] = actions.toggle_hidden,
           ["alt-i"] = actions.toggle_ignore,
-        }
-      },
-      previewers = {
-        builtin = {
-          syntax_limit_b = 1024 * 100, -- 100KB
         }
       },
       hls = {
