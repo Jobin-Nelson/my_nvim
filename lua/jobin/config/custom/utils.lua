@@ -512,6 +512,61 @@ function M.wrap_cli(cmd, opts)
   vim.cmd.startinsert()
 end
 
+function M.edit_arglist()
+  local args = vim.fn.argv()
+
+  local fwin = M.create_floating_window({
+    title = ' Arglist ',
+    width = 0.6,
+    height = 0.5,
+  })
+
+  local arglist_buf = fwin.buf
+  local arglist_win = fwin.win
+
+  vim.api.nvim_buf_set_lines(arglist_buf, 0, -1, false, args)
+
+  -- set options
+  local buf_options = {
+    buftype = 'nofile',
+    bufhidden = 'wipe',
+    swapfile = false,
+    filetype = 'arglist-editor',
+  }
+  for field, value in pairs(buf_options) do
+    vim.api.nvim_set_option_value(field, value, { buf = arglist_buf })
+  end
+  vim.api.nvim_set_option_value('number', true, { win = arglist_win })
+
+  -- set mapping
+  vim.keymap.set('n', '<C-s>', function()
+    local lines = vim.api.nvim_buf_get_lines(arglist_buf, 0, -1, false)
+    local new_args = {}
+
+    for _, line in ipairs(lines) do
+      line = vim.trim(line)
+      if line ~= "" then
+        table.insert(new_args, vim.fn.fnameescape(line))
+      end
+    end
+
+    if #new_args > 0 then
+      -- vim.print("args " .. table.concat(new_args, " "))
+      vim.cmd("args " .. table.concat(new_args, " "))
+    else
+      vim.cmd("argdelete *")
+    end
+
+    vim.notify("Arglist updated", vim.log.levels.INFO, { title = 'Utils' })
+
+    vim.api.nvim_win_close(arglist_win, true)
+  end)
+
+  vim.keymap.set('n', '<C-c>', function()
+    vim.api.nvim_win_close(arglist_win, true)
+  end)
+end
+
 -- vim.keymap.set({ 'n', 'v' }, '<leader>rt', function() M.yank_dedent() end)
 -- vim.keymap.set('n', '<leader>rr', ':update | luafile %<cr>')
 

@@ -89,6 +89,7 @@ map('n', '<leader>Lh', function() require('jobin.config.custom.lsp').stop_hidden
   { desc = 'Stop hidden LSP clients' })
 map('n', '<leader>Lp', function() require('jobin.config.custom.lsp').display_active_lsp() end,
   { desc = 'Display active LSP clients' })
+map('n', '<leader>h', function() require('jobin.config.custom.utils').edit_arglist() end, { desc = 'Edit Arglist' })
 -- map('n', '<leader>jj', function() require("jobin.config.custom.utils").start_journal() end, { desc = 'Start Journal' })
 -- map('n', '<leader>jt', function() require("jobin.config.custom.org_tangle").tangle() end, { desc = 'Org Tangle' })
 

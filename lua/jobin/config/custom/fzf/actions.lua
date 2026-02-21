@@ -6,7 +6,7 @@ M.copy_entry = function(selected, _)
   vim.notify(
     "Copied " .. selected[1],
     vim.log.levels.INFO,
-    { title = 'FZF'}
+    { title = 'FZF' }
   )
 end
 

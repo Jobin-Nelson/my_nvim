@@ -103,6 +103,13 @@ return {
 
     require("fzf-lua").setup({
       "default-title",
+      actions = {
+        files = {
+          true,
+          ["ctrl-y"] = { fn = my_actions.copy_entry, exec_silent = true },
+          ["alt-r"] = { fn = actions.arg_add, exec_silent = true },
+        },
+      },
       winopts = {
         preview = {
           vertical = "down:45%",
@@ -135,7 +142,6 @@ return {
         actions = {
           ["alt-h"] = actions.toggle_hidden,
           ["alt-i"] = actions.toggle_ignore,
-          ["ctrl-y"] = { fn = my_actions.copy_entry, exec_silent = true },
         }
       },
       git = {
