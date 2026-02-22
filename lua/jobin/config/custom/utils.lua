@@ -2,6 +2,10 @@
 -- https://github.com/ibhagwan/nvim-lua/blob/main/lua/utils.lua
 
 
+-- ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+-- ┃                          Types                           ┃
+-- ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
 ---@class JFWinOpts
 ---@field width integer? percentage of screen width
 ---@field height integer? percentage of screen height
@@ -20,12 +24,91 @@
 
 local M = {}
 
+-- ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+-- ┃                    Private functions                     ┃
+-- ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+---@param buf integer
+---@return boolean
 local function is_valid_buf(buf)
   -- return vim.api.nvim_buf_is_loaded(buf)
   return vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buflisted
 end
 
-M.delete_hidden_buffers = function()
+---@param line string
+---@return string
+---@return integer
+local function titlecase_line(line)
+  return line:gsub("(%a)([%w_']*)", function(first, rest)
+    return first:upper() .. rest:lower()
+  end)
+end
+
+---@return JSelPos
+local function get_selected_pos()
+  local start_line = vim.fn.line('v')
+  local end_line = vim.fn.line('.')
+  local start_col = vim.fn.col('v')
+  local end_col = vim.fn.col('.')
+  if start_line > end_line or start_col > end_col then
+    start_line, end_line = end_line, start_line
+    start_col, end_col = end_col, start_col
+  end
+  return {
+    start_line = start_line,
+    end_line = end_line,
+    start_col = start_col,
+    end_col = end_col
+  }
+end
+
+---@param opts JFWinOpts?
+---@return integer width
+---@return integer height
+local function get_floating_window_size(opts)
+  opts = opts or {}
+  local width = opts.width or 0.8
+  local height = opts.height or 0.8
+
+  width = math.floor(vim.o.columns * width)
+  height = math.floor(vim.o.lines * height)
+  return width, height
+end
+
+---@param cmd string[]
+---@param opts JFWinOpts?
+local function tmux_floating_window(cmd, opts)
+  opts = opts or {}
+
+  local width = opts.width or 80
+  local height = opts.height or 70
+
+  local tmux_cmd = {
+    'tmux',
+    'display-popup',
+    '-E',
+    '-w',
+    ('%d%%'):format(width),
+    '-h',
+    ('%d%%'):format(height),
+  }
+
+  if opts.title then
+    vim.list_extend(tmux_cmd, { '-T', ('#[align=centre]%s'):format(opts.title), })
+  else
+    table.insert(tmux_cmd, '-B')
+  end
+
+  table.insert(tmux_cmd, table.concat(cmd, ' '))
+
+  vim.system(tmux_cmd):wait()
+end
+
+-- ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+-- ┃                    Public functions                      ┃
+-- ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+function M.delete_hidden_buffers()
   local all_bufs = vim.tbl_filter(is_valid_buf, vim.api.nvim_list_bufs())
   local all_wins = vim.api.nvim_list_wins()
   local visible_bufs = {}
@@ -41,7 +124,7 @@ M.delete_hidden_buffers = function()
   vim.notify("All hidden buffers have been deleted", vim.log.levels.INFO, { title = 'Utils' })
 end
 
-M.scratch_buffer = function()
+function M.scratch_buffer()
   if vim.g.scratch_nr then
     local buf_nr = vim.g.scratch_nr
     for _, win_id in ipairs(vim.fn.win_findbuf(buf_nr)) do
@@ -62,7 +145,7 @@ M.scratch_buffer = function()
 end
 
 ---@param target_dir string | nil
-M.rename_file = function(target_dir)
+function M.rename_file(target_dir)
   local original_filename = vim.api.nvim_buf_get_name(0)
   local original_bufnr = vim.api.nvim_get_current_buf()
 
@@ -129,7 +212,7 @@ M.rename_file = function(target_dir)
   end
 end
 
-M.start_journal = function()
+function M.start_journal()
   local second_brain = vim.fs.normalize("~/playground/second_brain")
   local journal_dir = second_brain .. '/Resources/journal'
   local template_file = second_brain .. '/Resources/Templates/daily_note_template.md'
@@ -301,33 +384,6 @@ function M.shellsplit(text)
   return words
 end
 
----@param line string
----@return string
----@return integer
-local function titlecase_line(line)
-  return line:gsub("(%a)([%w_']*)", function(first, rest)
-    return first:upper() .. rest:lower()
-  end)
-end
-
----@return JSelPos
-local function get_selected_pos()
-  local start_line = vim.fn.line('v')
-  local end_line = vim.fn.line('.')
-  local start_col = vim.fn.col('v')
-  local end_col = vim.fn.col('.')
-  if start_line > end_line or start_col > end_col then
-    start_line, end_line = end_line, start_line
-    start_col, end_col = end_col, start_col
-  end
-  return {
-    start_line = start_line,
-    end_line = end_line,
-    start_col = start_col,
-    end_col = end_col
-  }
-end
-
 ---@param fn fun(input: string[]): string[]
 ---@param replace? boolean
 function M.apply_multimodal(fn, replace)
@@ -392,19 +448,6 @@ function M.yank_dedent()
 end
 
 ---@param opts JFWinOpts?
----@return integer width
----@return integer height
-local function get_floating_window_size(opts)
-  opts = opts or {}
-  local width = opts.width or 0.8
-  local height = opts.height or 0.8
-
-  width = math.floor(vim.o.columns * width)
-  height = math.floor(vim.o.lines * height)
-  return width, height
-end
-
----@param opts JFWinOpts?
 ---@return JWin
 function M.create_floating_window(opts)
   opts = opts or {}
@@ -460,35 +503,6 @@ function M.create_bottom_window(buf)
   end)
 
   return { buf = buf, win = win }
-end
-
----@param cmd string[]
----@param opts JFWinOpts?
-local function tmux_floating_window(cmd, opts)
-  opts = opts or {}
-
-  local width = opts.width or 80
-  local height = opts.height or 70
-
-  local tmux_cmd = {
-    'tmux',
-    'display-popup',
-    '-E',
-    '-w',
-    ('%d%%'):format(width),
-    '-h',
-    ('%d%%'):format(height),
-  }
-
-  if opts.title then
-    vim.list_extend(tmux_cmd, { '-T', ('#[align=centre]%s'):format(opts.title), })
-  else
-    table.insert(tmux_cmd, '-B')
-  end
-
-  table.insert(tmux_cmd, table.concat(cmd, ' '))
-
-  vim.system(tmux_cmd):wait()
 end
 
 ---@param opts JFWinOpts?
@@ -550,8 +564,7 @@ function M.edit_arglist()
       end
     end
 
-    if #new_args > 0 then
-      -- vim.print("args " .. table.concat(new_args, " "))
+    if not vim.tbl_isempty(new_args) then
       vim.cmd("args " .. table.concat(new_args, " "))
     else
       vim.cmd("argdelete *")
