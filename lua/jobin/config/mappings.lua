@@ -23,7 +23,7 @@ map('n', ']Z', 'zczjzo', { desc = 'Open Next Fold' })
 map('n', '[Z', 'zczkzo', { desc = 'Open Prev Fold' })
 
 -- inbuilt harpoon alternativee: arga %, argded, args, %argde
-for i = 1, 4 do
+for i = 1, 9 do
   map('n', '<leader>' .. i, ('<cmd>%sargument<cr>'):format(i), { desc = i .. ' Argument' })
 end
 

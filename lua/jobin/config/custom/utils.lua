@@ -527,7 +527,6 @@ function M.wrap_cli(cmd, opts)
 end
 
 function M.edit_arglist()
-  local args = vim.fn.argv()
 
   local fwin = M.create_floating_window({
     title = ' Arglist ',
@@ -537,6 +536,7 @@ function M.edit_arglist()
 
   local arglist_buf = fwin.buf
   local arglist_win = fwin.win
+  local args = vim.fn.argv()
 
   vim.api.nvim_buf_set_lines(arglist_buf, 0, -1, false, args)
 
