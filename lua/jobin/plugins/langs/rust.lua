@@ -22,14 +22,9 @@ return {
   {
     'mrcjkb/rustaceanvim',
     ft = { 'rust' },
-    version = '^6', -- Recommended
+    version = '^8', -- Recommended
     init = function()
       vim.g.rustaceanvim = {
-        tools = {
-          hover_actions = {
-            replace_builtin_hover = false,
-          }
-        },
         server = {
           on_attach = function(_, bufnr)
             local map = function(mode, keys, func, desc)
@@ -53,7 +48,7 @@ return {
                 },
               },
               -- Add clippy lints for Rust if using rust-analyzer
-              checkOnSave = false,
+              checkOnSave = true,
               -- Enable diagnostics if using rust-analyzer
               diagnostics = { enable = true },
               -- procMacro = {
@@ -77,6 +72,8 @@ return {
                   ".venv",
                 },
               },
+              -- Avoid Roots Scanned hanging, see https://github.com/rust-lang/rust-analyzer/issues/12613#issuecomment-2096386344
+              watcher = "client",
             },
           },
         }
